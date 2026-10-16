@@ -161,7 +161,7 @@ const products = {
     [
       "Matcha Cream Cheese",
       "",
-      "assets/products/semerbak/menu18/matcha-cream-cheese.webp",
+      "assets/products/semerbak/menu18/matcha-cream-cheese.png",
       "Semerbak Kopie",
     ],
     [

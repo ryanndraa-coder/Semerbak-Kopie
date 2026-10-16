@@ -13,7 +13,7 @@ Nomor tujuan: `CONFIG.WHATSAPP_NUMBER` di bagian atas `script.js` (format intern
 - Informasi legalitas tidak diklaim pada website; mintalah dan verifikasi dokumen resmi secara langsung sebelum transaksi.
 
 ## Menu minuman
-- Menu Semerbak Kopie dan Kopiena Coffee mempertahankan nama serta gambar produk yang tersedia di folder `assets/products/`. Gambar Matcha Cream Cheese menggunakan foto Matcha Latte Kopiena karena aset Matcha Cream Cheese yang tersedia berlogo brand lain.
+- Menu Semerbak Kopie dan Kopiena Coffee mempertahankan nama serta gambar produk yang tersedia di folder `assets/products/`. Gambar Matcha Cream Cheese Semerbak Kopie menggunakan gambar minuman bertutup dengan latar transparan.
 - Kartu menu membuka detail produk, pilihan ukuran cup S/M/L, dan tautan WhatsApp langsung untuk menanyakan komposisi serta harga yang berlaku.
 - Harga, ukuran volume, dan komposisi rinci tidak ditampilkan sebagai fakta karena belum tersedia pada materi situs.
 
