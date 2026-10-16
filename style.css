@@ -5399,3 +5399,230 @@ main section[id] { scroll-margin-top: 92px; }
     font-size: 1.08rem !important;
   }
 }
+
+.investment-guide {
+  background: #fff8ed;
+  color: #211c1b;
+}
+.investment-guide > .section-heading,
+.investment-benefits > .section-heading {
+  max-width: 860px;
+  margin-inline: auto;
+}
+.investment-guide .section-heading h2,
+.investment-benefits .section-heading h2 {
+  color: #211c1b;
+}
+.investment-guide .section-heading > p:not(.eyebrow),
+.investment-benefits .section-heading > p:not(.eyebrow) {
+  color: #655b55;
+}
+.investment-guide .eyebrow {
+  color: #b51222;
+}
+.investment-scenarios {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.investment-card {
+  min-width: 0;
+  padding: clamp(18px, 2.5vw, 30px);
+  border: 1px solid rgba(80, 32, 28, 0.14);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(57, 29, 17, 0.07);
+}
+.investment-card-heading {
+  margin: calc(clamp(18px, 2.5vw, 30px) * -1);
+  margin-bottom: 20px;
+  padding: 18px clamp(18px, 2.5vw, 30px);
+  border-radius: 21px 21px 0 0;
+  background: #211c1b;
+  color: #fff;
+}
+.investment-card-heading span {
+  color: #ffc9b9;
+  font-size: 0.73rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+.investment-card-heading h3 {
+  margin: 5px 0 0;
+  color: #fff;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  line-height: 1.25;
+}
+.investment-case + .investment-case {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #eadfda;
+}
+.investment-case h4 {
+  margin: 0 0 8px;
+  color: #b51222;
+  font-size: 1rem;
+}
+.investment-case dl {
+  margin: 0;
+}
+.investment-case dl > div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 9px 10px;
+  border-bottom: 1px solid #f0e9e5;
+}
+.investment-case dt {
+  min-width: 0;
+  color: #514945;
+  font-size: 0.9rem;
+}
+.investment-case dt small {
+  display: block;
+  margin-top: 2px;
+  color: #766c66;
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+.investment-case dd {
+  flex: 0 0 auto;
+  margin: 0;
+  color: #302521;
+  font-size: 0.9rem;
+  font-weight: 750;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.investment-case .investment-subtotal {
+  background: #fff5ef;
+}
+.investment-case .investment-total {
+  background: #f9e8e4;
+  font-weight: 800;
+}
+.investment-case .investment-total dt,
+.investment-case .investment-total dd {
+  color: #7f1720;
+  font-weight: 850;
+}
+.investment-case .investment-net {
+  margin-top: 5px;
+  border: 0;
+  border-radius: 10px;
+  background: #b51222;
+}
+.investment-case .investment-net dt,
+.investment-case .investment-net dd {
+  color: #fff;
+  font-weight: 850;
+}
+.investment-payback {
+  margin: 14px 0 0;
+  padding: 14px;
+  border-radius: 12px;
+  background: #211c1b;
+  color: #fff;
+  text-align: center;
+}
+.investment-payback strong {
+  color: #ffd2b8;
+}
+.investment-footnote {
+  margin: 10px 0 0;
+  color: #655b55;
+  font-size: 0.79rem;
+  line-height: 1.55;
+}
+.investment-disclaimer {
+  max-width: 1180px;
+  margin: 20px auto 0;
+  color: #655b55;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+.investment-benefits {
+  max-width: 1180px;
+  margin: clamp(48px, 7vw, 78px) auto 0;
+  padding-top: clamp(36px, 5vw, 56px);
+  border-top: 1px solid #e8d7d0;
+}
+.investment-benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.investment-benefit-grid article {
+  padding: 22px;
+  border: 1px solid rgba(80, 32, 28, 0.12);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(57, 29, 17, 0.05);
+}
+.investment-benefit-grid article > span {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 50%;
+  background: #b51222;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+.investment-benefit-grid h3 {
+  margin: 16px 0 7px;
+  color: #7f1720;
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+.investment-benefit-grid p {
+  margin: 0;
+  color: #655b55;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+@media (max-width: 900px) {
+  .investment-scenarios {
+    grid-template-columns: 1fr;
+    max-width: 720px;
+  }
+  .investment-benefit-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 520px) {
+  .investment-scenarios {
+    gap: 16px;
+  }
+  .investment-card {
+    padding: 16px;
+    border-radius: 17px;
+  }
+  .investment-card-heading {
+    margin: -16px -16px 16px;
+    padding: 16px;
+    border-radius: 16px 16px 0 0;
+  }
+  .investment-case dl > div {
+    gap: 8px;
+    padding: 8px 6px;
+  }
+  .investment-case dt,
+  .investment-case dd {
+    font-size: 0.82rem;
+  }
+  .investment-case dt small {
+    font-size: 0.72rem;
+  }
+  .investment-benefit-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .investment-benefit-grid article {
+    padding: 18px;
+  }
+}
