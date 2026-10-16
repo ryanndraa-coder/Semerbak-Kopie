@@ -6361,3 +6361,394 @@ main section[id] { scroll-margin-top: 92px; }
   background: #ffe2d6;
   color: #8f101c;
 }
+
+:root {
+  --theme-red: #b51222;
+  --theme-red-dark: #810b18;
+  --theme-red-light: #fff0f1;
+  --theme-blush: #fff7f6;
+  --theme-white: #fffdfb;
+  --theme-text: #302321;
+  --theme-muted: #6e5b57;
+}
+
+.site-header {
+  background: rgba(255, 250, 249, 0.92) !important;
+  border-bottom-color: rgba(181, 18, 34, 0.12) !important;
+}
+
+#home.hero {
+  background: linear-gradient(115deg, #fffdfb 0%, #fff8f5 58%, #ffe8e8 100%) !important;
+}
+
+.benefits {
+  background:
+    radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.13), transparent 28%),
+    linear-gradient(125deg, #9e0c1b, #d51b2a 72%, #bd1023) !important;
+  color: #fff;
+}
+.benefits .section-heading h2,
+.benefits .section-heading .eyebrow {
+  color: #fff !important;
+}
+.benefits .section-heading > p:last-child {
+  color: rgba(255, 255, 255, 0.84) !important;
+}
+.benefits .benefit-grid article {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+.benefits .benefit-grid article:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 18px 34px rgba(72, 0, 8, 0.22);
+}
+.benefits .benefit-grid article span {
+  background: #fff;
+  color: var(--theme-red);
+}
+
+.brands {
+  background: linear-gradient(180deg, #fffdfb, #fff5f4) !important;
+}
+.brands .section-heading h2,
+.brands .section-heading .eyebrow {
+  color: var(--theme-red);
+}
+.brand-card {
+  border-color: rgba(181, 18, 34, 0.14);
+  box-shadow: 0 12px 30px rgba(105, 17, 28, 0.07);
+}
+.brand-card:hover {
+  border-color: rgba(181, 18, 34, 0.38);
+  box-shadow: 0 20px 42px rgba(105, 17, 28, 0.14);
+}
+.brand-logo-wrap {
+  background: linear-gradient(145deg, #fff0ee, #fffdfb) !important;
+}
+.brand-card.matcha .brand-logo-wrap {
+  background: linear-gradient(145deg, #fff0ee, #fffdfb) !important;
+}
+
+.products {
+  background: linear-gradient(145deg, #fff7f6, #ffe9e9 65%, #fff5f3) !important;
+  color: var(--theme-text) !important;
+}
+.menu-heading-band {
+  color: #fff;
+  background: linear-gradient(100deg, #850b18, #c31224 55%, #e12431) !important;
+}
+.menu-heading-band > span {
+  color: #ffe1df;
+}
+.menu-title-row > .eyebrow {
+  color: var(--theme-red) !important;
+}
+.menu-brand-title img {
+  filter: none !important;
+}
+.menu-brand-title h2 {
+  color: var(--theme-red-dark) !important;
+}
+.menu-title-row .menu-intro {
+  color: var(--theme-muted) !important;
+}
+.products .product-tabs button {
+  border-color: rgba(181, 18, 34, 0.28) !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+  color: var(--theme-red-dark) !important;
+}
+.products .product-tabs button.active,
+.products .product-tabs button:hover {
+  border-color: var(--theme-red) !important;
+  background: var(--theme-red) !important;
+  color: #fff !important;
+}
+.products .menu-arrow {
+  background: var(--theme-red);
+  color: #fff;
+}
+.products .menu-arrow:hover {
+  background: var(--theme-red-dark);
+}
+.products .product-card {
+  border: 1px solid rgba(181, 18, 34, 0.1) !important;
+  border-radius: 20px !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  box-shadow: 0 12px 30px rgba(105, 17, 28, 0.08) !important;
+  color: var(--theme-text) !important;
+}
+.products .product-card:hover {
+  border-color: rgba(181, 18, 34, 0.35) !important;
+  box-shadow: 0 18px 38px rgba(105, 17, 28, 0.15) !important;
+}
+.products .product-image {
+  overflow: hidden !important;
+  border-radius: 16px !important;
+  background: linear-gradient(145deg, #fff0ee, #fff9f7) !important;
+}
+.products .product-copy {
+  color: var(--theme-text) !important;
+}
+.products .product-brand {
+  color: var(--theme-red) !important;
+}
+.products .product-name {
+  color: var(--theme-text) !important;
+}
+.products .product-price {
+  color: var(--theme-red-dark) !important;
+}
+.products .menu-pagination {
+  color: var(--theme-red-dark);
+}
+.products .menu-dot {
+  background: rgba(181, 18, 34, 0.3);
+}
+.products .menu-dot.active {
+  background: var(--theme-red);
+}
+
+.packages {
+  background:
+    radial-gradient(circle at 8% 90%, rgba(255, 255, 255, 0.1), transparent 28%),
+    linear-gradient(135deg, #780914, #b51222 55%, #d3192b) !important;
+}
+.packages .section-heading .eyebrow {
+  color: #ffd8d6;
+}
+.packages .section-heading > p:last-child {
+  color: rgba(255, 255, 255, 0.86);
+}
+.packages .package-card {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 14px 34px rgba(66, 0, 8, 0.18);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.packages .package-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 22px 42px rgba(66, 0, 8, 0.28);
+}
+
+.gallery {
+  background: linear-gradient(180deg, #fffdfb, #fff1f0) !important;
+}
+.gallery .section-heading .eyebrow {
+  color: var(--theme-red);
+}
+.gallery .section-heading h2 {
+  color: var(--theme-text);
+}
+.gallery .section-heading > p:last-child {
+  color: var(--theme-muted);
+}
+.booth-slider figure {
+  border-color: rgba(181, 18, 34, 0.14);
+  box-shadow: 0 12px 30px rgba(105, 17, 28, 0.1);
+}
+.booth-slider figure figcaption {
+  background: linear-gradient(90deg, rgba(129, 11, 24, 0.94), rgba(181, 18, 34, 0.88));
+}
+.booth-arrow {
+  border-color: var(--theme-red);
+  background: var(--theme-red);
+  color: #fff;
+}
+.booth-arrow:hover {
+  background: var(--theme-red-dark);
+}
+
+.why {
+  background: linear-gradient(135deg, #fff1f0, #fffafa 68%, #ffe7e7) !important;
+}
+.why .section-heading .eyebrow {
+  color: var(--theme-red);
+}
+.why .section-heading h2 {
+  color: var(--theme-text);
+}
+.why-grid > div {
+  border-color: rgba(181, 18, 34, 0.22);
+}
+.why-grid b {
+  background: var(--theme-red);
+  color: #fff;
+}
+
+.target-market {
+  background:
+    radial-gradient(ellipse at 0% 100%, rgba(255, 221, 221, 0.72), transparent 42%),
+    linear-gradient(155deg, #fffdfb, #fff7f6 65%, #fff0ef) !important;
+}
+
+.investment-guide {
+  background: linear-gradient(135deg, #fff8f7, #fffdfb 58%, #ffefee) !important;
+}
+.investment-guide .section-heading .eyebrow {
+  color: var(--theme-red);
+}
+.investment-card {
+  border-color: rgba(181, 18, 34, 0.15);
+  box-shadow: 0 14px 34px rgba(105, 17, 28, 0.08);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.investment-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(105, 17, 28, 0.14);
+}
+.investment-card-heading {
+  background: linear-gradient(110deg, #850b18, #c41224);
+}
+.investment-case h4 {
+  color: var(--theme-red);
+}
+.investment-case .investment-net {
+  background: linear-gradient(100deg, #a40c1c, #cf1828);
+}
+
+.roi {
+  background:
+    radial-gradient(circle at 96% 8%, rgba(181, 18, 34, 0.12), transparent 32%),
+    linear-gradient(140deg, #fff4f3, #ffe7e7 58%, #fffaf8) !important;
+  color: var(--theme-text);
+}
+.roi .section-heading.light h2 {
+  color: var(--theme-text);
+}
+.roi .section-heading.light .eyebrow {
+  color: var(--theme-red);
+}
+.roi .section-heading.light > p:last-child {
+  color: var(--theme-muted);
+}
+.roi-form {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: linear-gradient(145deg, #8e0b18, #bd1425);
+  box-shadow: 0 18px 38px rgba(105, 17, 28, 0.18);
+}
+.roi-form button {
+  border-color: #fff;
+  background: #fff;
+  color: var(--theme-red-dark);
+}
+.roi-form button:hover {
+  background: #ffe8e7;
+  color: #760914;
+}
+.roi-results {
+  border: 1px solid rgba(181, 18, 34, 0.12);
+  box-shadow: 0 14px 32px rgba(105, 17, 28, 0.1);
+}
+
+.investment-benefits {
+  background:
+    radial-gradient(circle at 6% 12%, rgba(255, 255, 255, 0.12), transparent 30%),
+    linear-gradient(125deg, #9e0c1b, #c91426 62%, #df1b2e) !important;
+}
+
+.legal {
+  border-block-color: #ffd7d6;
+  background: linear-gradient(135deg, #fffdfb, #fff0ef 70%, #ffe5e5) !important;
+  color: var(--theme-text);
+}
+.legal .legal-copy > .eyebrow,
+.legal h2,
+.legal h3 {
+  color: var(--theme-red-dark);
+}
+.legal .legal-copy > p:not(.eyebrow) {
+  color: var(--theme-muted);
+}
+.legal .legal-copy strong {
+  color: var(--theme-red-dark);
+}
+.legal .legal-image {
+  border-color: rgba(181, 18, 34, 0.2);
+  box-shadow: 0 18px 44px rgba(105, 17, 28, 0.14);
+}
+.legal-copy .btn.btn-outline {
+  border-color: var(--theme-red);
+  background: var(--theme-red);
+  color: #fff;
+}
+.legal-copy .btn.btn-outline:hover {
+  border-color: var(--theme-red-dark);
+  background: var(--theme-red-dark);
+  color: #fff;
+}
+
+.steps {
+  background: linear-gradient(180deg, #fffdfb, #fff4f3) !important;
+}
+.steps::before {
+  background: linear-gradient(90deg, #a50d1d, #e21d2e) !important;
+}
+.steps-grid .step-card {
+  border-color: rgba(181, 18, 34, 0.16);
+  background: rgba(255, 255, 255, 0.92);
+}
+.steps-grid .step-card:hover,
+.steps-grid .step-card.is-active {
+  border-color: var(--theme-red);
+  box-shadow: 0 18px 38px rgba(181, 18, 34, 0.15);
+}
+.steps-selection {
+  border-color: rgba(181, 18, 34, 0.2);
+  color: var(--theme-red-dark);
+  box-shadow: 0 8px 20px rgba(105, 17, 28, 0.06);
+}
+
+.contact {
+  background:
+    radial-gradient(circle at 95% 5%, rgba(255, 221, 221, 0.8), transparent 28%),
+    linear-gradient(135deg, #fff5f4, #fffdfb 60%, #ffe9e8) !important;
+}
+.contact-box {
+  border-color: rgba(181, 18, 34, 0.16);
+  box-shadow: 0 20px 48px rgba(105, 17, 28, 0.12);
+}
+.contact-box .eyebrow {
+  color: var(--theme-red);
+}
+.contact-box h2 {
+  color: var(--theme-red-dark);
+}
+#contactForm input:focus,
+#contactForm select:focus,
+#contactForm textarea:focus {
+  border-color: var(--theme-red);
+  box-shadow: 0 0 0 3px rgba(181, 18, 34, 0.12);
+}
+
+.footer {
+  background: linear-gradient(115deg, #650711, #8f0c1a 58%, #b51222) !important;
+  color: rgba(255, 255, 255, 0.84);
+}
+.footer a {
+  transition: color 160ms ease, background-color 160ms ease;
+}
+.footer a:hover {
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .brand-card,
+  .products .product-card,
+  .packages .package-card,
+  .target-market .market-grid article,
+  .investment-card,
+  .steps-grid .step-card {
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease,
+      background-color 180ms ease,
+      box-shadow 180ms ease;
+  }
+}
+
+@media (max-width: 767px) {
+  .products .product-card {
+    background: rgba(255, 255, 255, 0.96) !important;
+  }
+}
