@@ -5547,13 +5547,13 @@ main section[id] { scroll-margin-top: 92px; }
 .investment-benefits {
   max-width: none;
   margin: 0;
-  padding: clamp(50px, 6vw, 86px) max(5vw, calc((100vw - 1240px) / 2));
+  padding: clamp(44px, 5vw, 72px) max(5vw, calc((100vw - 1160px) / 2));
   background: #b51222;
   color: #fff8ed;
 }
 .investment-benefits .investment-benefits-heading {
-  max-width: 1180px;
-  margin: 0 auto clamp(30px, 4vw, 54px);
+  max-width: 1100px;
+  margin: 0 auto clamp(26px, 3.2vw, 42px);
   text-align: center;
 }
 .investment-benefits .investment-benefits-heading .eyebrow {
@@ -5561,22 +5561,22 @@ main section[id] { scroll-margin-top: 92px; }
 }
 .investment-benefits .investment-benefits-heading h2 {
   color: #fff8ed;
-  font-size: clamp(1.9rem, 4vw, 3.2rem);
+  font-size: clamp(1.8rem, 3.6vw, 2.85rem);
   line-height: 1.12;
 }
 .investment-carousel {
-  max-width: 1240px;
+  max-width: 1160px;
   margin: 0 auto;
 }
 .investment-carousel-nav {
   position: relative;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin: 0 5.5% 28px;
+  margin: 0 5.5% 24px;
 }
 .investment-carousel-nav::before {
   position: absolute;
-  top: 34px;
+  top: 30px;
   right: 9%;
   left: 9%;
   height: 2px;
@@ -5602,8 +5602,8 @@ main section[id] { scroll-margin-top: 92px; }
 }
 .investment-carousel-tab-number {
   display: grid;
-  width: 68px;
-  height: 68px;
+  width: 60px;
+  height: 60px;
   place-items: center;
   border: 2px solid currentColor;
   border-radius: 50%;
@@ -5628,20 +5628,20 @@ main section[id] { scroll-margin-top: 92px; }
 }
 .investment-carousel-stage {
   position: relative;
-  min-height: 292px;
+  min-height: 260px;
   overflow: hidden;
-  border-radius: 24px;
+  border-radius: 22px;
   background: #fff8ed;
   color: #211c1b;
   box-shadow: 0 18px 46px rgba(66, 0, 8, 0.18);
 }
 .investment-carousel-slide {
   display: grid;
-  min-height: 292px;
+  min-height: 260px;
   grid-template-columns: minmax(112px, 0.34fr) 2px minmax(130px, 0.48fr) minmax(0, 1.4fr);
   align-items: center;
-  gap: clamp(22px, 3vw, 42px);
-  padding: 42px 190px 42px clamp(28px, 5vw, 76px);
+  gap: clamp(20px, 2.6vw, 34px);
+  padding: 34px 178px 34px clamp(28px, 4.5vw, 66px);
   animation: investment-slide-in 260ms ease both;
 }
 .investment-carousel-slide[hidden] {
@@ -5649,19 +5649,19 @@ main section[id] { scroll-margin-top: 92px; }
 }
 .investment-slide-number {
   color: #b51222;
-  font-size: clamp(5rem, 9vw, 8.8rem);
+  font-size: clamp(4.6rem, 8vw, 7.6rem);
   font-weight: 950;
   letter-spacing: -0.08em;
   line-height: 0.9;
 }
 .investment-slide-divider {
   width: 2px;
-  height: 128px;
+  height: 112px;
   background: #b51222;
 }
 .investment-slide-illustration {
   display: grid;
-  width: clamp(132px, 14vw, 184px);
+  width: clamp(122px, 12.5vw, 164px);
   aspect-ratio: 1;
   place-items: center;
   border-radius: 50%;
@@ -5686,7 +5686,7 @@ main section[id] { scroll-margin-top: 92px; }
 .investment-slide-copy h3 {
   margin: 0 0 8px;
   color: #a90e1d;
-  font-size: clamp(1.65rem, 3.3vw, 2.9rem);
+  font-size: clamp(1.55rem, 3vw, 2.5rem);
   line-height: 1.12;
   text-wrap: balance;
 }
@@ -5694,7 +5694,7 @@ main section[id] { scroll-margin-top: 92px; }
   max-width: 620px;
   margin: 0;
   color: #44342f;
-  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  font-size: clamp(0.98rem, 1.45vw, 1.2rem);
   line-height: 1.5;
 }
 .investment-carousel-controls {
@@ -5707,8 +5707,8 @@ main section[id] { scroll-margin-top: 92px; }
 }
 .investment-carousel-arrow {
   display: grid;
-  width: 62px;
-  height: 62px;
+  width: 56px;
+  height: 56px;
   place-items: center;
   border: 2px solid #ebcfc4;
   border-radius: 50%;
@@ -5726,8 +5726,8 @@ main section[id] { scroll-margin-top: 92px; }
   color: #fff8ed;
 }
 .investment-carousel-arrow svg {
-  width: 28px;
-  height: 28px;
+  width: 25px;
+  height: 25px;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
@@ -5735,8 +5735,8 @@ main section[id] { scroll-margin-top: 92px; }
   stroke-width: 2.5;
 }
 .investment-benefits-note {
-  max-width: 1240px;
-  margin: 18px auto 0;
+  max-width: 1160px;
+  margin: 16px auto 0;
   color: rgba(255, 248, 237, 0.86);
   font-size: 0.8rem;
   line-height: 1.55;
@@ -5746,7 +5746,7 @@ main section[id] { scroll-margin-top: 92px; }
   .investment-carousel-slide {
     grid-template-columns: minmax(64px, 0.24fr) 2px minmax(100px, 0.38fr) minmax(0, 1.5fr);
     gap: 18px;
-    padding: 34px 160px 34px 38px;
+    padding: 30px 150px 30px 34px;
   }
   .investment-slide-illustration {
     width: clamp(108px, 12vw, 132px);
@@ -5762,8 +5762,8 @@ main section[id] { scroll-margin-top: 92px; }
     gap: 8px;
   }
   .investment-carousel-arrow {
-    width: 50px;
-    height: 50px;
+    width: 46px;
+    height: 46px;
   }
 }
 @media (max-width: 900px) {
@@ -5814,7 +5814,7 @@ main section[id] { scroll-margin-top: 92px; }
     border-radius: 20px;
   }
   .investment-carousel-slide {
-    min-height: 340px;
+    min-height: 318px;
     grid-template-columns: 58px minmax(0, 1fr);
     grid-template-rows: auto auto;
     align-content: center;
