@@ -6752,3 +6752,54 @@ main section[id] { scroll-margin-top: 92px; }
     background: rgba(255, 255, 255, 0.96) !important;
   }
 }
+
+@media (max-width: 900px) {
+  .investment-scenarios {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 680px;
+  }
+}
+
+@media (max-width: 520px) {
+  .investment-card {
+    padding: 18px;
+  }
+  .investment-card-heading {
+    margin: -18px -18px 18px;
+    padding: 18px;
+  }
+  .investment-case dl > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 46%);
+    align-items: start;
+    gap: 8px 12px;
+    padding: 11px 8px;
+  }
+  .investment-case dt,
+  .investment-case dd {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .investment-case dd {
+    width: 100%;
+    text-align: right;
+  }
+  .investment-case dt small {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 360px) {
+  .investment-card {
+    padding: 14px;
+  }
+  .investment-card-heading {
+    margin: -14px -14px 16px;
+    padding: 16px 14px;
+  }
+  .investment-case dl > div {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 44%);
+    gap: 8px;
+    padding-inline: 6px;
+  }
+}
