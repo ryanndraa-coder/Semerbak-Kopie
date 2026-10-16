@@ -704,3 +704,74 @@ roiForm?.addEventListener("submit", (event) => {
     "Berikut hasil berdasarkan asumsi yang kamu masukkan:";
   document.querySelector("#roiResultList").hidden = false;
 });
+
+const stepCards = [...document.querySelectorAll(".step-card")];
+const stepsSelection = document.querySelector("#stepsSelection");
+stepCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    stepCards.forEach((step) => {
+      const selected = step === card;
+      step.classList.toggle("is-active", selected);
+      step.setAttribute("aria-pressed", String(selected));
+    });
+    const title = card.querySelector(".step-copy strong").textContent;
+    const description = card.querySelector(".step-copy > span").textContent;
+    if (stepsSelection) {
+      stepsSelection.textContent = `${card.querySelector(".step-number").textContent} · ${title}: ${description}`;
+    }
+  });
+});
+
+const investmentTabs = [...document.querySelectorAll(".investment-carousel-tab")];
+const investmentSlides = [...document.querySelectorAll(".investment-carousel-slide")];
+const investmentPrevious = document.querySelector(".investment-carousel-previous");
+const investmentNext = document.querySelector(".investment-carousel-next");
+
+if (
+  investmentTabs.length &&
+  investmentTabs.length === investmentSlides.length &&
+  investmentPrevious &&
+  investmentNext
+) {
+  let activeInvestmentSlide = 0;
+
+  const showInvestmentSlide = (index) => {
+    activeInvestmentSlide =
+      (index + investmentSlides.length) % investmentSlides.length;
+    investmentTabs.forEach((tab, tabIndex) => {
+      const selected = tabIndex === activeInvestmentSlide;
+      tab.classList.toggle("is-active", selected);
+      tab.setAttribute("aria-selected", String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+      investmentSlides[tabIndex].hidden = !selected;
+    });
+  };
+
+  investmentTabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => showInvestmentSlide(index));
+    tab.addEventListener("keydown", (event) => {
+      let nextIndex;
+      if (event.key === "ArrowRight") {
+        nextIndex = (index + 1) % investmentTabs.length;
+      } else if (event.key === "ArrowLeft") {
+        nextIndex = (index - 1 + investmentTabs.length) % investmentTabs.length;
+      } else if (event.key === "Home") {
+        nextIndex = 0;
+      } else if (event.key === "End") {
+        nextIndex = investmentTabs.length - 1;
+      } else {
+        return;
+      }
+      event.preventDefault();
+      showInvestmentSlide(nextIndex);
+      investmentTabs[nextIndex].focus();
+    });
+  });
+
+  investmentPrevious.addEventListener("click", () =>
+    showInvestmentSlide(activeInvestmentSlide - 1),
+  );
+  investmentNext.addEventListener("click", () =>
+    showInvestmentSlide(activeInvestmentSlide + 1),
+  );
+}
