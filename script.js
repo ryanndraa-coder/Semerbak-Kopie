@@ -66,6 +66,282 @@ const productFraming = {
 };
 const CONFIG = { WHATSAPP_NUMBER: "6281927161083" };
 
+const locationStorySection = document.querySelector("#target-market");
+const locationStoryStages = Array.from(
+  locationStorySection?.querySelectorAll(".location-story-stage") ?? [],
+);
+
+if (locationStorySection && locationStoryStages.length) {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const header = document.querySelector(".site-header");
+  let activeIndex = 0;
+  let requestedIndex = 0;
+  let isTransitioning = false;
+  let scrollFrame = 0;
+  let transitionTimeout = 0;
+
+  const setStageAccess = (stage, isActive) => {
+    stage.setAttribute("aria-hidden", String(!isActive));
+    const credit = stage.querySelector(".location-photo-credit");
+    if (credit) credit.tabIndex = isActive ? 0 : -1;
+  };
+
+  const updateStoryProgress = () => {
+    scrollFrame = 0;
+    const sectionTop =
+      locationStorySection.getBoundingClientRect().top + window.scrollY;
+    const step = Math.max(1, document.documentElement.clientHeight);
+    requestedIndex = Math.max(
+      0,
+      Math.min(
+        locationStoryStages.length - 1,
+        Math.floor((window.scrollY - sectionTop) / step),
+      ),
+    );
+
+    if (requestedIndex === activeIndex || isTransitioning) return;
+    isTransitioning = true;
+    const currentStage = locationStoryStages[activeIndex];
+    setStageAccess(currentStage, false);
+    currentStage.classList.remove("is-active");
+    currentStage.classList.add("is-fading-out");
+
+    transitionTimeout = window.setTimeout(
+      () => {
+        currentStage.classList.remove("is-fading-out");
+        activeIndex = requestedIndex;
+        const nextStage = locationStoryStages[activeIndex];
+        setStageAccess(nextStage, true);
+        nextStage.classList.add("is-active");
+        isTransitioning = false;
+        if (requestedIndex !== activeIndex) updateStoryProgress();
+      },
+      reducedMotion.matches ? 0 : 180,
+    );
+  };
+
+  const queueStoryProgress = () => {
+    if (scrollFrame) return;
+    scrollFrame = window.requestAnimationFrame(updateStoryProgress);
+  };
+
+  const updateStoryLayout = () => {
+    const stickyTop = header?.getBoundingClientRect().height ?? 0;
+    locationStorySection.style.setProperty(
+      "--location-story-sticky-top",
+      `${stickyTop}px`,
+    );
+    locationStorySection.style.setProperty(
+      "--location-story-scroll-length",
+      `${locationStoryStages.length * 100}vh`,
+    );
+    queueStoryProgress();
+  };
+
+  locationStoryStages.forEach((stage, index) => {
+    setStageAccess(stage, index === activeIndex);
+  });
+  locationStorySection.classList.add("has-scroll-story");
+  window.addEventListener("scroll", queueStoryProgress, { passive: true });
+  window.addEventListener("resize", updateStoryLayout);
+  reducedMotion.addEventListener?.("change", () => {
+    if (reducedMotion.matches && isTransitioning) {
+      window.clearTimeout(transitionTimeout);
+      transitionTimeout = 0;
+      isTransitioning = false;
+      locationStoryStages.forEach((stage, index) => {
+        stage.classList.remove("is-fading-out", "is-active");
+        setStageAccess(stage, index === requestedIndex);
+        if (index === requestedIndex) stage.classList.add("is-active");
+      });
+      activeIndex = requestedIndex;
+    }
+  });
+  updateStoryLayout();
+}
+
+const discoverySection = document.querySelector(".partnership-discovery");
+const discoveryViewport = discoverySection?.querySelector(".discovery-viewport");
+const discoveryCards = Array.from(
+  discoverySection?.querySelectorAll(".discovery-card") ?? [],
+);
+const discoveryReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)",
+);
+const discoveryPointerParallax = window.matchMedia(
+  "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
+);
+
+if (discoveryViewport && discoveryCards.length) {
+  let activeDiscoveryIndex = 0;
+  let scrollFrame = 0;
+  let pointerId = null;
+  let pointerStartX = 0;
+  let scrollStartX = 0;
+  let isDragging = false;
+  let suppressNextClick = false;
+  let clickResetTimeout = 0;
+
+  const setActiveDiscoveryCard = (index) => {
+    activeDiscoveryIndex = Math.max(
+      0,
+      Math.min(index, discoveryCards.length - 1),
+    );
+    discoveryCards.forEach((card, cardIndex) => {
+      card.classList.toggle("is-active", cardIndex === activeDiscoveryIndex);
+    });
+  };
+
+  const updateActiveDiscoveryCard = () => {
+    const viewportCenter =
+      discoveryViewport.getBoundingClientRect().left +
+      discoveryViewport.clientLeft +
+      discoveryViewport.clientWidth / 2;
+    const closestIndex = discoveryCards.reduce(
+      (closest, card, index) =>
+        Math.abs(
+          card.getBoundingClientRect().left +
+            card.getBoundingClientRect().width / 2 -
+            viewportCenter,
+        ) <
+        Math.abs(
+          discoveryCards[closest].getBoundingClientRect().left +
+            discoveryCards[closest].getBoundingClientRect().width / 2 -
+            viewportCenter,
+        )
+          ? index
+          : closest,
+      0,
+    );
+    setActiveDiscoveryCard(closestIndex);
+  };
+
+  const goToDiscoveryCard = (index) => {
+    const targetIndex = Math.max(0, Math.min(index, discoveryCards.length - 1));
+    const viewportBounds = discoveryViewport.getBoundingClientRect();
+    const cardBounds = discoveryCards[targetIndex].getBoundingClientRect();
+    discoveryViewport.scrollTo({
+      left:
+        discoveryViewport.scrollLeft +
+        cardBounds.left -
+        viewportBounds.left -
+        discoveryViewport.clientLeft,
+      behavior: discoveryReducedMotion.matches ? "auto" : "smooth",
+    });
+    setActiveDiscoveryCard(targetIndex);
+  };
+
+  discoveryViewport.addEventListener(
+    "scroll",
+    () => {
+      window.cancelAnimationFrame(scrollFrame);
+      scrollFrame = window.requestAnimationFrame(updateActiveDiscoveryCard);
+    },
+    { passive: true },
+  );
+
+  discoveryViewport.addEventListener("pointerdown", (event) => {
+    if (event.pointerType !== "mouse" || event.button !== 0 || !event.isPrimary) {
+      return;
+    }
+
+    pointerId = event.pointerId;
+    pointerStartX = event.clientX;
+    scrollStartX = discoveryViewport.scrollLeft;
+    isDragging = false;
+    discoveryViewport.setPointerCapture(pointerId);
+  });
+
+  discoveryViewport.addEventListener("pointermove", (event) => {
+    if (event.pointerId !== pointerId) return;
+
+    const distance = event.clientX - pointerStartX;
+    if (!isDragging && Math.abs(distance) < 5) return;
+
+    isDragging = true;
+    discoveryViewport.classList.add("is-dragging");
+    discoveryViewport.scrollLeft = scrollStartX - distance;
+    event.preventDefault();
+  });
+
+  const finishDiscoveryDrag = (event) => {
+    if (event.pointerId !== pointerId) return;
+
+    if (discoveryViewport.hasPointerCapture(pointerId)) {
+      discoveryViewport.releasePointerCapture(pointerId);
+    }
+    pointerId = null;
+    discoveryViewport.classList.remove("is-dragging");
+
+    if (isDragging) {
+      suppressNextClick = true;
+      window.clearTimeout(clickResetTimeout);
+      clickResetTimeout = window.setTimeout(() => {
+        suppressNextClick = false;
+      }, 0);
+    }
+    isDragging = false;
+  };
+
+  discoveryViewport.addEventListener("pointerup", finishDiscoveryDrag);
+  discoveryViewport.addEventListener("pointercancel", finishDiscoveryDrag);
+  discoveryViewport.addEventListener("dragstart", (event) => {
+    event.preventDefault();
+  });
+  discoveryViewport.addEventListener(
+    "click",
+    (event) => {
+      if (!suppressNextClick) return;
+      event.preventDefault();
+      event.stopPropagation();
+      suppressNextClick = false;
+      window.clearTimeout(clickResetTimeout);
+    },
+    true,
+  );
+
+  discoveryViewport.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+      event.preventDefault();
+      goToDiscoveryCard(
+        activeDiscoveryIndex + (event.key === "ArrowRight" ? 1 : -1),
+      );
+    } else if (event.key === "Home" || event.key === "End") {
+      event.preventDefault();
+      goToDiscoveryCard(event.key === "Home" ? 0 : discoveryCards.length - 1);
+    }
+  });
+  window.addEventListener("resize", updateActiveDiscoveryCard);
+
+  if (discoveryPointerParallax.matches) {
+    discoverySection?.addEventListener("pointermove", (event) => {
+      if (!discoveryPointerParallax.matches || event.pointerType !== "mouse") return;
+      const bounds = discoverySection.getBoundingClientRect();
+      const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+      const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+      discoverySection.style.setProperty(
+        "--storyboard-shift-x",
+        `${(x * -10).toFixed(1)}px`,
+      );
+      discoverySection.style.setProperty(
+        "--storyboard-shift-y",
+        `${(y * -8).toFixed(1)}px`,
+      );
+    });
+    discoverySection?.addEventListener("pointerleave", () => {
+      discoverySection.style.removeProperty("--storyboard-shift-x");
+      discoverySection.style.removeProperty("--storyboard-shift-y");
+    });
+    discoveryPointerParallax.addEventListener("change", (event) => {
+      if (event.matches) return;
+      discoverySection.style.removeProperty("--storyboard-shift-x");
+      discoverySection.style.removeProperty("--storyboard-shift-y");
+    });
+  }
+
+  updateActiveDiscoveryCard();
+}
+
 const products = {
   semerbak: [
     [
@@ -259,7 +535,7 @@ const products = {
     [
       "Matcha Cream Cheese",
       "",
-      "assets/products/kopiena-matcha-latte.webp",
+      "assets/products/kopiena-matcha-cream-cheese.webp",
       "Kopiena Coffee",
     ],
     [
@@ -280,267 +556,217 @@ const products = {
   sempol: [],
 };
 
-const grid = document.querySelector("#productGrid");
-const pagination = document.querySelector("#menuPagination");
-const menuDialog = document.querySelector("#menuDialog");
+const menuPanel = document.querySelector("#products");
+const menuCategories = document.querySelector("#menuCategories");
+const menuShowcase = document.querySelector("#menuShowcase");
+const menuEmpty = document.querySelector("#menuEmpty");
+const menuProductImage = document.querySelector("#menuProductImage");
 const menuLogoPaths = {
   semerbak: "assets/logo-semerbak-wordmark.png",
   coffee: "assets/logo-kopiena-wordmark.png",
+  matcha: "assets/logo-matcha-que.webp",
+  tea: "assets/logo-es-teh.svg",
+  sempol: "assets/logo-sempol.svg",
 };
-const cardObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("menu-enter");
-        cardObserver.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.12 },
-);
-function getProductImage(brand, image) {
-  return brand === "semerbak"
-    ? image.replace(
-        "assets/products/semerbak/menu18/",
-        "assets/products/semerbak-kopie/menu18/",
-      )
-    : image;
-}
-function getProductList(type) {
-  const withBrand = (brand, items) =>
-    items.map((item) => {
-      const product = [...item];
-      product[2] = getProductImage(brand, product[2]);
-      return [...product, brand];
-    });
-  if (type === "all")
-    return Object.entries(products).flatMap(([brand, items]) =>
-      withBrand(brand, items),
-    );
-  return withBrand(type, products[type] || []);
-}
-function visibleMenuCards() {
-  if (window.matchMedia("(max-width: 767px)").matches) return 1;
-  if (window.matchMedia("(max-width: 1023px)").matches) return 2;
-  return 3;
-}
-function menuPagePositions() {
-  if (!grid) return [0];
-  const cards = [...grid.querySelectorAll(".product-card")];
-  const perPage = visibleMenuCards();
-  const maxScroll = Math.max(0, grid.scrollWidth - grid.clientWidth);
-  const totalPages = Math.max(1, Math.ceil(cards.length / perPage));
-  const pageCount = window.matchMedia("(max-width: 767px)").matches
-    ? Math.min(totalPages, 5)
-    : totalPages;
-  return Array.from({ length: pageCount }, (_, index) => {
-    const page =
-      pageCount === totalPages
-        ? index
-        : Math.round((index * (totalPages - 1)) / (pageCount - 1));
-    const position =
-      cards[Math.min(page * perPage, cards.length - 1)]?.offsetLeft -
-      (cards[0]?.offsetLeft || 0);
-    return Math.min(maxScroll, position || 0);
-  });
-}
-function updateMenuPagination() {
-  if (!grid || !pagination) return;
-  const cards = grid.querySelectorAll(".product-card");
-  if (!cards.length) {
-    pagination.innerHTML = "";
-    return;
-  }
-  const positions = menuPagePositions();
-  let activePage = 0;
-  positions.forEach((position, i) => {
-    if (
-      Math.abs(position - grid.scrollLeft) <
-      Math.abs(positions[activePage] - grid.scrollLeft)
-    )
-      activePage = i;
-  });
-  pagination.innerHTML = positions
-    .map(
-      (_, index) =>
-        `<button type="button" class="menu-dot${index === activePage ? " active" : ""}" aria-label="Tampilkan slide ${index + 1}" aria-current="${index === activePage}" data-page="${index}"></button>`,
-    )
-    .join("");
-}
-function renderProducts(type = "semerbak") {
-  if (!grid) return;
-  const titles = {
+const menuBrandNames = {
     semerbak: "Semerbak Kopie",
     coffee: "Kopiena Coffee",
     matcha: "Matcha Que",
     tea: "Es Teh",
     sempol: "Sempol",
-  };
-  const heading = document.querySelector("#menuHeading");
-  const brandLogo = document.querySelector("#menuBrandLogo");
-  heading.textContent = titles[type] || "Menu Semerbak";
-  if (brandLogo) {
-    brandLogo.hidden = !menuLogoPaths[type];
-    if (menuLogoPaths[type]) {
-      brandLogo.src = menuLogoPaths[type];
-      brandLogo.alt = `Logo ${titles[type]}`;
-    }
-  }
-  const intro = document.querySelector("#menuIntro");
-  if (intro) {
-    intro.textContent =
-      type === "semerbak"
-        ? "18 pilihan Semerbak Kopie: 10 menu coffee dan 8 menu non-coffee. Pilihan menu brand lain akan hadir menyusul."
-        : type === "coffee"
-          ? "16 pilihan Kopiena Coffee: 8 coffee menu dan 8 non-coffee. Tersedia ukuran S, M, dan L."
-          : `Informasi menu ${titles[type] || "brand ini"} akan hadir menyusul.`;
-  }
-  cardObserver.disconnect();
-  grid.scrollLeft = 0;
-  const items = getProductList(type);
-  if (!items.length) {
-    grid.innerHTML = `<p class="menu-empty" role="status">Informasi menu dan paket ${titles[type] || "brand ini"} akan menyusul.</p>`;
-    updateMenuPagination();
-    return;
-  }
-  grid.innerHTML = items
-    .map(([name, desc, img, label, brand], index) => {
-      const kind =
-        type === "semerbak"
-          ? index < 10
-            ? "Coffee Menu"
-            : "Non-Coffee"
-          : type === "coffee"
-            ? index < 8
-              ? "Coffee Menu"
-              : "Non-Coffee"
-            : "";
-      return `
-    <button class="product-card" type="button" data-brand="${brand}" data-product-index="${index}" style="--entry-delay:${Math.min(index % 4, 3) * 65}ms" aria-label="Lihat detail ${name}, ${label}">
-      <span class="product-image"><img src="${img}" alt="" loading="lazy"></span>
-      <span class="product-copy"><span class="product-brand">${label}</span><span class="product-name">${name}</span>${kind ? `<span class="product-meta"><span>${kind}</span></span><span class="product-size">Ukuran S · M · L</span>` : ""}<span class="product-price">Lihat detail <b aria-hidden="true">→</b></span></span>
-    </button>`;
-    })
-    .join("");
-  grid
-    .querySelectorAll(".product-card")
-    .forEach((card) => cardObserver.observe(card));
-  updateMenuPagination();
+};
+const menuState = { brand: "", category: "all", index: 0, items: [] };
+let lastMenuTrigger = null;
+
+function getBrandMenu(brand) {
+  const items = products[brand] || [];
+  const coffeeCount = brand === "semerbak" ? 10 : 8;
+  return items.map(([name, , image], index) => ({
+    name,
+    image:
+      brand === "semerbak"
+        ? image.replace(
+            "assets/products/semerbak/menu18/",
+            "assets/products/semerbak-kopie/menu18/",
+          )
+        : image,
+    category: index < coffeeCount ? "coffee" : "non-coffee",
+  }));
 }
-function updateMenuDialogSize() {
-  if (!menuDialog) return;
-  const brand = document.querySelector("#menuDialogBrand").textContent;
-  const product = document.querySelector("#menuDialogTitle").textContent;
-  const size =
-    menuDialog.querySelector('input[name="menuCupSize"]:checked')?.value || "S";
-  const message = [
-    `Halo, saya ingin bertanya tentang menu ${product} dari ${brand}.`,
-    `Ukuran cup yang ingin ditanyakan: ${size}.`,
-    "Mohon informasi komposisi bahan dan harga yang berlaku.",
-  ].join("\n");
-  document.querySelector("#menuDialogWhatsapp").href =
-    `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+function getVisibleMenuItems() {
+  return menuState.category === "all"
+    ? menuState.items
+    : menuState.items.filter((item) => item.category === menuState.category);
 }
-grid?.addEventListener("click", (event) => {
-  const card = event.target.closest(".product-card");
-  if (!card || !menuDialog) return;
-  const brand = card.dataset.brand;
-  const product = products[brand]?.[Number(card.dataset.productIndex)];
+
+function renderMenuProduct() {
+  const items = getVisibleMenuItems();
+  const product = items[menuState.index];
   if (!product) return;
 
-  const productIndex = Number(card.dataset.productIndex);
-  const kind =
-    brand === "semerbak"
-      ? productIndex < 10
-        ? "Coffee Menu"
-        : "Non-Coffee"
-      : brand === "coffee"
-        ? productIndex < 8
-          ? "Coffee Menu"
-          : "Non-Coffee"
-        : "";
-  const logoPath = menuLogoPaths[brand];
-  const [name, , productImagePath, label] = product;
-  const imagePath = getProductImage(brand, productImagePath);
-  const logo = document.querySelector("#menuDialogLogo");
-  logo.src = logoPath;
-  logo.alt = "";
-  document.querySelector("#menuDialogBrand").textContent = label;
-  document.querySelector("#menuDialogTitle").textContent = name;
-  document.querySelector("#menuDialogCategory").textContent = kind;
-  const image = document.querySelector("#menuDialogImage");
-  image.src = imagePath;
-  image.alt = name;
-  document.querySelector("#menuDialogDescription").textContent =
-    `${name} tercantum sebagai ${kind.toLowerCase()} dalam menu ${label}. Tanyakan rincian komposisi bahan dan tingkat kemanisan kepada tim.`;
-  document.querySelector("#menuDialogPrice").textContent =
-    `Harga dan komposisi bahan dapat dikonfirmasi kepada tim ${label}.`;
-  menuDialog.querySelector('input[name="menuCupSize"][value="S"]').checked =
-    true;
-  updateMenuDialogSize();
-  menuDialog.showModal();
-});
-menuDialog
-  ?.querySelectorAll('input[name="menuCupSize"]')
-  .forEach((input) => input.addEventListener("change", updateMenuDialogSize));
-menuDialog
-  ?.querySelector(".menu-dialog-close")
-  ?.addEventListener("click", () => menuDialog.close());
-menuDialog
-  ?.querySelector(".menu-dialog-dismiss")
-  ?.addEventListener("click", () => menuDialog.close());
-menuDialog?.addEventListener("click", (event) => {
-  if (event.target === menuDialog) menuDialog.close();
-});
-function moveMenuPage(direction) {
-  if (!grid) return;
-  const positions = menuPagePositions();
-  const current = positions.reduce(
-    (closest, position, index) =>
-      Math.abs(position - grid.scrollLeft) <
-      Math.abs(positions[closest] - grid.scrollLeft)
-        ? index
-        : closest,
-    0,
-  );
-  const next = (current + direction + positions.length) % positions.length;
-  grid.scrollTo({ left: positions[next], behavior: "smooth" });
+  const categoryLabel =
+    product.category === "coffee" ? "Coffee Menu" : "Non-Coffee";
+  const count = items.length;
+  const current = menuState.index + 1;
+  const image = menuProductImage;
+  image.classList.remove("is-changing");
+  requestAnimationFrame(() => image.classList.add("is-changing"));
+  image.src = product.image;
+  image.alt = product.name;
+  document.querySelector("#menuProductCategory").textContent = categoryLabel;
+  document.querySelector("#menuProductName").textContent = product.name;
+  document.querySelector("#menuProductBrand").textContent =
+    menuBrandNames[menuState.brand];
+  document.querySelector("#menuProductCount").textContent =
+    `${String(current).padStart(2, "0")} / ${String(count).padStart(2, "0")}`;
+  document.querySelector("#menuProgress").style.width =
+    `${(current / count) * 100}%`;
+  document
+    .querySelectorAll(".menu-product-prev, .menu-product-prev-text")
+    .forEach((button) => (button.disabled = current === 1));
+  document
+    .querySelectorAll(".menu-product-next, .menu-product-next-text")
+    .forEach((button) => (button.disabled = current === count));
 }
-document
-  .querySelector(".menu-arrow.prev")
-  ?.addEventListener("click", () => moveMenuPage(-1));
-document
-  .querySelector(".menu-arrow.next")
-  ?.addEventListener("click", () => moveMenuPage(1));
-grid?.addEventListener(
-  "scroll",
-  () => {
-    window.requestAnimationFrame(updateMenuPagination);
-  },
-  { passive: true },
-);
-pagination?.addEventListener("click", (event) => {
-  const dot = event.target.closest(".menu-dot");
-  if (!dot) return;
-  grid.scrollTo({
-    left: menuPagePositions()[Number(dot.dataset.page)] || 0,
-    behavior: "smooth",
-  });
-});
-window.addEventListener("resize", updateMenuPagination);
-document.querySelectorAll(".product-tabs button").forEach((btn) =>
-  btn.addEventListener("click", () => {
-    document
-      .querySelectorAll(".product-tabs button")
-      .forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
-    document
-      .querySelectorAll(".product-tabs button")
-      .forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
-    renderProducts(btn.dataset.filter);
+
+function renderMenuCategories() {
+  const coffeeCount = menuState.items.filter(
+    (item) => item.category === "coffee",
+  ).length;
+  const nonCoffeeCount = menuState.items.length - coffeeCount;
+  const categories = [
+    { id: "all", label: `Semua ${menuState.items.length}` },
+    { id: "coffee", label: `Coffee ${coffeeCount}` },
+    { id: "non-coffee", label: `Non-Coffee ${nonCoffeeCount}` },
+  ];
+  menuCategories.innerHTML = categories
+    .map(
+      ({ id, label }) =>
+        `<button type="button" data-category="${id}" aria-pressed="${id === menuState.category}">${label}</button>`,
+    )
+    .join("");
+}
+
+function renderMenu(brand) {
+  menuState.brand = brand;
+  menuState.category = "all";
+  menuState.index = 0;
+  menuState.items = getBrandMenu(brand);
+  menuPanel.dataset.brand = brand;
+
+  const name = menuBrandNames[brand];
+  const logo = document.querySelector("#menuBrandLogo");
+  logo.src = menuLogoPaths[brand];
+  logo.alt = `Logo ${name}`;
+  document.querySelector("#menuHeading").textContent = name;
+  document.querySelector("#menuIntro").textContent =
+    brand === "semerbak"
+      ? "18 pilihan menu: 10 coffee dan 8 non-coffee."
+      : brand === "coffee"
+        ? "16 pilihan menu: 8 coffee dan 8 non-coffee."
+        : "";
+
+  const hasMenu = menuState.items.length > 0;
+  menuCategories.hidden = !hasMenu;
+  menuShowcase.hidden = !hasMenu;
+  menuEmpty.hidden = hasMenu;
+  menuEmpty.textContent = `Menu ${name} belum tersedia.`;
+  if (!hasMenu) return;
+
+  renderMenuCategories();
+  renderMenuProduct();
+}
+
+function openMenu(brand, trigger) {
+  if (!menuBrandNames[brand]) return;
+  lastMenuTrigger = trigger;
+  renderMenu(brand);
+  menuPanel.hidden = false;
+  document.body.classList.add("menu-panel-open");
+  window.scrollTo({ top: 0, behavior: "auto" });
+  menuPanel.focus({ preventScroll: true });
+  menuPanel.querySelector(".menu-back").focus({ preventScroll: true });
+}
+
+function closeBrandMenu() {
+  menuPanel.hidden = true;
+  document.body.classList.remove("menu-panel-open");
+  document.querySelector("#brand").scrollIntoView({ behavior: "smooth" });
+  requestAnimationFrame(() => lastMenuTrigger?.focus({ preventScroll: true }));
+}
+
+document.querySelectorAll("[data-brand-jump]").forEach((link) =>
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    openMenu(link.dataset.brandJump, link);
   }),
 );
-renderProducts("semerbak");
+document
+  .querySelector(".menu-back")
+  .addEventListener("click", closeBrandMenu);
+menuCategories.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-category]");
+  if (!button) return;
+  menuState.category = button.dataset.category;
+  menuState.index = 0;
+  renderMenuCategories();
+  renderMenuProduct();
+});
+
+function moveMenuProduct(direction) {
+  const nextIndex = menuState.index + direction;
+  if (nextIndex < 0 || nextIndex >= getVisibleMenuItems().length) return;
+  menuState.index = nextIndex;
+  renderMenuProduct();
+}
+
+document
+  .querySelectorAll(".menu-product-prev, .menu-product-prev-text")
+  .forEach((button) =>
+    button.addEventListener("click", () => moveMenuProduct(-1)),
+  );
+document
+  .querySelectorAll(".menu-product-next, .menu-product-next-text")
+  .forEach((button) =>
+    button.addEventListener("click", () => moveMenuProduct(1)),
+  );
+
+let menuSwipeStart = null;
+document
+  .querySelector(".menu-showcase-visual")
+  .addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "touch") menuSwipeStart = event.clientX;
+  });
+document
+  .querySelector(".menu-showcase-visual")
+  .addEventListener("pointerup", (event) => {
+    if (menuSwipeStart === null) return;
+    const distance = event.clientX - menuSwipeStart;
+    menuSwipeStart = null;
+    if (Math.abs(distance) < 45) return;
+    moveMenuProduct(distance < 0 ? 1 : -1);
+  });
+document
+  .querySelector(".menu-showcase-visual")
+  .addEventListener("pointercancel", () => {
+    menuSwipeStart = null;
+  });
+
+document.addEventListener("keydown", (event) => {
+  if (menuPanel.hidden) return;
+  if (event.key === "Escape") closeBrandMenu();
+  if (event.key === "ArrowLeft") moveMenuProduct(-1);
+  if (event.key === "ArrowRight") moveMenuProduct(1);
+});
+menuProductImage.addEventListener("error", () => {
+  document.querySelector("#menuImageStatus").textContent =
+    "Foto produk ini tidak dapat dimuat.";
+  console.error(`Gagal memuat foto menu: ${menuProductImage.src}`);
+});
+menuProductImage.addEventListener("load", () => {
+  document.querySelector("#menuImageStatus").textContent = "";
+});
 
 const menuToggle = document.querySelector(".menu-toggle");
 const siteNav = document.querySelector("#siteNav");
@@ -572,16 +798,6 @@ document
 window.addEventListener("resize", () => {
   if (window.innerWidth > 1100) closeMenu();
 });
-
-document.querySelectorAll("[data-brand-jump]").forEach((link) =>
-  link.addEventListener("click", () => {
-    document
-      .querySelector(
-        `.product-tabs button[data-filter="${link.dataset.brandJump}"]`,
-      )
-      ?.click();
-  }),
-);
 
 const sections = [...document.querySelectorAll("main section[id]")];
 const navLinks = [...document.querySelectorAll(".nav a")];
@@ -616,93 +832,183 @@ document.querySelector(".booth-arrow.next")?.addEventListener("click", () =>
 );
 
 const packageDialog = document.querySelector("#packageDialog");
-const packageDetails = {
-  "neon-box-premium": {
-    poster: "assets/packages/brochure/package-2.png",
-    alt: "Halaman rincian brosur Paket Neon Box Premium Semerbak Kopie: daftar bahan dan ukuran booth",
-  },
-  premium: {
-    poster: "assets/packages/brochure/package-4.png",
-    alt: "Halaman rincian brosur Paket Premium Semerbak Kopie: daftar bahan dan ukuran booth",
-  },
-  platinum: {
-    poster: "assets/packages/brochure/package-6.png",
-    alt: "Halaman rincian brosur Paket Platinum Semerbak Kopie: daftar bahan dan ukuran booth",
-  },
-  portable: {
-    poster: "assets/packages/brochure/package-8.png",
-    alt: "Halaman rincian brosur Paket Portable Semerbak Kopie: daftar bahan dan ukuran booth",
-  },
-  starter: {
-    poster: "assets/packages/brochure/package-10.png",
-    alt: "Halaman rincian brosur Paket Starter Semerbak Kopie: daftar bahan dan ukuran booth",
-  },
-  booth: {
-    poster: "assets/packages/brochure/package-12.png",
-    alt: "Halaman rincian brosur Paket Booth Semerbak Kopie: daftar bahan dan ukuran booth",
-  },
-};
-document.querySelectorAll(".package-detail").forEach((button) => {
-  button.addEventListener("click", () => {
-    const detail = packageDetails[button.dataset.package];
-    if (!detail || !packageDialog) return;
+const packageViewport = document.querySelector(".package-showcase-viewport");
+const packageCards = Array.from(
+  document.querySelectorAll(".package-card"),
+);
+const packagePrevious = document.querySelector(".package-showcase-previous");
+const packageNext = document.querySelector(".package-showcase-next");
+const packageCaption = document.querySelector(".package-showcase-caption");
+
+if (packageViewport && packageCards.length) {
+  let activePackageIndex = 0;
+  let touchPointerId = null;
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let suppressPackageClick = false;
+  let packageClickTimeout = 0;
+
+  const layoutPackageCards = () => {
+    const isMobile = window.innerWidth <= 767;
+    const viewportWidth = packageViewport.clientWidth;
+
+    packageCards.forEach((card, cardIndex) => {
+      const active = cardIndex === activePackageIndex;
+      const button = card.querySelector(".package-detail");
+      let offset = cardIndex - activePackageIndex;
+      if (offset > packageCards.length / 2) offset -= packageCards.length;
+      if (offset < -packageCards.length / 2) offset += packageCards.length;
+      if (
+        packageCards.length % 2 === 0 &&
+        Math.abs(offset) === packageCards.length / 2
+      ) {
+        offset *= activePackageIndex % 2 === 0 ? -1 : 1;
+      }
+      const offsetDistance = isMobile
+        ? viewportWidth * 0.5 * Math.abs(offset)
+        : viewportWidth *
+          [0, 0.215, 0.36, 0.465][Math.min(Math.abs(offset), 3)];
+
+      card.classList.toggle("is-active", active);
+      card.classList.toggle("is-neighbor", Math.abs(offset) === 1);
+      card.classList.toggle("is-distant", Math.abs(offset) > 1);
+      card.style.setProperty(
+        "--card-offset-x",
+        `${Math.sign(offset) * offsetDistance}px`,
+      );
+      card.style.setProperty("--card-depth", String(10 - Math.abs(offset)));
+      button.setAttribute("aria-current", String(active));
+    });
+
+    const viewportBounds = packageViewport.getBoundingClientRect();
+    packageCards.forEach((card) => {
+      const bounds = card.getBoundingClientRect();
+      const visibleWidth =
+        Math.min(bounds.right, viewportBounds.right) -
+        Math.max(bounds.left, viewportBounds.left);
+      const visible = visibleWidth >= 44;
+      card.setAttribute("aria-hidden", String(!visible));
+      card.querySelector(".package-detail").tabIndex = visible ? 0 : -1;
+    });
+  };
+
+  const setActivePackage = (index) => {
+    activePackageIndex = Math.max(
+      0,
+      Math.min(index, packageCards.length - 1),
+    );
+    layoutPackageCards();
+
+    packagePrevious.disabled = activePackageIndex === 0;
+    packageNext.disabled = activePackageIndex === packageCards.length - 1;
+    const packageName = packageCards[activePackageIndex]
+      .querySelector("img")
+      .alt.replace(/^Brosur /, "")
+      .split(",")[0]
+      .replace(/ Semerbak Kopie$/, "");
+    packageCaption.querySelector("strong").textContent = packageName;
+    packageCards.forEach((card, cardIndex) => {
+      const cardName = card
+        .querySelector("img")
+        .alt.replace(/^Brosur /, "")
+        .split(",")[0]
+        .replace(/ Semerbak Kopie$/, "");
+      card.querySelector(".package-detail").setAttribute(
+        "aria-label",
+        activePackageIndex === cardIndex
+          ? `${cardName}, brosur aktif. Klik untuk memperbesar.`
+          : `${cardName}, pilih paket ini.`,
+      );
+    });
+  };
+
+  packageViewport.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element)) return;
+    if (suppressPackageClick) {
+      event.preventDefault();
+      event.stopPropagation();
+      suppressPackageClick = false;
+      window.clearTimeout(packageClickTimeout);
+      return;
+    }
+
+    const button = event.target.closest(".package-detail");
+    if (!button) return;
+
+    const cardIndex = packageCards.indexOf(button.closest(".package-card"));
+    if (cardIndex !== activePackageIndex) {
+      setActivePackage(cardIndex);
+      return;
+    }
+
+    if (!packageDialog) return;
     const poster = document.querySelector("#packageDialogImage");
-    poster.src = detail.poster;
-    poster.alt = detail.alt;
+    poster.src = button.querySelector("img").getAttribute("src");
+    poster.alt = button.querySelector("img").alt;
     packageDialog.showModal();
   });
-});
+
+  packageViewport.addEventListener("pointerdown", (event) => {
+    if (event.pointerType !== "touch" || !event.isPrimary) return;
+    touchPointerId = event.pointerId;
+    touchStartX = event.clientX;
+    touchStartY = event.clientY;
+    packageViewport.setPointerCapture(touchPointerId);
+  });
+
+  const finishPackageSwipe = (event) => {
+    if (event.pointerId !== touchPointerId) return;
+    const horizontalDistance = event.clientX - touchStartX;
+    const verticalDistance = event.clientY - touchStartY;
+    touchPointerId = null;
+
+    if (
+      Math.abs(horizontalDistance) < 44 ||
+      Math.abs(horizontalDistance) <= Math.abs(verticalDistance)
+    ) {
+      return;
+    }
+
+    setActivePackage(activePackageIndex + (horizontalDistance < 0 ? 1 : -1));
+    suppressPackageClick = true;
+    window.clearTimeout(packageClickTimeout);
+    packageClickTimeout = window.setTimeout(() => {
+      suppressPackageClick = false;
+    }, 0);
+  };
+
+  packageViewport.addEventListener("pointerup", finishPackageSwipe);
+  packageViewport.addEventListener("pointercancel", (event) => {
+    if (event.pointerId === touchPointerId) touchPointerId = null;
+  });
+
+  packagePrevious.addEventListener("click", () => {
+    setActivePackage(activePackageIndex - 1);
+  });
+  packageNext.addEventListener("click", () => {
+    setActivePackage(activePackageIndex + 1);
+  });
+  packageViewport.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.preventDefault();
+      setActivePackage(
+        activePackageIndex + (event.key === "ArrowRight" ? 1 : -1),
+      );
+    } else if (event.key === "Home" || event.key === "End") {
+      event.preventDefault();
+      setActivePackage(
+        event.key === "Home" ? 0 : packageCards.length - 1,
+      );
+    }
+  });
+  window.addEventListener("resize", layoutPackageCards);
+  setActivePackage(0);
+}
 document
   .querySelector(".package-dialog-close")
   ?.addEventListener("click", () => packageDialog?.close());
 packageDialog?.addEventListener("click", (event) => {
   if (event.target === packageDialog) packageDialog.close();
-});
-
-const roiForm = document.querySelector("#roiForm");
-roiForm?.addEventListener("submit", (event) => {
-  event.preventDefault();
-  if (!roiForm.reportValidity()) return;
-
-  const value = (id) => Number(document.querySelector(`#${id}`).value);
-  const cupsPerDay = value("roiCups");
-  const pricePerCup = value("roiPrice");
-  const variableCostPerCup = value("roiVariable");
-  const daysPerMonth = value("roiDays");
-  const fixedCosts = value("roiFixed");
-  const initialCapital = value("roiCapital");
-
-  const revenue = cupsPerDay * pricePerCup * daysPerMonth;
-  const variableCosts = cupsPerDay * variableCostPerCup * daysPerMonth;
-  const monthlyRemainder = revenue - variableCosts - fixedCosts;
-  if (![revenue, variableCosts, monthlyRemainder].every(Number.isFinite)) {
-    document.querySelector("#roiResultNote").textContent =
-      "Nilai terlalu besar untuk dihitung. Periksa kembali data yang dimasukkan.";
-    document.querySelector("#roiResultList").hidden = true;
-    return;
-  }
-
-  const formatRupiah = (amount) =>
-    new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      maximumFractionDigits: 0,
-    }).format(amount);
-
-  document.querySelector("#roiRevenue").textContent = formatRupiah(revenue);
-  document.querySelector("#roiVariableTotal").textContent =
-    formatRupiah(variableCosts);
-  document.querySelector("#roiFixedTotal").textContent =
-    formatRupiah(fixedCosts);
-  document.querySelector("#roiNet").textContent =
-    formatRupiah(monthlyRemainder);
-  document.querySelector("#roiBreakEven").textContent =
-    monthlyRemainder > 0
-      ? `Sekitar ${(initialCapital / monthlyRemainder).toFixed(1)} bulan`
-      : "Belum dapat dihitung jika sisa operasional tidak positif";
-  document.querySelector("#roiResultNote").textContent =
-    "Berikut hasil berdasarkan asumsi yang kamu masukkan:";
-  document.querySelector("#roiResultList").hidden = false;
 });
 
 const stepCards = [...document.querySelectorAll(".step-card")];
@@ -774,4 +1080,26 @@ if (
   investmentNext.addEventListener("click", () =>
     showInvestmentSlide(activeInvestmentSlide + 1),
   );
+}
+
+const paymentCard = document.querySelector("#paymentAccountCard");
+const paymentCardPerspective = document.querySelector(
+  ".payment-card-perspective",
+);
+const paymentCardCanTilt = window.matchMedia(
+  "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
+);
+if (paymentCard && paymentCardPerspective) {
+  paymentCardPerspective.addEventListener("pointermove", (event) => {
+    if (!paymentCardCanTilt.matches || event.pointerType !== "mouse") return;
+    const bounds = paymentCardPerspective.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+    const rotateY = Math.max(-4, Math.min(4, x * 8));
+    const rotateX = Math.max(-4, Math.min(4, y * -8));
+    paymentCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(8px)`;
+  });
+  paymentCardPerspective.addEventListener("pointerleave", () => {
+    paymentCard.style.transform = "";
+  });
 }
