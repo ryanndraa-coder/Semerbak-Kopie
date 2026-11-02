@@ -922,6 +922,22 @@ if (packageViewport && packageCards.length) {
     });
   };
 
+  const openPackageBrochure = (button) => {
+    if (!packageDialog) return;
+    const brochureSrc = button.dataset.brochureSrc;
+    if (!brochureSrc) {
+      console.error("Aset brosur detail tidak tersedia untuk paket ini.");
+      return;
+    }
+
+    const poster = document.querySelector("#packageDialogImage");
+    poster.src = brochureSrc;
+    poster.alt = button
+      .querySelector("img")
+      .alt.replace(/^Brosur/, "Detail brosur");
+    packageDialog.showModal();
+  };
+
   packageViewport.addEventListener("click", (event) => {
     if (!(event.target instanceof Element)) return;
     if (suppressPackageClick) {
@@ -936,16 +952,9 @@ if (packageViewport && packageCards.length) {
     if (!button) return;
 
     const cardIndex = packageCards.indexOf(button.closest(".package-card"));
-    if (cardIndex !== activePackageIndex) {
-      setActivePackage(cardIndex);
-      return;
-    }
-
-    if (!packageDialog) return;
-    const poster = document.querySelector("#packageDialogImage");
-    poster.src = button.querySelector("img").getAttribute("src");
-    poster.alt = button.querySelector("img").alt;
-    packageDialog.showModal();
+    if (cardIndex < 0) return;
+    if (cardIndex !== activePackageIndex) setActivePackage(cardIndex);
+    openPackageBrochure(button);
   });
 
   packageViewport.addEventListener("pointerdown", (event) => {
