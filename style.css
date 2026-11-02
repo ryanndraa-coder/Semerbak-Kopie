@@ -10165,3 +10165,727 @@ body.menu-panel-open {
   ) !important;
   mask-image: linear-gradient(180deg, transparent 0, #000 220px) !important;
 }
+
+/* Partnership cards: editorial layout with a quiet coffee-toned backdrop. */
+.partnership-discovery {
+  position: relative;
+  z-index: 2 !important;
+  overflow: hidden;
+  border: 0 !important;
+  box-shadow: inset 0 18px 30px -28px rgba(12, 8, 6, 0.7) !important;
+  background:
+    radial-gradient(ellipse at 18% 22%, rgba(116, 73, 43, 0.14), transparent 42%),
+    radial-gradient(ellipse at 84% 72%, rgba(101, 58, 35, 0.1), transparent 44%),
+    #1c1714 !important;
+}
+
+.partnership-discovery::before {
+  background:
+    radial-gradient(ellipse at 52% 0%, rgba(104, 68, 43, 0.12), transparent 58%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.012), transparent 45%) !important;
+  transform: none !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+.partnership-discovery::after {
+  background: linear-gradient(
+    180deg,
+    rgba(12, 9, 7, 0.08),
+    transparent 34%,
+    rgba(12, 9, 7, 0.08)
+  ) !important;
+}
+
+.discovery-inner {
+  width: min(1360px, 100%);
+}
+
+.discovery-heading h2 {
+  color: #fff4e5;
+}
+
+.discovery-heading > div > p:last-child {
+  color: rgba(255, 244, 229, 0.8);
+}
+
+.discovery-viewport {
+  overflow: visible;
+  padding: 0;
+  cursor: default;
+  touch-action: auto;
+}
+
+.discovery-track {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(14px, 1.5vw, 22px);
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+}
+
+.discovery-card,
+.discovery-card.is-active {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  flex: initial;
+  overflow: hidden;
+  border: 1px solid rgba(75, 48, 34, 0.12);
+  border-radius: 14px;
+  background: #faf6ef;
+  box-shadow: 0 12px 30px rgba(8, 6, 5, 0.2);
+  transform: none;
+  transition: box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.discovery-card-visual {
+  width: 100%;
+  height: clamp(210px, 21vw, 290px);
+  flex: 0 0 auto;
+  padding: 0;
+  border-radius: 0;
+  background: #f5efe5;
+}
+
+.discovery-card-visual .discovery-illustration {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border-radius: 0;
+  object-fit: cover;
+  object-position: center;
+  transform: none;
+}
+
+.discovery-card-copy {
+  min-height: 228px;
+  padding: 20px clamp(16px, 1.5vw, 22px) 20px;
+}
+
+.discovery-card-copy > span.discovery-card-kicker {
+  margin: 0 0 10px;
+  color: #b51222;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+}
+
+.discovery-card-copy > strong {
+  color: #2f1e1b;
+  font-size: clamp(1.05rem, 1.35vw, 1.28rem);
+  line-height: 1.25;
+}
+
+.discovery-card-copy > span:not(.discovery-card-number, .discovery-card-link) {
+  margin-top: 8px;
+  color: #705b56;
+  font-size: clamp(0.86rem, 0.95vw, 0.94rem);
+  line-height: 1.55;
+}
+
+.discovery-card-copy > span.discovery-card-footer {
+  margin-top: auto;
+  padding-top: 18px;
+  color: #94877f;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+}
+
+.discovery-card:focus-visible {
+  outline-offset: 4px;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .discovery-card:hover {
+    border-color: rgba(181, 18, 34, 0.28);
+    box-shadow: 0 18px 38px rgba(8, 6, 5, 0.28);
+    transform: translateY(-3px);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .discovery-track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .discovery-card-visual {
+    height: clamp(210px, 28vw, 260px);
+  }
+}
+
+@media (max-width: 767px) {
+  .partnership-discovery {
+    padding: 64px 24px 72px !important;
+  }
+
+  #home .hx-visual {
+    padding-bottom: 0 !important;
+  }
+
+  .discovery-heading {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .discovery-heading > img {
+    width: 88px;
+    max-height: 76px;
+  }
+
+  .discovery-heading h2 {
+    font-size: clamp(2rem, 9vw, 2.8rem);
+  }
+
+  .discovery-viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 8px 0 24px;
+    scroll-snap-type: x mandatory;
+    cursor: grab;
+    touch-action: pan-x pan-y;
+  }
+
+  .discovery-track {
+    display: flex;
+    width: max-content;
+    min-width: 100%;
+    gap: 16px;
+    padding: 0 2px;
+  }
+
+  .discovery-card,
+  .discovery-card.is-active {
+    width: auto;
+    flex: 0 0 min(410px, calc(100vw - 52px));
+    scroll-snap-align: start;
+  }
+
+  .discovery-card-visual {
+    height: clamp(210px, 62vw, 260px);
+  }
+
+  .discovery-card-copy {
+    min-height: 220px;
+    padding: 20px 20px 19px;
+  }
+
+  .discovery-card-copy > strong {
+    font-size: 1.22rem;
+  }
+
+  .discovery-card-copy > span:not(.discovery-card-number, .discovery-card-link) {
+    font-size: 0.92rem;
+  }
+
+  .partnership-discovery::before {
+    background:
+      radial-gradient(ellipse at 18% 22%, rgba(116, 73, 43, 0.14), transparent 42%),
+      radial-gradient(ellipse at 84% 72%, rgba(101, 58, 35, 0.1), transparent 44%),
+      linear-gradient(
+        180deg,
+        #eee3d2 0,
+        rgba(28, 23, 20, 0.78) 16px,
+        #1c1714 36px
+      ) !important;
+  }
+}
+
+.partnership-discovery {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.partnership-discovery::before {
+  inset: 0 !important;
+  background:
+    radial-gradient(ellipse at 18% 22%, rgba(116, 73, 43, 0.14), transparent 42%),
+    radial-gradient(ellipse at 84% 72%, rgba(101, 58, 35, 0.1), transparent 44%),
+    linear-gradient(
+      180deg,
+      #fdf7ec 0,
+      rgba(28, 23, 20, 0.78) 16px,
+      #1c1714 36px
+    ) !important;
+}
+
+.partnership-discovery::after {
+  display: none !important;
+}
+
+#brand {
+  --brand-edge-overlap: clamp(32px, 2.8vw, 40px);
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  border: 0;
+}
+
+#packages {
+  --brand-edge-overlap: clamp(32px, 2.8vw, 40px);
+  position: relative;
+  z-index: 0;
+  margin-top: calc(0px - var(--brand-edge-overlap));
+  padding-top: calc(clamp(72px, 8vw, 112px) + var(--brand-edge-overlap)) !important;
+}
+
+#brand > .section-heading,
+#brand > .brand-grid {
+  position: relative;
+  z-index: 1;
+}
+
+#brand > .brand-edge {
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: clamp(28px, 3.2vw, 44px);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#brand > .brand-edge-top {
+  top: 0;
+}
+
+#brand > .brand-edge-bottom {
+  bottom: calc(0px - var(--brand-edge-overlap));
+  height: calc(var(--brand-edge-overlap) * 2);
+}
+
+@media (max-width: 767px) {
+  #brand > .brand-edge-top {
+    height: 28px;
+  }
+
+  #brand,
+  #packages {
+    --brand-edge-overlap: 32px;
+  }
+
+  #packages {
+    margin-top: -32px;
+    padding-top: 90px !important;
+  }
+}
+
+.partnership-discovery {
+  overflow: visible !important;
+  padding-top: clamp(80px, 8vw, 112px) !important;
+  border: 0 !important;
+  background: linear-gradient(90deg, #850b18 0%, #a90f20 55%, #c9162a 100%) !important;
+  box-shadow: none !important;
+}
+
+.partnership-discovery::before,
+.partnership-discovery::after {
+  display: none !important;
+}
+
+.discovery-edge-top {
+  position: absolute;
+  z-index: 0;
+  top: clamp(-28px, -2vw, -20px);
+  left: 0;
+  display: block;
+  width: 100%;
+  height: clamp(52px, 5vw, 64px);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.discovery-inner {
+  z-index: 1;
+}
+
+.discovery-heading > img {
+  padding: 10px;
+  border-radius: 16px;
+  background: #fff8ed;
+}
+
+@media (max-width: 767px) {
+  .partnership-discovery {
+    padding-top: 76px !important;
+  }
+
+  .discovery-edge-top {
+    top: -20px;
+    height: 52px;
+  }
+}
+
+#investment-benefits .investment-carousel-slide:not(.payment-slide) {
+  min-width: 0;
+}
+
+#investment-benefits .payment-slide {
+  grid-template-columns: minmax(84px, 0.18fr) minmax(0, 1.2fr) minmax(270px, 0.9fr);
+  column-gap: clamp(24px, 2.4vw, 36px);
+  padding: clamp(30px, 3vw, 40px) clamp(112px, 8vw, 136px)
+    clamp(62px, 5vw, 70px) clamp(30px, 3vw, 42px);
+}
+
+#investment-benefits .payment-slide .investment-slide-number {
+  width: 100%;
+  align-self: start;
+  font-size: clamp(3.8rem, 5vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.07em;
+}
+
+#investment-benefits .payment-slide-copy {
+  min-width: 0;
+}
+
+#investment-benefits .payment-slide-copy .payment-warning {
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+#investment-benefits .payment-slide-copy h3 {
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+#investment-benefits .payment-slide-copy > p:not(.payment-warning) {
+  margin-bottom: 14px;
+  line-height: 1.55;
+}
+
+#investment-benefits .payment-legality {
+  margin-top: 18px;
+}
+
+#investment-benefits .payment-confirm-link {
+  margin-top: 18px;
+}
+
+#investment-benefits .investment-carousel-slide:not(.payment-slide)
+  .investment-slide-copy {
+  max-width: 44ch;
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  #investment-benefits .payment-slide {
+    grid-template-columns: minmax(72px, 0.18fr) minmax(0, 1.1fr) minmax(230px, 0.9fr);
+    gap: 20px;
+    padding: 28px 112px 28px 30px;
+  }
+
+  #investment-benefits .payment-slide .investment-slide-number {
+    font-size: 4rem;
+  }
+}
+
+@media (max-width: 900px) and (min-width: 768px) {
+  #investment-benefits .investment-carousel-slide:not(.payment-slide) {
+    grid-template-columns: minmax(76px, 0.3fr) 2px minmax(132px, 0.38fr) minmax(0, 1.5fr);
+    gap: clamp(16px, 2vw, 22px);
+    padding-right: 144px;
+  }
+
+  #investment-benefits .investment-carousel-slide:not(.payment-slide)
+    .investment-slide-copy {
+    max-width: 38ch;
+  }
+
+  #investment-benefits .payment-slide {
+    grid-template-columns: 58px minmax(0, 1.2fr) minmax(190px, 0.9fr);
+    gap: 16px;
+    padding: 24px 88px 44px 22px;
+  }
+
+  #investment-benefits .payment-slide .investment-slide-number {
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  #investment-benefits .payment-slide {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 16px;
+    padding: 28px 20px 96px;
+  }
+
+  #investment-benefits .payment-slide .investment-slide-number {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 3.2rem;
+  }
+
+  #investment-benefits .payment-slide-copy {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  #investment-benefits .payment-card-perspective {
+    grid-column: 1;
+    grid-row: 3;
+    margin-top: 0;
+  }
+
+  #investment-benefits .payment-slide-copy .payment-warning {
+    margin-bottom: 12px;
+  }
+
+  #investment-benefits .investment-carousel-slide:not(.payment-slide)
+    .investment-slide-copy {
+    max-width: none;
+  }
+}
+
+:root {
+  --semerbak-red: #a90f20;
+  --semerbak-red-deep: #850b18;
+  --semerbak-red-light: #c9162a;
+  --semerbak-paper: #fff8ed;
+  --semerbak-paper-shade: #faf3e8;
+  --semerbak-display: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+main h1,
+main h2 {
+  font-family: var(--semerbak-display) !important;
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: 0.01em !important;
+  text-wrap: balance;
+}
+
+main h3 {
+  font-family: var(--font) !important;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.22;
+  text-wrap: balance;
+}
+
+.hero#home,
+#brand,
+#gallery,
+.investment-guide,
+#tahapan,
+#contact {
+  background-color: var(--semerbak-paper) !important;
+  background-image:
+    repeating-linear-gradient(
+      118deg,
+      rgba(103, 55, 39, 0.012) 0 0.7px,
+      transparent 0.7px 20px
+    ),
+    linear-gradient(
+      180deg,
+      var(--semerbak-paper) 0%,
+      var(--semerbak-paper-shade) 100%
+    ) !important;
+}
+
+#home {
+  --sb-bg: var(--semerbak-paper);
+}
+
+#keunggulan,
+#products,
+#target-market,
+#investment-benefits {
+  background-color: var(--semerbak-red-deep) !important;
+  background-image:
+    repeating-linear-gradient(
+      122deg,
+      rgba(255, 248, 237, 0.018) 0 0.8px,
+      transparent 0.8px 24px
+    ),
+    linear-gradient(
+      90deg,
+      var(--semerbak-red-deep) 0%,
+      var(--semerbak-red) 55%,
+      var(--semerbak-red-light) 100%
+    ) !important;
+}
+
+#packages {
+  background-image:
+    repeating-linear-gradient(
+      122deg,
+      rgba(255, 248, 237, 0.016) 0 0.8px,
+      transparent 0.8px 26px
+    ),
+    radial-gradient(
+      at 50% 40%,
+      rgba(244, 46, 49, 0.34),
+      transparent 46%
+    ),
+    radial-gradient(
+      at 50% 100%,
+      rgba(128, 9, 20, 0.8),
+      transparent 56%
+    ),
+    linear-gradient(145deg, #210809, #520b12 54%, #26090b) !important;
+}
+
+#target-market {
+  color: var(--semerbak-paper) !important;
+}
+
+#target-market::before {
+  background-image:
+    repeating-linear-gradient(
+      116deg,
+      transparent 0 25px,
+      rgba(255, 248, 237, 0.035) 25.5px 26px,
+      transparent 26.5px 52px
+    ) !important;
+  opacity: 0.55;
+}
+
+#target-market .section-heading .eyebrow,
+#target-market .section-heading h2,
+#target-market .section-heading > p:last-child {
+  color: var(--semerbak-paper) !important;
+}
+
+#target-market .location-story-copy h3 {
+  font-family: var(--semerbak-display) !important;
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+}
+
+#tahapan {
+  overflow-x: clip;
+}
+
+#tahapan::before {
+  right: 0;
+  left: 0;
+}
+
+#tahapan .steps-grid {
+  min-width: 0;
+  width: 100%;
+}
+
+.section-heading h2,
+.contact-box h2,
+.discovery-heading h2,
+.menu-title-row h2 {
+  margin-bottom: clamp(1rem, 1.8vw, 1.4rem);
+  line-height: 1.1;
+}
+
+.section-heading > p:last-child,
+.discovery-heading > div > p:last-child,
+.contact-box > div p:last-child {
+  line-height: 1.65;
+}
+
+.brand-info h3,
+.investment-card-heading h3,
+.market-card-copy h3 {
+  line-height: 1.28;
+}
+
+.brand-info p,
+.market-card-copy p,
+.investment-case dt,
+.investment-case dd {
+  line-height: 1.58;
+}
+
+.investment-card-heading h3 {
+  margin-top: 8px;
+}
+
+.location-story-kicker {
+  margin-bottom: clamp(20px, 2.8vw, 32px);
+  line-height: 1.5;
+}
+
+.location-story-copy > p:last-child {
+  line-height: 1.62;
+}
+
+.discovery-heading > div > p:last-child {
+  margin-top: clamp(16px, 1.6vw, 22px);
+}
+
+.contact-box > div p:last-child {
+  margin-top: clamp(16px, 1.8vw, 24px);
+}
+
+@media (max-width: 767px) {
+  #home .hx-title {
+    font-size: clamp(2rem, 8.2vw, 3.6rem) !important;
+    line-height: 1.04 !important;
+  }
+
+  #keunggulan .discovery-heading h2,
+  #brand .section-heading h2,
+  #products .menu-title-row h2,
+  #packages .section-heading h2,
+  #gallery .section-heading h2,
+  #target-market .section-heading h2,
+  .investment-guide .section-heading h2,
+  #investment-benefits .investment-benefits-heading h2,
+  #tahapan .section-heading h2,
+  #contact .contact-box h2,
+  .section-heading h2,
+  .contact-box h2,
+  .discovery-heading h2,
+  .menu-title-row h2 {
+    font-size: clamp(1.8rem, 7.4vw, 2.55rem) !important;
+    line-height: 1.1 !important;
+  }
+
+  .section-heading h2,
+  .contact-box h2,
+  .discovery-heading h2,
+  .menu-title-row h2 {
+    margin-bottom: 1rem;
+  }
+
+  .location-story-kicker {
+    margin-bottom: 20px;
+  }
+
+  .brand-info p {
+    min-height: 0;
+  }
+
+  #tahapan .steps-grid .step-card.is-active {
+    transform: none;
+  }
+}
+
+@media (min-width: 768px) {
+  #keunggulan .discovery-heading h2,
+  #brand .section-heading h2,
+  #products .menu-title-row h2,
+  #packages .section-heading h2,
+  #gallery .section-heading h2,
+  #target-market .section-heading h2,
+  .investment-guide .section-heading h2,
+  #investment-benefits .investment-benefits-heading h2,
+  #tahapan .section-heading h2,
+  #contact .contact-box h2,
+  .section-heading h2,
+  .contact-box h2,
+  .discovery-heading h2,
+  .menu-title-row h2 {
+    font-size: clamp(2rem, 3.6vw, 3.45rem) !important;
+    line-height: 1.1 !important;
+  }
+}
