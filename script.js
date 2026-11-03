@@ -67,57 +67,131 @@ const productFraming = {
 const CONFIG = { WHATSAPP_NUMBER: "6281927161083" };
 
 const locationStorySection = document.querySelector("#target-market");
-const locationStoryStages = Array.from(
-  locationStorySection?.querySelectorAll(".location-story-stage") ?? [],
+const locationStoryCopies = Array.from(
+  locationStorySection?.querySelectorAll(".location-story-copy") ?? [],
+);
+const locationStoryImages = Array.from(
+  locationStorySection?.querySelectorAll(".location-story-image-frame img") ??
+    [],
+);
+const locationStoryCredits = Array.from(
+  locationStorySection?.querySelectorAll(".location-photo-credit") ?? [],
 );
 
-if (locationStorySection && locationStoryStages.length) {
+if (locationStorySection && locationStoryCopies.length) {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const header = document.querySelector(".site-header");
-  let activeIndex = 0;
-  let requestedIndex = 0;
-  let isTransitioning = false;
+  const locationCount = locationStoryCopies.length;
   let scrollFrame = 0;
-  let transitionTimeout = 0;
+  let lastStoryLocal = null;
 
-  const setStageAccess = (stage, isActive) => {
-    stage.setAttribute("aria-hidden", String(!isActive));
-    const credit = stage.querySelector(".location-photo-credit");
-    if (credit) credit.tabIndex = isActive ? 0 : -1;
+  const setCopyAccess = (copy, isActive) => {
+    copy.setAttribute("aria-hidden", String(!isActive));
   };
 
   const updateStoryProgress = () => {
     scrollFrame = 0;
-    const sectionTop =
-      locationStorySection.getBoundingClientRect().top + window.scrollY;
-    const step = Math.max(1, document.documentElement.clientHeight);
-    requestedIndex = Math.max(
+    const track = locationStorySection.querySelector(".location-story-track");
+    const story = locationStorySection.querySelector(".location-story");
+    const stickyTop = header?.getBoundingClientRect().height ?? 0;
+    const stickyHeight = story?.offsetHeight ?? window.innerHeight;
+    const travel = Math.max(
+      1,
+      (track?.offsetHeight ?? stickyHeight) - stickyHeight - stickyTop,
+    );
+    const trackTop =
+      (track?.getBoundingClientRect().top ??
+        locationStorySection.getBoundingClientRect().top) + window.scrollY;
+    const local = Math.max(0, Math.min(travel, window.scrollY - trackTop));
+    const step = travel / Math.max(1, locationCount - 1);
+    const scrollDirection =
+      lastStoryLocal === null || local >= lastStoryLocal ? 1 : -1;
+    lastStoryLocal = local;
+    const storyPosition =
+      local >= travel - 2
+        ? locationCount - 1
+        : Math.min(locationCount - 1, local / Math.max(1, step));
+    const lowerIndex = Math.floor(storyPosition);
+    const segmentProgress = storyPosition - lowerIndex;
+    const isReverse = scrollDirection < 0 && segmentProgress > 0.001;
+    const rawTransitionProgress = isReverse
+      ? 1 - segmentProgress
+      : segmentProgress;
+    const transitionProgress = Math.max(
       0,
-      Math.min(
-        locationStoryStages.length - 1,
-        Math.floor((window.scrollY - sectionTop) / step),
+      Math.min(1, (rawTransitionProgress - 0.22) / 0.56),
+    );
+    const smoothProgress =
+      transitionProgress * transitionProgress * (3 - 2 * transitionProgress);
+    const previewProgress = smoothProgress;
+    const activeIndex = isReverse
+      ? Math.min(locationCount - 1, lowerIndex + 1)
+      : lowerIndex;
+    const adjacentIndex = isReverse
+      ? lowerIndex
+      : Math.min(locationCount - 1, lowerIndex + 1);
+    const copyStack = locationStorySection.querySelector(
+      ".location-story-copy-stack",
+    );
+    const copyTravel = Math.min(
+      280,
+      Math.max(
+        240,
+        (copyStack?.offsetHeight ?? window.innerHeight * 0.2) + 80,
       ),
     );
 
-    if (requestedIndex === activeIndex || isTransitioning) return;
-    isTransitioning = true;
-    const currentStage = locationStoryStages[activeIndex];
-    setStageAccess(currentStage, false);
-    currentStage.classList.remove("is-active");
-    currentStage.classList.add("is-fading-out");
+    locationStoryCopies.forEach((copy, copyIndex) => {
+      const isActive = copyIndex === activeIndex;
+      const isPreview =
+        copyIndex === adjacentIndex && copyIndex !== activeIndex;
+      copy.classList.toggle("is-active", isActive);
+      copy.classList.toggle("is-preview", isPreview);
+      setCopyAccess(copy, isActive);
 
-    transitionTimeout = window.setTimeout(
-      () => {
-        currentStage.classList.remove("is-fading-out");
-        activeIndex = requestedIndex;
-        const nextStage = locationStoryStages[activeIndex];
-        setStageAccess(nextStage, true);
-        nextStage.classList.add("is-active");
-        isTransitioning = false;
-        if (requestedIndex !== activeIndex) updateStoryProgress();
-      },
-      reducedMotion.matches ? 0 : 180,
-    );
+      if (isActive) {
+        copy.style.setProperty(
+          "--location-copy-opacity",
+          String(1 - smoothProgress),
+        );
+        copy.style.setProperty(
+          "--location-copy-y",
+          `${
+            (isReverse ? smoothProgress : -smoothProgress) * copyTravel
+          }px`,
+        );
+      } else if (isPreview) {
+        copy.style.setProperty(
+          "--location-copy-opacity",
+          String(previewProgress),
+        );
+        copy.style.setProperty(
+          "--location-copy-y",
+          `${(isReverse ? -1 : 1) * (1 - previewProgress) * copyTravel}px`,
+        );
+      } else {
+        copy.style.setProperty("--location-copy-opacity", "0");
+        copy.style.setProperty("--location-copy-y", "28px");
+      }
+    });
+
+    locationStoryImages.forEach((image, imageIndex) => {
+      const isCurrent = imageIndex === activeIndex;
+      const isNext = imageIndex === adjacentIndex && imageIndex !== activeIndex;
+      const opacity = isCurrent
+          ? 1 - smoothProgress
+          : isNext
+            ? smoothProgress
+            : 0;
+      image.classList.toggle("is-active", opacity > 0.5);
+      image.style.opacity = String(opacity);
+    });
+
+    locationStoryCredits.forEach((credit, creditIndex) => {
+      const isActive = creditIndex === activeIndex;
+      credit.classList.toggle("is-active", isActive);
+      credit.tabIndex = isActive ? 0 : -1;
+    });
   };
 
   const queueStoryProgress = () => {
@@ -126,37 +200,29 @@ if (locationStorySection && locationStoryStages.length) {
   };
 
   const updateStoryLayout = () => {
-    const stickyTop = header?.getBoundingClientRect().height ?? 0;
+    const stickyTop = Math.round(header?.getBoundingClientRect().height ?? 0);
+    const step = Math.round(
+      Math.min(170, Math.max(150, window.innerHeight * 0.18)),
+    );
     locationStorySection.style.setProperty(
       "--location-story-sticky-top",
       `${stickyTop}px`,
     );
     locationStorySection.style.setProperty(
-      "--location-story-scroll-length",
-      `${locationStoryStages.length * 100}vh`,
+      "--location-story-step",
+      `${step}px`,
+    );
+    locationStorySection.style.setProperty(
+      "--location-story-count",
+      String(locationCount),
     );
     queueStoryProgress();
   };
 
-  locationStoryStages.forEach((stage, index) => {
-    setStageAccess(stage, index === activeIndex);
-  });
   locationStorySection.classList.add("has-scroll-story");
   window.addEventListener("scroll", queueStoryProgress, { passive: true });
   window.addEventListener("resize", updateStoryLayout);
-  reducedMotion.addEventListener?.("change", () => {
-    if (reducedMotion.matches && isTransitioning) {
-      window.clearTimeout(transitionTimeout);
-      transitionTimeout = 0;
-      isTransitioning = false;
-      locationStoryStages.forEach((stage, index) => {
-        stage.classList.remove("is-fading-out", "is-active");
-        setStageAccess(stage, index === requestedIndex);
-        if (index === requestedIndex) stage.classList.add("is-active");
-      });
-      activeIndex = requestedIndex;
-    }
-  });
+  reducedMotion.addEventListener?.("change", queueStoryProgress);
   updateStoryLayout();
 }
 

@@ -663,11 +663,12 @@
         </div>
         <div class="location-story-track">
           <div class="location-story">
-            <article
-              class="location-story-stage is-active"
-              aria-hidden="false"
-            >
-              <div class="location-story-copy">
+            <div class="location-story-copy-stack" aria-live="polite">
+              <article
+                class="location-story-copy is-active"
+                data-location-index="0"
+                aria-hidden="false"
+              >
                 <p class="location-story-kicker">
                   IDE LOKASI USAHA
                   <span class="location-story-count">01 / 05</span>
@@ -677,26 +678,12 @@
                   Perhatikan aturan sekolah, jam ramai, dan kebutuhan
                   pengunjung.
                 </p>
-              </div>
-              <figure class="location-story-visual">
-                <img
-                  src="assets/locations/area-sekolah.jpg"
-                  alt="Gedung Perguruan Taman Siswa Jetis di Yogyakarta"
-                  loading="lazy"
-                />
-                <figcaption>
-                  <a
-                    class="location-photo-credit"
-                    href="https://commons.wikimedia.org/wiki/File:Perguruan_Taman_Siswa_Jetis,_Yogyakarta.jpg"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >Foto: Pinerineks · CC BY-SA 4.0</a
-                  >
-                </figcaption>
-              </figure>
-            </article>
-            <article class="location-story-stage" aria-hidden="true">
-              <div class="location-story-copy">
+              </article>
+              <article
+                class="location-story-copy"
+                data-location-index="1"
+                aria-hidden="true"
+              >
                 <p class="location-story-kicker">
                   IDE LOKASI USAHA
                   <span class="location-story-count">02 / 05</span>
@@ -705,78 +692,36 @@
                 <p>
                   Cek jadwal, biaya partisipasi, serta ketentuan penyelenggara.
                 </p>
-              </div>
-              <figure class="location-story-visual">
-                <img
-                  src="assets/locations/event-bazar.jpg"
-                  alt="Keramaian pengunjung di acara bazar"
-                  loading="lazy"
-                />
-                <figcaption>
-                  <a
-                    class="location-photo-credit"
-                    href="https://commons.wikimedia.org/wiki/File:Pasar_Malam_Rawasari_11.JPG"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >Foto: Gunawan Kartapranata · CC BY-SA 4.0</a
-                  >
-                </figcaption>
-              </figure>
-            </article>
-            <article class="location-story-stage" aria-hidden="true">
-              <div class="location-story-copy">
+              </article>
+              <article
+                class="location-story-copy"
+                data-location-index="2"
+                aria-hidden="true"
+              >
                 <p class="location-story-kicker">
                   IDE LOKASI USAHA
                   <span class="location-story-count">03 / 05</span>
                 </p>
                 <h3>Area Transportasi</h3>
                 <p>Pastikan izin pengelola dan amati arus calon pembeli.</p>
-              </div>
-              <figure class="location-story-visual">
-                <img
-                  src="assets/locations/area-transportasi.jpg"
-                  alt="Bus di area transportasi umum"
-                  loading="lazy"
-                />
-                <figcaption>
-                  <a
-                    class="location-photo-credit"
-                    href="https://commons.wikimedia.org/wiki/File:Rangkaian_unit_bus_Transjakarta_yang_sedang_transit_di_terminal_Blok_M.jpg"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >Foto: Atmawinanda · CC BY-SA 4.0</a
-                  >
-                </figcaption>
-              </figure>
-            </article>
-            <article class="location-story-stage" aria-hidden="true">
-              <div class="location-story-copy">
+              </article>
+              <article
+                class="location-story-copy"
+                data-location-index="3"
+                aria-hidden="true"
+              >
                 <p class="location-story-kicker">
                   IDE LOKASI USAHA
                   <span class="location-story-count">04 / 05</span>
                 </p>
                 <h3>Area Olahraga</h3>
                 <p>Tinjau waktu kegiatan, akses, dan izin penggunaan area.</p>
-              </div>
-              <figure class="location-story-visual">
-                <img
-                  src="assets/locations/area-olahraga.jpg"
-                  alt="Lapangan olahraga untuk kegiatan masyarakat"
-                  loading="lazy"
-                />
-                <figcaption>
-                  <a
-                    class="location-photo-credit"
-                    href="https://commons.wikimedia.org/wiki/File:8USA_Legends_Visit_Indonesia_(5935132419).jpg"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >Foto: U.S. Embassy Jakarta · Public domain</a
-                  >
-                </figcaption>
-              </figure>
-            </article>
-            <article class="location-story-stage" aria-hidden="true">
-              <div class="location-story-copy">
+              </article>
+              <article
+                class="location-story-copy"
+                data-location-index="4"
+                aria-hidden="true"
+              >
                 <p class="location-story-kicker">
                   IDE LOKASI USAHA
                   <span class="location-story-count">05 / 05</span>
@@ -786,24 +731,79 @@
                   Pelajari pola aktivitas harian serta opsi sewa dan
                   operasionalnya.
                 </p>
-              </div>
-              <figure class="location-story-visual">
+              </article>
+            </div>
+            <figure class="location-story-visual">
+              <div class="location-story-image-frame">
+                <img
+                  class="is-active"
+                  src="assets/locations/area-sekolah.jpg"
+                  alt="Gedung Perguruan Taman Siswa Jetis di Yogyakarta"
+                  loading="eager"
+                />
+                <img
+                  src="assets/locations/event-bazar.jpg"
+                  alt="Keramaian pengunjung di acara bazar"
+                  loading="eager"
+                />
+                <img
+                  src="assets/locations/area-transportasi.jpg"
+                  alt="Bus di area transportasi umum"
+                  loading="eager"
+                />
+                <img
+                  src="assets/locations/area-olahraga.jpg"
+                  alt="Lapangan olahraga untuk kegiatan masyarakat"
+                  loading="eager"
+                />
                 <img
                   src="assets/locations/area-perkantoran.jpg"
                   alt="Gedung perkantoran di kawasan kota"
-                  loading="lazy"
+                  loading="eager"
                 />
-                <figcaption>
-                  <a
-                    class="location-photo-credit"
-                    href="https://commons.wikimedia.org/wiki/File:Wisma_46_(Januari_2025).jpg"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >Foto: Medelam · CC BY 4.0</a
-                  >
-                </figcaption>
-              </figure>
-            </article>
+              </div>
+              <figcaption>
+                <a
+                  class="location-photo-credit is-active"
+                  href="https://commons.wikimedia.org/wiki/File:Perguruan_Taman_Siswa_Jetis,_Yogyakarta.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Foto: Pinerineks · CC BY-SA 4.0</a
+                >
+                <a
+                  class="location-photo-credit"
+                  href="https://commons.wikimedia.org/wiki/File:Pasar_Malam_Rawasari_11.JPG"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  tabindex="-1"
+                  >Foto: Gunawan Kartapranata · CC BY-SA 4.0</a
+                >
+                <a
+                  class="location-photo-credit"
+                  href="https://commons.wikimedia.org/wiki/File:Rangkaian_unit_bus_Transjakarta_yang_sedang_transit_di_terminal_Blok_M.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  tabindex="-1"
+                  >Foto: Atmawinanda · CC BY-SA 4.0</a
+                >
+                <a
+                  class="location-photo-credit"
+                  href="https://commons.wikimedia.org/wiki/File:8USA_Legends_Visit_Indonesia_(5935132419).jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  tabindex="-1"
+                  >Foto: U.S. Embassy Jakarta · Public domain</a
+                >
+                <a
+                  class="location-photo-credit"
+                  href="https://commons.wikimedia.org/wiki/File:Wisma_46_(Januari_2025).jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  tabindex="-1"
+                  >Foto: Medelam · CC BY 4.0</a
+                >
+              </figcaption>
+            </figure>
           </div>
         </div>
       </section>
