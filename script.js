@@ -5,7 +5,7 @@ const productFraming = {
     "width:107.1174%!important;height:107.1174%!important;left:-3.5205%!important;top:-2.0285%!important;clip-path:inset(8.4286% 16.9286% 11.2857% 16.8571%);",
   "assets/products/kopiena-coffe-latte.webp":
     "width:106.5487%!important;height:106.5487%!important;left:-3.2363%!important;top:-1.7522%!important;clip-path:inset(8.2143% 15.5714% 11.0714% 15.5000%);",
-  "assets/products/kopiena-matcha-vanilla-clean.png":
+  "assets/products/kopiena-matcha-vanilla-clean.webp":
     "width:121.6162%!important;height:121.6162%!important;left:-10.8081%!important;top:-9.0273%!important;clip-path:inset(27.7857% 14.6429% 30.7143% 14.6429%);",
   "assets/products/kopiena-mochaccino.webp":
     "width:120.4000%!important;height:120.4000%!important;left:-9.5550%!important;top:-14.0700%!important;clip-path:inset(17.5000% 21.5000% 11.0714% 20.4286%);",
@@ -17,7 +17,7 @@ const productFraming = {
     "width:102.1782%!important;height:102.1782%!important;left:-1.0465%!important;top:-1.0891%!important;clip-path:inset(7.9167% 19.5833% 7.9167% 19.5000%);",
   "assets/products/kopiena-americano.webp":
     "width:106.5487%!important;height:106.5487%!important;left:-3.2743%!important;top:-1.7522%!important;clip-path:inset(8.2143% 15.8571% 11.0714% 15.8571%);",
-  "assets/products/kopiena-matcha-strawberry-clean(1).png":
+  "assets/products/kopiena-matcha-strawberry-clean(1).webp":
     "width:107.1174%!important;height:107.1174%!important;left:-3.5205%!important;top:-2.0285%!important;clip-path:inset(8.4286% 16.8571% 11.2857% 16.7857%);",
   "assets/products/matchaque-matcha-cream-cheese.webp":
     "width:115.3257%!important;height:115.3257%!important;left:-7.6628%!important;top:-7.6628%!important;clip-path:inset(12.7143% 21.8571% 12.7143% 21.8571%);",
@@ -64,166 +64,118 @@ const productFraming = {
   "assets/products/matchaque-pure-matcha.webp":
     "width:115.3257%!important;height:115.3257%!important;left:-7.6628%!important;top:-7.6628%!important;clip-path:inset(12.7143% 22.7857% 12.7143% 22.7857%);",
 };
-const CONFIG = { WHATSAPP_NUMBER: "6281927161083" };
+const CONFIG = { WHATSAPP_NUMBER: "6285284156192" };
 
-const locationStorySection = document.querySelector("#target-market");
-const locationStoryCopies = Array.from(
-  locationStorySection?.querySelectorAll(".location-story-copy") ?? [],
-);
-const locationStoryImages = Array.from(
-  locationStorySection?.querySelectorAll(".location-story-image-frame img") ??
-    [],
-);
-const locationStoryCredits = Array.from(
-  locationStorySection?.querySelectorAll(".location-photo-credit") ?? [],
-);
-
-if (locationStorySection && locationStoryCopies.length) {
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+// One sticky text stack previews the next idea while photos crossfade.
+const locationSection = document.querySelector("#target-market");
+const locationRunway = locationSection?.closest(".location-story-runway");
+const locationScene = locationRunway?.querySelector(".business-story-scene");
+const locationTrack = locationSection?.querySelector(".location-story-track");
+const locationStack = locationTrack?.querySelector(".location-story-copy-stack");
+const locationStories = Array.from(locationStack?.querySelectorAll(".location-story-copy") ?? []).map(copy => ({
+  copy,
+  image: locationTrack.querySelector('img[data-location-index="' + copy.dataset.locationIndex + '"]'),
+  credit: locationTrack.querySelector('a[data-location-index="' + copy.dataset.locationIndex + '"]'),
+}));
+if (locationRunway && locationScene && locationStack && locationStories.length && locationStories.every(s => s.image && s.credit)) {
   const header = document.querySelector(".site-header");
-  const locationCount = locationStoryCopies.length;
-  let scrollFrame = 0;
-  let lastStoryLocal = null;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let step = 280;
+  let frame = 0;
+  let layoutFrame = 0;
+  let travel = 140;
+  let progress = 0;
+  let targetProgress = 0;
+  let anchorTop = 0;
+  let lastLocationFrame = 0;
+  const lastIndex = locationStories.length - 1;
 
-  const setCopyAccess = (copy, isActive) => {
-    copy.setAttribute("aria-hidden", String(!isActive));
+  const smooth = t => t * t * (3 - 2 * t);
+  const layer = (element, opacity) => {
+    element.classList.toggle("is-visible", opacity > .001);
+    element.style.setProperty("--location-opacity", String(opacity));
   };
-
-  const updateStoryProgress = () => {
-    scrollFrame = 0;
-    const track = locationStorySection.querySelector(".location-story-track");
-    const story = locationStorySection.querySelector(".location-story");
-    const stickyTop = header?.getBoundingClientRect().height ?? 0;
-    const stickyHeight = story?.offsetHeight ?? window.innerHeight;
-    const travel = Math.max(
-      1,
-      (track?.offsetHeight ?? stickyHeight) - stickyHeight - stickyTop,
-    );
-    const trackTop =
-      (track?.getBoundingClientRect().top ??
-        locationStorySection.getBoundingClientRect().top) + window.scrollY;
-    const local = Math.max(0, Math.min(travel, window.scrollY - trackTop));
-    const step = travel / Math.max(1, locationCount - 1);
-    const scrollDirection =
-      lastStoryLocal === null || local >= lastStoryLocal ? 1 : -1;
-    lastStoryLocal = local;
-    const storyPosition =
-      local >= travel - 2
-        ? locationCount - 1
-        : Math.min(locationCount - 1, local / Math.max(1, step));
-    const lowerIndex = Math.floor(storyPosition);
-    const segmentProgress = storyPosition - lowerIndex;
-    const isReverse = scrollDirection < 0 && segmentProgress > 0.001;
-    const rawTransitionProgress = isReverse
-      ? 1 - segmentProgress
-      : segmentProgress;
-    const transitionProgress = Math.max(
-      0,
-      Math.min(1, (rawTransitionProgress - 0.22) / 0.56),
-    );
-    const smoothProgress =
-      transitionProgress * transitionProgress * (3 - 2 * transitionProgress);
-    const previewProgress = smoothProgress;
-    const activeIndex = isReverse
-      ? Math.min(locationCount - 1, lowerIndex + 1)
-      : lowerIndex;
-    const adjacentIndex = isReverse
-      ? lowerIndex
-      : Math.min(locationCount - 1, lowerIndex + 1);
-    const copyStack = locationStorySection.querySelector(
-      ".location-story-copy-stack",
-    );
-    const copyTravel = Math.min(
-      280,
-      Math.max(
-        240,
-        (copyStack?.offsetHeight ?? window.innerHeight * 0.2) + 80,
-      ),
-    );
-
-    locationStoryCopies.forEach((copy, copyIndex) => {
-      const isActive = copyIndex === activeIndex;
-      const isPreview =
-        copyIndex === adjacentIndex && copyIndex !== activeIndex;
-      copy.classList.toggle("is-active", isActive);
-      copy.classList.toggle("is-preview", isPreview);
-      setCopyAccess(copy, isActive);
-
-      if (isActive) {
-        copy.style.setProperty(
-          "--location-copy-opacity",
-          String(1 - smoothProgress),
-        );
-        copy.style.setProperty(
-          "--location-copy-y",
-          `${
-            (isReverse ? smoothProgress : -smoothProgress) * copyTravel
-          }px`,
-        );
-      } else if (isPreview) {
-        copy.style.setProperty(
-          "--location-copy-opacity",
-          String(previewProgress),
-        );
-        copy.style.setProperty(
-          "--location-copy-y",
-          `${(isReverse ? -1 : 1) * (1 - previewProgress) * copyTravel}px`,
-        );
-      } else {
-        copy.style.setProperty("--location-copy-opacity", "0");
-        copy.style.setProperty("--location-copy-y", "28px");
-      }
+  const renderLocation = (now) => {
+    frame = 0;
+    const elapsed = Math.min(100, Math.max(1, now - lastLocationFrame));
+    lastLocationFrame = now;
+    progress += (targetProgress - progress) * (reducedMotion.matches ? 1 : 1 - Math.exp(-elapsed / 65));
+    if (Math.abs(targetProgress - progress) < .001) progress = targetProgress;
+    const base = Math.floor(progress), t = progress - base, blend = smooth(t), activeIndex = Math.round(progress);
+    locationStories.forEach(({ copy, image, credit }, index) => {
+      const outgoing = index === base, incoming = index === base + 1, active = index === activeIndex;
+      const clarity = outgoing ? 1 - blend : incoming ? blend : 0;
+      const opacity = outgoing ? 1 - blend : incoming ? smooth(Math.min(1, t / .12)) * (.3 + .7 * blend) : 0;
+      const y = outgoing ? -blend * travel : incoming ? (1 - blend) * travel : travel;
+      // Keep the outgoing photograph opaque underneath the incoming one.
+      const photoOpacity = outgoing ? 1 : incoming ? blend : 0;
+      // User-controlled scrolling keeps the preview available in both motion preferences.
+      layer(copy, opacity);
+      copy.style.setProperty("--location-y", y + "px");
+      copy.style.setProperty("--location-blur", ((1 - clarity) * (reducedMotion.matches ? 1 : 3)) + "px");
+      copy.style.setProperty("--location-color", "rgb(" + [184 + 71 * clarity, 179 + 69 * clarity, 178 + 59 * clarity].map(Math.round).join(" ") + ")");
+      copy.classList.toggle("is-active", active);
+      copy.setAttribute("aria-hidden", String(!active));
+      copy.inert = !active;
+      layer(image, photoOpacity);
+      image.style.zIndex = incoming ? "1" : "0";
+      image.classList.toggle("is-active", active);
+      image.setAttribute("aria-hidden", String(!active));
+      // Fade credit lettering out/in at the photo crossover, without overlapping links.
+      layer(credit, outgoing ? Math.max(0, 1 - t * 2) : incoming ? Math.max(0, t * 2 - 1) : 0);
+      credit.classList.toggle("is-active", active);
+      credit.setAttribute("aria-hidden", String(!active));
+      credit.tabIndex = active ? 0 : -1;
     });
-
-    locationStoryImages.forEach((image, imageIndex) => {
-      const isCurrent = imageIndex === activeIndex;
-      const isNext = imageIndex === adjacentIndex && imageIndex !== activeIndex;
-      const opacity = isCurrent
-          ? 1 - smoothProgress
-          : isNext
-            ? smoothProgress
-            : 0;
-      image.classList.toggle("is-active", opacity > 0.5);
-      image.style.opacity = String(opacity);
-    });
-
-    locationStoryCredits.forEach((credit, creditIndex) => {
-      const isActive = creditIndex === activeIndex;
-      credit.classList.toggle("is-active", isActive);
-      credit.tabIndex = isActive ? 0 : -1;
-    });
+    if (progress !== targetProgress) queueRender();
   };
 
-  const queueStoryProgress = () => {
-    if (scrollFrame) return;
-    scrollFrame = window.requestAnimationFrame(updateStoryProgress);
+  const queueRender = () => {
+    if (!frame) {
+      if (progress === targetProgress) lastLocationFrame = performance.now();
+      frame = requestAnimationFrame(renderLocation);
+    }
   };
-
-  const updateStoryLayout = () => {
-    const stickyTop = Math.round(header?.getBoundingClientRect().height ?? 0);
-    const step = Math.round(
-      Math.min(170, Math.max(150, window.innerHeight * 0.18)),
-    );
-    locationStorySection.style.setProperty(
-      "--location-story-sticky-top",
-      `${stickyTop}px`,
-    );
-    locationStorySection.style.setProperty(
-      "--location-story-step",
-      `${step}px`,
-    );
-    locationStorySection.style.setProperty(
-      "--location-story-count",
-      String(locationCount),
-    );
-    queueStoryProgress();
+  const syncPagePosition = () => {
+    targetProgress = Math.max(0, Math.min(lastIndex, (window.scrollY - anchorTop) / step));
+    queueRender();
   };
-
-  locationStorySection.classList.add("has-scroll-story");
-  window.addEventListener("scroll", queueStoryProgress, { passive: true });
-  window.addEventListener("resize", updateStoryLayout);
-  reducedMotion.addEventListener?.("change", queueStoryProgress);
-  updateStoryLayout();
+  const measureLocation = () => {
+    layoutFrame = 0;
+    const stickyTop = Math.ceil(Math.max(0, header?.getBoundingClientRect().bottom ?? 0));
+    locationRunway.style.setProperty("--location-sticky-top", stickyTop + "px");
+    locationRunway.style.setProperty("--location-viewport-height",
+      Math.max(1, Math.min(780, window.innerHeight - stickyTop)) + "px");
+    const copyHeight = Math.ceil(Math.max(...locationStories.map(({ copy }) => copy.offsetHeight)));
+    const gap = Math.round(Math.max(16, Math.min(28, window.innerWidth * .02)));
+    travel = copyHeight + gap;
+    locationStack.style.setProperty("--location-copy-height", copyHeight + "px");
+    locationStack.style.setProperty("--location-copy-window-height", (copyHeight + travel + 12) + "px");
+    step = Math.round(Math.max(220, Math.min(340, window.innerHeight * .4)));
+    // One sticky stage uses a short native scroll timeline, including a final hold.
+    locationRunway.style.setProperty("--location-scroll-distance", ((lastIndex + .25) * step) + "px");
+    // Measure the complete scene so the simulation follows the stage without a spacer.
+    locationRunway.style.setProperty("--location-scene-height", locationScene.offsetHeight + "px");
+    anchorTop = Math.max(0, locationRunway.getBoundingClientRect().top + window.scrollY - stickyTop);
+    syncPagePosition();
+  };
+  const queueMeasure = () => {
+    if (!layoutFrame) layoutFrame = requestAnimationFrame(measureLocation);
+  };
+  // Preload the small set of story photographs before they become active.
+  locationStories.forEach(({ image }) => { image.loading = "eager"; });
+  measureLocation();
+  window.addEventListener("scroll", syncPagePosition, { passive: true });
+  window.addEventListener("resize", queueMeasure);
+  window.addEventListener("load", queueMeasure, { once: true });
+  reducedMotion.addEventListener?.("change", queueRender);
+  if ("ResizeObserver" in window) {
+    const observer = new ResizeObserver(queueMeasure);
+    observer.observe(locationScene);
+    locationStories.forEach(({ copy }) => observer.observe(copy));
+    if (header) observer.observe(header);
+  }
+  document.fonts?.ready.then(queueMeasure);
 }
 
 const discoverySection = document.querySelector(".partnership-discovery");
@@ -503,7 +455,7 @@ const products = {
     [
       "Matcha Cream Cheese",
       "",
-      "assets/products/semerbak/menu18/matcha-cream-cheese.png",
+      "assets/products/semerbak/menu18/matcha-cream-cheese.webp",
       "Semerbak Kopie",
     ],
     [
@@ -565,7 +517,7 @@ const products = {
     [
       "Pandan Latte",
       "",
-      "assets/products/kopiena-pandan-latte-provided.png",
+      "assets/products/kopiena-pandan-latte-provided.webp",
       "Kopiena Coffee",
     ],
     [
@@ -583,7 +535,7 @@ const products = {
     [
       "Matcha Vanilla",
       "",
-      "assets/products/kopiena-matcha-vanilla-clean.png",
+      "assets/products/kopiena-matcha-vanilla-clean.webp",
       "Kopiena Coffee",
     ],
     [
@@ -595,7 +547,7 @@ const products = {
     [
       "Strawberry Vanilla",
       "",
-      "assets/products/kopiena-strawberry-vanilla-provided.png",
+      "assets/products/kopiena-strawberry-vanilla-provided.webp",
       "Kopiena Coffee",
     ],
     [
@@ -607,13 +559,13 @@ const products = {
     [
       "Matcha Milo",
       "",
-      "assets/products/kopiena-matcha-milo-provided.png",
+      "assets/products/kopiena-matcha-milo-provided.webp",
       "Kopiena Coffee",
     ],
     [
       "Strawberry Matcha",
       "",
-      "assets/products/kopiena-matcha-strawberry-clean(1).png",
+      "assets/products/kopiena-matcha-strawberry-clean(1).webp",
       "Kopiena Coffee",
     ],
   ],
@@ -627,6 +579,10 @@ const menuCategories = document.querySelector("#menuCategories");
 const menuShowcase = document.querySelector("#menuShowcase");
 const menuEmpty = document.querySelector("#menuEmpty");
 const menuProductImage = document.querySelector("#menuProductImage");
+const menuProductViewer = document.querySelector("#menuProductViewer");
+const menuProductObject = menuProductViewer.querySelector(".menu-product-object");
+const menuThumbnails = document.querySelector("#menuThumbnails");
+const menuReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const menuLogoPaths = {
   semerbak: "assets/logo-semerbak-wordmark.png",
   coffee: "assets/logo-kopiena-wordmark.png",
@@ -635,202 +591,306 @@ const menuLogoPaths = {
   sempol: "assets/logo-sempol.svg",
 };
 const menuBrandNames = {
-    semerbak: "Semerbak Kopie",
-    coffee: "Kopiena Coffee",
-    matcha: "Matcha Que",
-    tea: "Es Teh",
-    sempol: "Sempol",
+  semerbak: "Semerbak Kopie", coffee: "Kopiena Coffee",
+  matcha: "Matcha Que", tea: "Es Teh", sempol: "Sempol",
+};
+// Existing single-image cutouts for the brands whose original arrays are empty.
+const menuAssetCatalog = {
+  matcha: [
+    ["Pure Matcha", "", "assets/products/matchaque-pure-matcha.webp"],
+    ["Matcha Latte", "", "assets/products/matchaque-matcha-latte.webp"],
+    ["Matcha Creamy", "", "assets/products/matchaque-matcha-creamy.webp"],
+    ["Honey Matcha", "", "assets/products/matchaque-honey-matcha.webp"],
+    ["Coconut Matcha", "", "assets/products/matchaque-coconut-matcha.webp"],
+    ["Choco Matcha", "", "assets/products/matchaque-choco-matcha.webp"],
+    ["Strawberry Matcha", "", "assets/products/matchaque-strawberry-matcha.webp"],
+    ["Taro Matcha", "", "assets/products/matchaque-taro-matcha.webp"],
+    ["Matcha Milo", "", "assets/products/matchaque-matcha-milo.webp"],
+    ["Matcha Oreo", "", "assets/products/matchaque-matcha-oreo.webp"],
+    ["Matcha Cookies", "", "assets/products/matchaque-matcha-cookies.webp"],
+    ["Matcha Pistachio", "", "assets/products/matchaque-matcha-pistachio.webp"],
+    ["Matcha Cream Cheese", "", "assets/products/matchaque-matcha-cream-cheese.webp"],
+    ["Red Velvet Cloud", "", "assets/products/matchaque-red-velvet-cloud.webp"],
+  ],
+  tea: [["Es Teh", "", "assets/products/es-teh-concept.webp"]],
+  sempol: [["Sempol", "", "assets/products/sempol-trio.webp"]],
+};
+const menuCategoryNames = {
+  coffee: "Coffee Menu", "non-coffee": "Non-Coffee",
+  matcha: "Matcha", tea: "Teh", snack: "Camilan",
 };
 const menuState = { brand: "", category: "all", index: 0, items: [] };
 let lastMenuTrigger = null;
+let menuGesture = null, menuTiltFrame = 0, menuTiltX = 0, menuTiltY = 0;
 
 function getBrandMenu(brand) {
-  const items = products[brand] || [];
+  const items = products[brand]?.length ? products[brand] : menuAssetCatalog[brand] || [];
   const coffeeCount = brand === "semerbak" ? 10 : 8;
-  return items.map(([name, , image], index) => ({
-    name,
-    image:
-      brand === "semerbak"
-        ? image.replace(
-            "assets/products/semerbak/menu18/",
-            "assets/products/semerbak-kopie/menu18/",
-          )
-        : image,
-    category: index < coffeeCount ? "coffee" : "non-coffee",
+  return items.map(([name, description, image], index) => ({
+    name, description: description || "",
+    image: brand === "semerbak"
+      ? image.replace("assets/products/semerbak/menu18/", "assets/products/semerbak-kopie/menu18/")
+      : image,
+    category: brand === "matcha" ? "matcha" : brand === "tea" ? "tea"
+      : brand === "sempol" ? "snack" : index < coffeeCount ? "coffee" : "non-coffee",
   }));
 }
-
 function getVisibleMenuItems() {
-  return menuState.category === "all"
-    ? menuState.items
-    : menuState.items.filter((item) => item.category === menuState.category);
+  return menuState.category === "all" ? menuState.items
+    : menuState.items.filter(item => item.category === menuState.category);
 }
-
+function resetMenuPerspective() {
+  cancelAnimationFrame(menuTiltFrame);
+  menuTiltFrame = 0;
+  if (menuGesture && menuProductViewer.hasPointerCapture(menuGesture.id)) {
+    menuProductViewer.releasePointerCapture(menuGesture.id);
+  }
+  menuGesture = null;
+  menuTiltX = menuTiltY = 0;
+  menuProductViewer.classList.remove("is-dragging");
+  menuProductObject.style.setProperty("--menu-rotate-x", "0deg");
+  menuProductObject.style.setProperty("--menu-rotate-y", "0deg");
+  menuProductObject.style.setProperty("--menu-drag-x", "0px");
+}
 function renderMenuProduct() {
-  const items = getVisibleMenuItems();
-  const product = items[menuState.index];
+  const items = getVisibleMenuItems(), product = items[menuState.index];
   if (!product) return;
-
-  const categoryLabel =
-    product.category === "coffee" ? "Coffee Menu" : "Non-Coffee";
-  const count = items.length;
-  const current = menuState.index + 1;
-  const image = menuProductImage;
-  image.classList.remove("is-changing");
-  requestAnimationFrame(() => image.classList.add("is-changing"));
-  image.src = product.image;
-  image.alt = product.name;
+  resetMenuPerspective();
+  const categoryLabel = menuCategoryNames[product.category];
+  const current = menuState.index + 1, count = items.length;
+  menuProductImage.classList.remove("is-changing");
+  requestAnimationFrame(() => menuProductImage.classList.add("is-changing"));
+  menuProductImage.hidden = false;
+  menuProductImage.src = product.image;
+  menuProductImage.alt = product.name;
   document.querySelector("#menuProductCategory").textContent = categoryLabel;
+  document.querySelector("#menuProductCategoryDetail").textContent = categoryLabel;
   document.querySelector("#menuProductName").textContent = product.name;
-  document.querySelector("#menuProductBrand").textContent =
-    menuBrandNames[menuState.brand];
+  document.querySelector("#menuProductBrand").textContent = menuBrandNames[menuState.brand];
+  const description = document.querySelector("#menuProductDescription");
+  description.textContent = product.description;
+  description.hidden = !product.description;
   document.querySelector("#menuProductCount").textContent =
-    `${String(current).padStart(2, "0")} / ${String(count).padStart(2, "0")}`;
-  document.querySelector("#menuProgress").style.width =
-    `${(current / count) * 100}%`;
-  document
-    .querySelectorAll(".menu-product-prev, .menu-product-prev-text")
-    .forEach((button) => (button.disabled = current === 1));
-  document
-    .querySelectorAll(".menu-product-next, .menu-product-next-text")
-    .forEach((button) => (button.disabled = current === count));
+    String(current).padStart(2, "0") + " / " + String(count).padStart(2, "0");
+  document.querySelector("#menuProgress").style.width = (current / count * 100) + "%";
+  menuPanel.querySelectorAll(".menu-product-prev, .menu-product-prev-text")
+    .forEach(button => button.disabled = current === 1);
+  menuPanel.querySelectorAll(".menu-product-next, .menu-product-next-text")
+    .forEach(button => button.disabled = current === count);
+  [["menuPreviousImage", -1], ["menuNextImage", 1]].forEach(([id, direction]) => {
+    const image = document.getElementById(id), button = image.parentElement;
+    const neighbor = items[menuState.index + direction];
+    button.hidden = !neighbor;
+    if (neighbor) {
+      image.src = neighbor.image;
+      button.setAttribute("aria-label", "Lihat " + neighbor.name);
+    } else image.removeAttribute("src");
+  });
+  const thumbnailFocused = menuThumbnails.contains(document.activeElement);
+  menuThumbnails.querySelectorAll("button").forEach((button, index) => {
+    button.setAttribute("aria-current", String(index === menuState.index));
+    button.tabIndex = index === menuState.index ? 0 : -1;
+  });
+  const active = menuThumbnails.children[menuState.index];
+  if (active) {
+    if (thumbnailFocused) active.focus({ preventScroll: true });
+    menuThumbnails.scrollTo({
+      left: Math.max(0, active.offsetLeft - (menuThumbnails.clientWidth - active.offsetWidth) / 2),
+      behavior: menuReducedMotion.matches ? "instant" : "smooth",
+    });
+  }
 }
-
+function renderMenuThumbnails() {
+  const fragment = document.createDocumentFragment();
+  getVisibleMenuItems().forEach((product, index) => {
+    const button = document.createElement("button"), image = document.createElement("img");
+    button.type = "button";
+    button.dataset.menuIndex = String(index);
+    button.setAttribute("aria-label", "Lihat " + product.name);
+    image.src = product.image;
+    image.alt = "";
+    image.loading = "lazy";
+    image.draggable = false;
+    button.append(image);
+    fragment.append(button);
+  });
+  menuThumbnails.replaceChildren(fragment);
+}
 function renderMenuCategories() {
-  const coffeeCount = menuState.items.filter(
-    (item) => item.category === "coffee",
-  ).length;
-  const nonCoffeeCount = menuState.items.length - coffeeCount;
+  const counts = menuState.items.reduce((result, item) => {
+    result[item.category] = (result[item.category] || 0) + 1;
+    return result;
+  }, {});
   const categories = [
-    { id: "all", label: `Semua ${menuState.items.length}` },
-    { id: "coffee", label: `Coffee ${coffeeCount}` },
-    { id: "non-coffee", label: `Non-Coffee ${nonCoffeeCount}` },
+    { id: "all", label: "Semua " + menuState.items.length },
+    ...Object.entries(counts).map(([id, count]) => ({
+      id, label: (id === "coffee" ? "Coffee" : menuCategoryNames[id]) + " " + count,
+    })),
   ];
-  menuCategories.innerHTML = categories
-    .map(
-      ({ id, label }) =>
-        `<button type="button" data-category="${id}" aria-pressed="${id === menuState.category}">${label}</button>`,
-    )
-    .join("");
+  const fragment = document.createDocumentFragment();
+  categories.forEach(({ id, label }) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.dataset.category = id;
+    button.setAttribute("aria-pressed", String(id === menuState.category));
+    button.textContent = label;
+    fragment.append(button);
+  });
+  menuCategories.replaceChildren(fragment);
 }
-
 function renderMenu(brand) {
   menuState.brand = brand;
   menuState.category = "all";
   menuState.index = 0;
   menuState.items = getBrandMenu(brand);
   menuPanel.dataset.brand = brand;
-
-  const name = menuBrandNames[brand];
-  const logo = document.querySelector("#menuBrandLogo");
+  const name = menuBrandNames[brand], logo = document.querySelector("#menuBrandLogo");
   logo.src = menuLogoPaths[brand];
-  logo.alt = `Logo ${name}`;
+  logo.alt = "Logo " + name;
   document.querySelector("#menuHeading").textContent = name;
-  document.querySelector("#menuIntro").textContent =
-    brand === "semerbak"
-      ? "18 pilihan menu: 10 coffee dan 8 non-coffee."
-      : brand === "coffee"
-        ? "16 pilihan menu: 8 coffee dan 8 non-coffee."
-        : "";
-
+  document.querySelector("#menuIntro").textContent = brand === "semerbak"
+    ? "18 pilihan menu: 10 coffee dan 8 non-coffee."
+    : brand === "coffee" ? "16 pilihan menu: 8 coffee dan 8 non-coffee."
+    : menuState.items.length + " pilihan menu";
+  const brandDescription = document.querySelector('[data-brand-jump="' + brand + '"]')
+    ?.closest(".brand-card")?.querySelector("h3 + p")?.textContent.trim() || "";
+  document.querySelector("#menuBrandDescription").textContent = brandDescription;
+  document.querySelector("#menuBrandDescriptionBlock").hidden = !brandDescription;
   const hasMenu = menuState.items.length > 0;
   menuCategories.hidden = !hasMenu;
   menuShowcase.hidden = !hasMenu;
   menuEmpty.hidden = hasMenu;
-  menuEmpty.textContent = `Menu ${name} belum tersedia.`;
+  menuEmpty.textContent = "Menu " + name + " belum tersedia.";
   if (!hasMenu) return;
-
   renderMenuCategories();
+  renderMenuThumbnails();
   renderMenuProduct();
 }
-
 function openMenu(brand, trigger) {
   if (!menuBrandNames[brand]) return;
   lastMenuTrigger = trigger;
   renderMenu(brand);
   menuPanel.hidden = false;
+  menuPanel.scrollTop = 0;
   document.body.classList.add("menu-panel-open");
+  document.documentElement.classList.add("menu-catalog-open");
   window.scrollTo({ top: 0, behavior: "auto" });
-  menuPanel.focus({ preventScroll: true });
   menuPanel.querySelector(".menu-back").focus({ preventScroll: true });
 }
-
 function closeBrandMenu() {
+  resetMenuPerspective();
   menuPanel.hidden = true;
   document.body.classList.remove("menu-panel-open");
+  document.documentElement.classList.remove("menu-catalog-open");
   document.querySelector("#brand").scrollIntoView({ behavior: "smooth" });
   requestAnimationFrame(() => lastMenuTrigger?.focus({ preventScroll: true }));
 }
-
-document.querySelectorAll("[data-brand-jump]").forEach((link) =>
-  link.addEventListener("click", (event) => {
+document.querySelectorAll("[data-brand-jump]").forEach(link => {
+  link.addEventListener("click", event => {
     event.preventDefault();
     openMenu(link.dataset.brandJump, link);
-  }),
-);
-document
-  .querySelector(".menu-back")
-  .addEventListener("click", closeBrandMenu);
-menuCategories.addEventListener("click", (event) => {
+  });
+});
+menuPanel.querySelector(".menu-back").addEventListener("click", closeBrandMenu);
+menuCategories.addEventListener("click", event => {
   const button = event.target.closest("[data-category]");
   if (!button) return;
   menuState.category = button.dataset.category;
   menuState.index = 0;
   renderMenuCategories();
+  renderMenuThumbnails();
   renderMenuProduct();
 });
-
 function moveMenuProduct(direction) {
   const nextIndex = menuState.index + direction;
   if (nextIndex < 0 || nextIndex >= getVisibleMenuItems().length) return;
   menuState.index = nextIndex;
   renderMenuProduct();
 }
-
-document
-  .querySelectorAll(".menu-product-prev, .menu-product-prev-text")
-  .forEach((button) =>
-    button.addEventListener("click", () => moveMenuProduct(-1)),
-  );
-document
-  .querySelectorAll(".menu-product-next, .menu-product-next-text")
-  .forEach((button) =>
-    button.addEventListener("click", () => moveMenuProduct(1)),
-  );
-
-let menuSwipeStart = null;
-document
-  .querySelector(".menu-showcase-visual")
-  .addEventListener("pointerdown", (event) => {
-    if (event.pointerType === "touch") menuSwipeStart = event.clientX;
+menuPanel.querySelectorAll(".menu-product-prev, .menu-product-prev-text").forEach(button =>
+  button.addEventListener("click", () => moveMenuProduct(-1)));
+menuPanel.querySelectorAll(".menu-product-next, .menu-product-next-text").forEach(button =>
+  button.addEventListener("click", () => moveMenuProduct(1)));
+menuPanel.querySelectorAll("[data-menu-step]").forEach(button =>
+  button.addEventListener("click", () => moveMenuProduct(Number(button.dataset.menuStep))));
+menuThumbnails.addEventListener("click", event => {
+  const button = event.target.closest("[data-menu-index]");
+  if (!button) return;
+  menuState.index = Number(button.dataset.menuIndex);
+  renderMenuProduct();
+});
+// The cutout remains a single image: limited tilt never invents a back view.
+menuPanel.querySelector(".menu-view-reset").addEventListener("click", resetMenuPerspective);
+menuProductViewer.addEventListener("pointerdown", event => {
+  if (event.isPrimary === false || event.button !== 0 || event.target.closest("button")) return;
+  menuGesture = {
+    id: event.pointerId, x: event.clientX, y: event.clientY, dx: 0, dy: 0,
+    tilt: !!event.target.closest(".menu-product-object"), startX: menuTiltX, startY: menuTiltY,
+  };
+  menuProductViewer.setPointerCapture(event.pointerId);
+  menuProductViewer.classList.add("is-dragging");
+});
+window.addEventListener("pointermove", event => {
+  if (!menuGesture || menuGesture.id !== event.pointerId) return;
+  menuGesture.dx = event.clientX - menuGesture.x;
+  menuGesture.dy = event.clientY - menuGesture.y;
+  if (menuGesture.tilt) {
+    const limit = menuReducedMotion.matches ? 6 : 18;
+    menuTiltX = Math.max(-limit, Math.min(limit, menuGesture.startX - menuGesture.dy * .12));
+    menuTiltY = Math.max(-limit, Math.min(limit, menuGesture.startY + menuGesture.dx * .14));
+  }
+  if (!menuTiltFrame) menuTiltFrame = requestAnimationFrame(() => {
+    menuTiltFrame = 0;
+    if (!menuGesture) return;
+    menuProductObject.style.setProperty("--menu-rotate-x", menuTiltX + "deg");
+    menuProductObject.style.setProperty("--menu-rotate-y", menuTiltY + "deg");
+    if (!menuGesture.tilt) {
+      menuProductObject.style.setProperty("--menu-drag-x", Math.max(-60, Math.min(60, menuGesture.dx * .35)) + "px");
+    }
   });
-document
-  .querySelector(".menu-showcase-visual")
-  .addEventListener("pointerup", (event) => {
-    if (menuSwipeStart === null) return;
-    const distance = event.clientX - menuSwipeStart;
-    menuSwipeStart = null;
-    if (Math.abs(distance) < 45) return;
-    moveMenuProduct(distance < 0 ? 1 : -1);
-  });
-document
-  .querySelector(".menu-showcase-visual")
-  .addEventListener("pointercancel", () => {
-    menuSwipeStart = null;
-  });
-
-document.addEventListener("keydown", (event) => {
+});
+window.addEventListener("pointerup", event => {
+  if (!menuGesture || menuGesture.id !== event.pointerId) return;
+  const gesture = menuGesture;
+  const dx = event.clientX - gesture.x, dy = event.clientY - gesture.y;
+  menuGesture = null;
+  menuProductViewer.classList.remove("is-dragging");
+  if (menuProductViewer.hasPointerCapture(event.pointerId)) menuProductViewer.releasePointerCapture(event.pointerId);
+  menuProductObject.style.setProperty("--menu-rotate-x", menuTiltX + "deg");
+  menuProductObject.style.setProperty("--menu-rotate-y", menuTiltY + "deg");
+  menuProductObject.style.setProperty("--menu-drag-x", "0px");
+  if (!gesture.tilt && Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) moveMenuProduct(dx < 0 ? 1 : -1);
+});
+window.addEventListener("pointercancel", () => {
+  if (menuGesture) resetMenuPerspective();
+});
+window.addEventListener("blur", () => {
+  if (menuGesture) resetMenuPerspective();
+});
+menuReducedMotion.addEventListener("change", resetMenuPerspective);
+document.addEventListener("keydown", event => {
   if (menuPanel.hidden) return;
   if (event.key === "Escape") closeBrandMenu();
-  if (event.key === "ArrowLeft") moveMenuProduct(-1);
-  if (event.key === "ArrowRight") moveMenuProduct(1);
+  if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+    event.preventDefault();
+    moveMenuProduct(event.key === "ArrowRight" ? 1 : -1);
+  }
+  if (event.key === "Tab") {
+    const buttons = [...menuPanel.querySelectorAll("button:not(:disabled)")].filter(button => button.getClientRects().length);
+    const first = buttons[0], last = buttons[buttons.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault(); last?.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault(); first?.focus();
+    }
+  }
 });
 menuProductImage.addEventListener("error", () => {
-  document.querySelector("#menuImageStatus").textContent =
-    "Foto produk ini tidak dapat dimuat.";
-  console.error(`Gagal memuat foto menu: ${menuProductImage.src}`);
+  menuProductImage.hidden = true;
+  document.querySelector("#menuImageStatus").textContent = "Foto produk ini tidak dapat dimuat.";
 });
 menuProductImage.addEventListener("load", () => {
+  menuProductImage.hidden = false;
   document.querySelector("#menuImageStatus").textContent = "";
 });
 
@@ -884,18 +944,18 @@ const observer = new IntersectionObserver(
 sections.forEach((section) => observer.observe(section));
 
 const boothSlider = document.querySelector("#boothSlider");
-document.querySelector(".booth-arrow.prev")?.addEventListener("click", () =>
-  boothSlider?.scrollBy({
-    left: -Math.min(420, boothSlider.clientWidth * 0.8),
-    behavior: "smooth",
-  }),
-);
-document.querySelector(".booth-arrow.next")?.addEventListener("click", () =>
-  boothSlider?.scrollBy({
-    left: Math.min(420, boothSlider.clientWidth * 0.8),
-    behavior: "smooth",
-  }),
-);
+const scrollBooths = (direction) => {
+  if (!boothSlider) return;
+  const card = boothSlider.querySelector("figure");
+  if (!card) return;
+  const gap = parseFloat(getComputedStyle(boothSlider).columnGap) || 0;
+  boothSlider.scrollBy({
+    left: direction * (card.getBoundingClientRect().width + gap),
+    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+  });
+};
+document.querySelector(".booth-arrow.prev")?.addEventListener("click", () => scrollBooths(-1));
+document.querySelector(".booth-arrow.next")?.addEventListener("click", () => scrollBooths(1));
 
 const packageDialog = document.querySelector("#packageDialog");
 const packageViewport = document.querySelector(".package-showcase-viewport");
@@ -968,17 +1028,10 @@ if (packageViewport && packageCards.length) {
     packagePrevious.disabled = activePackageIndex === 0;
     packageNext.disabled = activePackageIndex === packageCards.length - 1;
     const packageName = packageCards[activePackageIndex]
-      .querySelector("img")
-      .alt.replace(/^Brosur /, "")
-      .split(",")[0]
-      .replace(/ Semerbak Kopie$/, "");
+      .querySelector(".package-detail").dataset.packageName;
     packageCaption.querySelector("strong").textContent = packageName;
     packageCards.forEach((card, cardIndex) => {
-      const cardName = card
-        .querySelector("img")
-        .alt.replace(/^Brosur /, "")
-        .split(",")[0]
-        .replace(/ Semerbak Kopie$/, "");
+      const cardName = card.querySelector(".package-detail").dataset.packageName;
       card.querySelector(".package-detail").setAttribute(
         "aria-label",
         activePackageIndex === cardIndex
@@ -997,11 +1050,27 @@ if (packageViewport && packageCards.length) {
     }
 
     const poster = document.querySelector("#packageDialogImage");
+    const packageName = button.dataset.packageName;
+    const overview = document.querySelector("#packageDialogOverview");
+    const overviewImage = document.querySelector("#packageDialogOverviewImage");
+    const overviewSrc = button.querySelector("img").getAttribute("src");
+    document.querySelector("#packageDialogTitle").textContent = packageName;
+    poster.loading = "eager";
     poster.src = brochureSrc;
-    poster.alt = button
-      .querySelector("img")
-      .alt.replace(/^Brosur/, "Detail brosur");
+    poster.alt = 'Halaman rincian ' + packageName + ' Semerbak Kopie';
+    document.querySelector("#packageDialogCaption").textContent =
+      'Halaman detail: perlengkapan, ukuran, dan harga ' + packageName + '. ' + (button.dataset.brochureNote || '');
+    const note = document.querySelector("#packageDialogNote");
+    note.textContent = button.dataset.brochureNote || "";
+    note.hidden = !note.textContent;
+    overview.hidden = overviewSrc === brochureSrc;
+    if (!overview.hidden) {
+      overviewImage.loading = "eager";
+      overviewImage.src = overviewSrc;
+      overviewImage.alt = 'Ringkasan harga dan benefit ' + packageName + ' Semerbak Kopie';
+    }
     packageDialog.showModal();
+    packageDialog.scrollTop = 0;
   };
 
   packageViewport.addEventListener("click", (event) => {
@@ -1084,6 +1153,12 @@ document
   ?.addEventListener("click", () => packageDialog?.close());
 packageDialog?.addEventListener("click", (event) => {
   if (event.target === packageDialog) packageDialog.close();
+});
+packageDialog?.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    event.preventDefault();
+    packageDialog.close();
+  }
 });
 
 const stepCards = [...document.querySelectorAll(".step-card")];

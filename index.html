@@ -8,6 +8,7 @@
       content="Jelajahi brand, paket booth, dan informasi kemitraan Semerbak Kopie. Konsultasi langsung melalui WhatsApp."
     />
     <title>Semerbak Kopie | Nikmat yang Semerbak</title>
+    <link rel="canonical" href="https://semerbakkopie.com/" />
     <link
       rel="icon"
       type="image/png"
@@ -31,19 +32,19 @@
           aria-controls="siteNav"
           aria-label="Buka menu"
         >
-          <span>☰</span><b>Menu</b>
+          <span>☰</span><b>Beranda</b>
         </button>
         <a class="brand" href="#home" aria-label="Semerbak Group"
           ><img src="assets/logo-semerbak-wordmark.png" alt="Semerbak Kopie"
         /></a>
-        <a class="header-cta" href="#contact">Contact us</a>
+        <a class="header-cta" href="#contact">Hubungi Kami</a>
         <nav class="nav" id="siteNav" aria-label="Navigasi utama">
           <a class="active" href="#home">Beranda</a><a href="#brand">Brand</a
           ><a href="#brand">Menu</a><a href="#packages">Paket</a
           ><a href="#keunggulan">Keunggulan</a
           ><a href="#target-market">Target</a
-          ><a href="#investment-benefits">Legalitas</a><a href="#tahapan">Tahapan</a
-          ><a href="#contact">Konsultasi</a>
+          ><a href="#investment-benefits">Legalitas</a
+          ><a href="#tahapan">Tahapan</a><a href="#contact">Konsultasi</a>
         </nav>
       </div>
     </header>
@@ -159,7 +160,7 @@
                   <span class="discovery-card-visual">
                     <img
                       class="discovery-illustration"
-                      src="assets/kemitraan-ilustrasi-brand.png"
+                      src="assets/kemitraan-ilustrasi-brand.webp"
                       alt="Ilustrasi diskusi rencana pembukaan coffee shop"
                       loading="lazy"
                     />
@@ -178,7 +179,7 @@
                   <span class="discovery-card-visual">
                     <img
                       class="discovery-illustration"
-                      src="assets/kemitraan-ilustrasi-booth.png"
+                      src="assets/kemitraan-ilustrasi-booth.webp"
                       alt="Ilustrasi persiapan gerobak kopi"
                       loading="lazy"
                     />
@@ -197,7 +198,7 @@
                   <span class="discovery-card-visual">
                     <img
                       class="discovery-illustration"
-                      src="assets/kemitraan-ilustrasi-sangrai.png"
+                      src="assets/kemitraan-ilustrasi-sangrai.webp"
                       alt="Ilustrasi proses sangrai kopi"
                       loading="lazy"
                     />
@@ -216,7 +217,7 @@
                   <span class="discovery-card-visual">
                     <img
                       class="discovery-illustration"
-                      src="assets/kemitraan-ilustrasi-diskusi.png"
+                      src="assets/kemitraan-ilustrasi-diskusi.webp"
                       alt="Ilustrasi diskusi rencana coffee shop"
                       loading="lazy"
                     />
@@ -228,7 +229,9 @@
                       Sampaikan pertanyaan tentang paket dan lokasi kepada tim
                       Semerbak Kopie.
                     </span>
-                    <span class="discovery-card-footer">TIM SEMERBAK KOPIE</span>
+                    <span class="discovery-card-footer"
+                      >TIM SEMERBAK KOPIE</span
+                    >
                   </span>
                 </a>
               </div>
@@ -268,7 +271,7 @@
         <div class="brand-grid">
           <article class="brand-card coffee">
             <div class="brand-logo-wrap">
-              <img
+              <img loading="lazy"
                 src="assets/logo-semerbak-wordmark.png"
                 alt="Logo Semerbak Kopie"
               />
@@ -301,7 +304,7 @@
           </article>
           <article class="brand-card matcha">
             <div class="brand-logo-wrap">
-              <img src="assets/logo-matcha-que.webp" alt="Logo Matcha Que" />
+              <img loading="lazy" src="assets/logo-matcha-que.webp" alt="Logo Matcha Que" />
             </div>
             <div class="brand-info">
               <span>03</span>
@@ -314,7 +317,7 @@
           </article>
           <article class="brand-card tea">
             <div class="brand-logo-wrap">
-              <img src="assets/logo-es-teh.svg" alt="Logo Es Teh" />
+              <img loading="lazy" src="assets/logo-es-teh.svg" alt="Logo Es Teh" />
             </div>
             <div class="brand-info">
               <span>04</span>
@@ -325,7 +328,7 @@
           </article>
           <article class="brand-card sempol">
             <div class="brand-logo-wrap">
-              <img src="assets/logo-sempol.svg" alt="Logo Sempol" />
+              <img loading="lazy" src="assets/logo-sempol.svg" alt="Logo Sempol" />
             </div>
             <div class="brand-info">
               <span>05</span>
@@ -352,7 +355,7 @@
       </section>
 
       <section
-        class="products menu-experience"
+        class="menu-catalog"
         id="products"
         data-brand="semerbak"
         role="dialog"
@@ -387,11 +390,24 @@
           </p>
 
           <div class="menu-showcase" id="menuShowcase">
-            <div class="menu-showcase-visual">
-              <span class="menu-image-glow" aria-hidden="true"></span>
+            <div class="menu-catalog-gallery">
+            <div class="menu-showcase-visual" id="menuProductViewer" role="region" aria-label="Galeri produk interaktif" aria-describedby="menuViewHint" tabindex="0">
+              <button class="menu-product-peek menu-peek-previous" type="button" data-menu-step="-1" aria-label="Lihat produk sebelumnya" hidden>
+                <img id="menuPreviousImage" alt="" draggable="false" />
+              </button>
+              <div class="menu-product-object">
+                <img id="menuProductImage" src="" alt="" draggable="false" />
+              </div>
+              <button class="menu-product-peek menu-peek-next" type="button" data-menu-step="1" aria-label="Lihat produk berikutnya" hidden>
+                <img id="menuNextImage" alt="" draggable="false" />
+              </button>
               <span class="menu-category-label" id="menuProductCategory"></span>
-              <img id="menuProductImage" src="" alt="" draggable="false" />
-              <p class="menu-image-status" id="menuImageStatus" role="status"></p>
+
+              <p
+                class="menu-image-status"
+                id="menuImageStatus"
+                role="status"
+              ></p>
               <button
                 class="menu-product-arrow menu-product-prev"
                 type="button"
@@ -407,11 +423,23 @@
                 ›
               </button>
             </div>
+            <div class="menu-view-tools">
+              <p id="menuViewHint">Tarik produk untuk melihat sudutnya. Geser area kosong untuk berpindah menu.</p>
+              <button class="menu-view-reset" type="button">Atur ulang sudut</button>
+            </div>
+            <div class="menu-thumbnails" id="menuThumbnails" role="group" aria-label="Pilih produk"></div>
+            </div>
 
             <div class="menu-product-copy">
               <p class="menu-product-kicker">PILIHAN MENU</p>
               <h3 id="menuProductName" aria-live="polite"></h3>
               <p class="menu-product-brand" id="menuProductBrand"></p>
+              <p class="menu-info-category" id="menuProductCategoryDetail"></p>
+              <p class="menu-product-description" id="menuProductDescription" hidden></p>
+              <div class="menu-brand-description" id="menuBrandDescriptionBlock" hidden>
+                <p class="menu-detail-label">TENTANG BRAND</p>
+                <p id="menuBrandDescription"></p>
+              </div>
               <div class="menu-product-progress">
                 <span id="menuProductCount"></span>
                 <span class="menu-progress-track" aria-hidden="true"
@@ -426,7 +454,9 @@
                   Berikutnya →
                 </button>
               </div>
-              <p class="menu-swipe-hint">Geser foto untuk melihat menu lainnya</p>
+              <p class="menu-swipe-hint">
+                Pilih kategori atau gunakan tombol untuk menjelajahi menu.
+              </p>
             </div>
           </div>
         </div>
@@ -457,11 +487,15 @@
             aria-label="Carousel brosur paket. Geser ke samping atau gunakan tombol panah kiri dan kanan."
           >
             <div class="package-grid">
-              <article class="package-card is-active" data-package="neon-box-premium">
+              <article
+                class="package-card is-active"
+                data-package="neon-box-premium"
+              >
                 <button
                   type="button"
                   class="package-poster-trigger package-detail"
                   data-package="neon-box-premium"
+                  data-package-name="Paket Neon Box Premium"
                   data-brochure-src="assets/packages/brochure/package-2.png"
                   aria-label="Paket Neon Box Premium, brosur. Klik untuk memperbesar."
                   aria-current="true"
@@ -478,6 +512,7 @@
                   type="button"
                   class="package-poster-trigger package-detail"
                   data-package="premium"
+                  data-package-name="Paket Premium"
                   data-brochure-src="assets/packages/brochure/package-4.png"
                   aria-label="Paket Premium, pilih paket ini."
                 >
@@ -493,6 +528,7 @@
                   type="button"
                   class="package-poster-trigger package-detail"
                   data-package="platinum"
+                  data-package-name="Paket Platinum"
                   data-brochure-src="assets/packages/brochure/package-6.png"
                   aria-label="Paket Platinum, pilih paket ini."
                 >
@@ -508,6 +544,7 @@
                   type="button"
                   class="package-poster-trigger package-detail"
                   data-package="portable"
+                  data-package-name="Paket Portable"
                   data-brochure-src="assets/packages/brochure/package-8.png"
                   aria-label="Paket Portable, pilih paket ini."
                 >
@@ -523,6 +560,7 @@
                   type="button"
                   class="package-poster-trigger package-detail"
                   data-package="starter"
+                  data-package-name="Paket Starter"
                   data-brochure-src="assets/packages/brochure/package-10.png"
                   aria-label="Paket Starter, pilih paket ini."
                 >
@@ -538,7 +576,9 @@
                   type="button"
                   class="package-poster-trigger package-detail"
                   data-package="booth"
-                  data-brochure-src="assets/packages/brochure/package-11.png"
+                  data-package-name="Paket Booth"
+                  data-brochure-src="assets/packages/brochure/package-12.png"
+                  data-brochure-note="Halaman rincian Rp 10,9 juta ini mencetak judul Starter pada materi asli; gambar booth dan harga sesuai Paket Booth."
                   aria-label="Paket Booth, pilih paket ini."
                 >
                   <img
@@ -565,20 +605,27 @@
         <dialog
           class="package-dialog"
           id="packageDialog"
-          aria-label="Brosur paket kemitraan"
+          aria-labelledby="packageDialogTitle"
         >
-          <button
-            class="package-dialog-close"
-            type="button"
-            aria-label="Tutup brosur"
-          >
-            ×
-          </button>
-          <img
-            id="packageDialogImage"
-            src=""
-            alt="Brosur paket Semerbak Kopie"
-          />
+          <header class="package-dialog-header">
+            <h2 id="packageDialogTitle">Brosur paket kemitraan</h2>
+            <button
+              class="package-dialog-close"
+              type="button"
+              aria-label="Tutup brosur"
+            >
+              ×
+            </button>
+          </header>
+          <p id="packageDialogNote" class="package-dialog-note" hidden></p>
+          <figure class="package-dialog-page">
+            <img id="packageDialogImage" width="595" height="842" alt="" />
+            <figcaption id="packageDialogCaption"></figcaption>
+          </figure>
+          <figure class="package-dialog-page" id="packageDialogOverview" hidden>
+            <img id="packageDialogOverviewImage" width="595" height="842" alt="" />
+            <figcaption>Halaman ringkasan harga dan benefit paket.</figcaption>
+          </figure>
         </dialog>
       </section>
 
@@ -600,36 +647,46 @@
           </button>
           <div class="booth-slider" id="boothSlider">
             <figure>
-              <img
+              <img loading="lazy"
                 src="assets/booths/booth-utama.webp"
+                width="1440"
+                height="2560"
                 alt="Booth utama Semerbak Kopie"
               />
               <figcaption>SEMERBAK KOPIE</figcaption>
             </figure>
             <figure>
-              <img
+              <img loading="lazy"
                 src="assets/booths/booth-outdoor.webp"
-                alt="Booth outdoor Semerbak Kopie"
+                width="1798"
+                height="3198"
+                alt="Booth outdoor Kopiena Coffee"
               />
               <figcaption>OUTDOOR CONCEPT</figcaption>
             </figure>
             <figure>
-              <img
+              <img loading="lazy"
                 src="assets/booths/booth-interior.webp"
+                width="1798"
+                height="3198"
                 alt="Booth interior Semerbak Kopie"
               />
               <figcaption>INTERIOR CONCEPT</figcaption>
             </figure>
             <figure>
-              <img
+              <img loading="lazy"
                 src="assets/booths/matcha-que-booth-front.webp"
+                width="1920"
+                height="2560"
                 alt="Booth Matcha Que"
               />
               <figcaption>MATCHA QUE</figcaption>
             </figure>
             <figure>
-              <img
+              <img loading="lazy"
                 src="assets/booths/matcha-que-booth-side.webp"
+                width="1440"
+                height="2560"
                 alt="Sisi booth Matcha Que"
               />
               <figcaption>MATCHA QUE SIDE</figcaption>
@@ -645,360 +702,574 @@
         </div>
       </section>
 
-      <section
-        class="target-market section"
-        id="target-market"
-        aria-labelledby="target-market-title"
-      >
-        <div class="section-heading location-story-heading">
-          <p class="eyebrow">IDE LOKASI USAHA</p>
-          <h2 id="target-market-title">
-            Ide Lokasi Usaha — Kenali Calon Area Pasar di Sekitarmu
-          </h2>
-          <p>
-            Contoh kategori lokasi untuk diteliti lebih lanjut. Kesesuaian
-            setiap titik bergantung pada kondisi lapangan dan perizinan
-            setempat.
-          </p>
-        </div>
-        <div class="location-story-track">
-          <div class="location-story">
-            <div class="location-story-copy-stack" aria-live="polite">
-              <article
-                class="location-story-copy is-active"
-                data-location-index="0"
-                aria-hidden="false"
-              >
-                <p class="location-story-kicker">
-                  IDE LOKASI USAHA
-                  <span class="location-story-count">01 / 05</span>
-                </p>
-                <h3>Area Sekolah</h3>
-                <p>
-                  Perhatikan aturan sekolah, jam ramai, dan kebutuhan
-                  pengunjung.
-                </p>
-              </article>
-              <article
-                class="location-story-copy"
-                data-location-index="1"
-                aria-hidden="true"
-              >
-                <p class="location-story-kicker">
-                  IDE LOKASI USAHA
-                  <span class="location-story-count">02 / 05</span>
-                </p>
-                <h3>Event dan Bazar</h3>
-                <p>
-                  Cek jadwal, biaya partisipasi, serta ketentuan penyelenggara.
-                </p>
-              </article>
-              <article
-                class="location-story-copy"
-                data-location-index="2"
-                aria-hidden="true"
-              >
-                <p class="location-story-kicker">
-                  IDE LOKASI USAHA
-                  <span class="location-story-count">03 / 05</span>
-                </p>
-                <h3>Area Transportasi</h3>
-                <p>Pastikan izin pengelola dan amati arus calon pembeli.</p>
-              </article>
-              <article
-                class="location-story-copy"
-                data-location-index="3"
-                aria-hidden="true"
-              >
-                <p class="location-story-kicker">
-                  IDE LOKASI USAHA
-                  <span class="location-story-count">04 / 05</span>
-                </p>
-                <h3>Area Olahraga</h3>
-                <p>Tinjau waktu kegiatan, akses, dan izin penggunaan area.</p>
-              </article>
-              <article
-                class="location-story-copy"
-                data-location-index="4"
-                aria-hidden="true"
-              >
-                <p class="location-story-kicker">
-                  IDE LOKASI USAHA
-                  <span class="location-story-count">05 / 05</span>
-                </p>
-                <h3>Area Perkantoran</h3>
-                <p>
-                  Pelajari pola aktivitas harian serta opsi sewa dan
-                  operasionalnya.
-                </p>
-              </article>
+      <div class="business-story-flow location-story-runway">
+        <div class="business-story-scene">
+        <section
+          class="target-market section"
+          id="target-market"
+          aria-label="Ide Lokasi Usaha"
+        >
+          <div class="location-story-track location-story-stage">
+            <div class="location-story-copy-stack">
+<article
+                  class="location-story-copy is-visible is-active" aria-hidden="false"
+                  data-location-index="0"
+                >
+                  <p class="location-story-kicker">
+                    IDE LOKASI USAHA
+                    <span class="location-story-count">01 / 05</span>
+                  </p>
+                  <h3>Area Sekolah</h3>
+                  <p>
+                    Perhatikan aturan sekolah, jam ramai, dan kebutuhan
+                    pengunjung.
+                  </p>
+                </article>
+<article
+                  class="location-story-copy" aria-hidden="true" inert
+                  data-location-index="1"
+                >
+                  <p class="location-story-kicker">
+                    IDE LOKASI USAHA
+                    <span class="location-story-count">02 / 05</span>
+                  </p>
+                  <h3>Event dan Bazar</h3>
+                  <p>
+                    Cek jadwal, biaya partisipasi, serta ketentuan
+                    penyelenggara.
+                  </p>
+                </article>
+<article
+                  class="location-story-copy" aria-hidden="true" inert
+                  data-location-index="2"
+                >
+                  <p class="location-story-kicker">
+                    IDE LOKASI USAHA
+                    <span class="location-story-count">03 / 05</span>
+                  </p>
+                  <h3>Area Transportasi</h3>
+                  <p>Pastikan izin pengelola dan amati arus calon pembeli.</p>
+                </article>
+<article
+                  class="location-story-copy" aria-hidden="true" inert
+                  data-location-index="3"
+                >
+                  <p class="location-story-kicker">
+                    IDE LOKASI USAHA
+                    <span class="location-story-count">04 / 05</span>
+                  </p>
+                  <h3>Area Olahraga</h3>
+                  <p>Tinjau waktu kegiatan, akses, dan izin penggunaan area.</p>
+                </article>
+<article
+                  class="location-story-copy" aria-hidden="true" inert
+                  data-location-index="4"
+                >
+                  <p class="location-story-kicker">
+                    IDE LOKASI USAHA
+                    <span class="location-story-count">05 / 05</span>
+                  </p>
+                  <h3>Area Perkantoran</h3>
+                  <p>
+                    Pelajari pola aktivitas harian serta opsi sewa dan
+                    operasionalnya.
+                  </p>
+                </article>
             </div>
             <figure class="location-story-visual">
               <div class="location-story-image-frame">
-                <img
-                  class="is-active"
-                  src="assets/locations/area-sekolah.jpg"
-                  alt="Gedung Perguruan Taman Siswa Jetis di Yogyakarta"
-                  loading="eager"
-                />
-                <img
-                  src="assets/locations/event-bazar.jpg"
-                  alt="Keramaian pengunjung di acara bazar"
-                  loading="eager"
-                />
-                <img
-                  src="assets/locations/area-transportasi.jpg"
-                  alt="Bus di area transportasi umum"
-                  loading="eager"
-                />
-                <img
-                  src="assets/locations/area-olahraga.jpg"
-                  alt="Lapangan olahraga untuk kegiatan masyarakat"
-                  loading="eager"
-                />
-                <img
-                  src="assets/locations/area-perkantoran.jpg"
-                  alt="Gedung perkantoran di kawasan kota"
-                  loading="eager"
-                />
+<img class="is-visible is-active" aria-hidden="false"
+                    data-location-index="0"
+                    src="assets/locations/area-sekolah.jpg"
+                    alt="Gedung Perguruan Taman Siswa Jetis di Yogyakarta"
+                    loading="lazy"
+                  />
+<img class="" aria-hidden="true"
+                    src="assets/locations/event-bazar.jpg"
+                    data-location-index="1"
+                    alt="Keramaian pengunjung di acara bazar"
+                    loading="lazy"
+                  />
+<img class="" aria-hidden="true"
+                    src="assets/locations/area-transportasi.jpg"
+                    data-location-index="2"
+                    alt="Bus di area transportasi umum"
+                    loading="lazy"
+                  />
+<img class="" aria-hidden="true"
+                    src="assets/locations/area-olahraga.webp"
+                    data-location-index="3"
+                    alt="Lapangan olahraga untuk kegiatan masyarakat"
+                    loading="lazy"
+                  />
+<img class="" aria-hidden="true"
+                    src="assets/locations/area-perkantoran.webp"
+                    data-location-index="4"
+                    alt="Gedung perkantoran di kawasan kota"
+                    loading="lazy"
+                  />
               </div>
               <figcaption>
-                <a
-                  class="location-photo-credit is-active"
-                  href="https://commons.wikimedia.org/wiki/File:Perguruan_Taman_Siswa_Jetis,_Yogyakarta.jpg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Foto: Pinerineks · CC BY-SA 4.0</a
-                >
-                <a
-                  class="location-photo-credit"
-                  href="https://commons.wikimedia.org/wiki/File:Pasar_Malam_Rawasari_11.JPG"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  tabindex="-1"
-                  >Foto: Gunawan Kartapranata · CC BY-SA 4.0</a
-                >
-                <a
-                  class="location-photo-credit"
-                  href="https://commons.wikimedia.org/wiki/File:Rangkaian_unit_bus_Transjakarta_yang_sedang_transit_di_terminal_Blok_M.jpg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  tabindex="-1"
-                  >Foto: Atmawinanda · CC BY-SA 4.0</a
-                >
-                <a
-                  class="location-photo-credit"
-                  href="https://commons.wikimedia.org/wiki/File:8USA_Legends_Visit_Indonesia_(5935132419).jpg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  tabindex="-1"
-                  >Foto: U.S. Embassy Jakarta · Public domain</a
-                >
-                <a
-                  class="location-photo-credit"
-                  href="https://commons.wikimedia.org/wiki/File:Wisma_46_(Januari_2025).jpg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  tabindex="-1"
-                  >Foto: Medelam · CC BY 4.0</a
-                >
+<a
+                    class="location-photo-credit is-visible is-active" aria-hidden="false" tabindex="0"
+                    data-location-index="0"
+                    href="https://commons.wikimedia.org/wiki/File:Perguruan_Taman_Siswa_Jetis,_Yogyakarta.jpg"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Foto: Pinerineks · CC BY-SA 4.0</a
+                  >
+<a
+                    class="location-photo-credit" aria-hidden="true" tabindex="-1"
+                    href="https://commons.wikimedia.org/wiki/File:Pasar_Malam_Rawasari_11.JPG"
+                    data-location-index="1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Foto: Gunawan Kartapranata · CC BY-SA 4.0</a
+                  >
+<a
+                    class="location-photo-credit" aria-hidden="true" tabindex="-1"
+                    href="https://commons.wikimedia.org/wiki/File:Rangkaian_unit_bus_Transjakarta_yang_sedang_transit_di_terminal_Blok_M.jpg"
+                    data-location-index="2"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Foto: Atmawinanda · CC BY-SA 4.0</a
+                  >
+<a
+                    class="location-photo-credit" aria-hidden="true" tabindex="-1"
+                    href="https://commons.wikimedia.org/wiki/File:8USA_Legends_Visit_Indonesia_(5935132419).jpg"
+                    data-location-index="3"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Foto: U.S. Embassy Jakarta · Public domain</a
+                  >
+<a
+                    class="location-photo-credit" aria-hidden="true" tabindex="-1"
+                    href="https://commons.wikimedia.org/wiki/File:Wisma_46_(Januari_2025).jpg"
+                    data-location-index="4"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Foto: Medelam · CC BY 4.0</a
+                  >
               </figcaption>
             </figure>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="investment-guide section" aria-labelledby="investmentGuideTitle">
-        <div class="section-heading">
-          <p class="eyebrow">ILUSTRASI PERENCANAAN USAHA</p>
-          <h2 id="investmentGuideTitle">GAMBARAN SIMULASI PENJUALAN DAN INVESTASI</h2>
-          <p>
-            Contoh berikut merangkum asumsi pada materi Semerbak Kopie. Biaya,
-            margin, dan hasil aktual bergantung pada paket, harga, lokasi, serta
-            kondisi operasional masing-masing mitra.
+        <section
+          class="investment-guide section"
+          aria-labelledby="investmentGuideTitle"
+        >
+          <div class="business-story-seam" aria-hidden="true"></div>
+          <div class="section-heading">
+            <p class="eyebrow">ILUSTRASI PERENCANAAN USAHA</p>
+            <h2 id="investmentGuideTitle">
+              GAMBARAN SIMULASI PENJUALAN DAN INVESTASI
+            </h2>
+            <p>
+              Contoh berikut merangkum asumsi pada materi Semerbak Kopie. Biaya,
+              margin, dan hasil aktual bergantung pada paket, harga, lokasi,
+              serta kondisi operasional masing-masing mitra.
+            </p>
+          </div>
+
+          <div class="investment-scenarios">
+            <article class="investment-card">
+              <div class="investment-card-heading">
+                <span>SIMULASI 01</span>
+                <h3>Proyeksi penjualan</h3>
+              </div>
+              <div class="investment-case">
+                <h4>Konsep penjualan</h4>
+                <dl>
+                  <div>
+                    <dt>Asumsi penjualan</dt>
+                    <dd>100 cup/hari</dd>
+                  </div>
+                  <div>
+                    <dt>Margin rata-rata per cup</dt>
+                    <dd>Rp 5.000</dd>
+                  </div>
+                  <div class="investment-subtotal">
+                    <dt>
+                      Margin kotor/bulan
+                      <small>100 cup × Rp 5.000 × 30 hari</small>
+                    </dt>
+                    <dd>Rp 15.000.000</dd>
+                  </div>
+                  <div>
+                    <dt>Gaji karyawan</dt>
+                    <dd>Rp 2.000.000</dd>
+                  </div>
+                  <div>
+                    <dt>Listrik</dt>
+                    <dd>Rp 100.000</dd>
+                  </div>
+                  <div class="investment-total">
+                    <dt>Total biaya tercantum</dt>
+                    <dd>Rp 2.100.000</dd>
+                  </div>
+                  <div class="investment-net">
+                    <dt>Sisa setelah biaya tercantum</dt>
+                    <dd>Rp 12.900.000</dd>
+                  </div>
+                </dl>
+              </div>
+              <div class="investment-case">
+                <h4>Konsep penjualan booth</h4>
+                <dl>
+                  <div>
+                    <dt>Asumsi penjualan</dt>
+                    <dd>80–100 cup/hari</dd>
+                  </div>
+                  <div>
+                    <dt>Margin rata-rata per cup</dt>
+                    <dd>Rp 5.000</dd>
+                  </div>
+                  <div class="investment-subtotal">
+                    <dt>
+                      Margin kotor/bulan
+                      <small
+                        >Simulasi memakai 100 cup × Rp 5.000 × 30 hari</small
+                      >
+                    </dt>
+                    <dd>Rp 15.000.000</dd>
+                  </div>
+                  <div>
+                    <dt>Gaji 2 karyawan</dt>
+                    <dd>Rp 3.600.000</dd>
+                  </div>
+                  <div>
+                    <dt>Listrik dan sewa tempat</dt>
+                    <dd>Rp 600.000</dd>
+                  </div>
+                  <div class="investment-total">
+                    <dt>Total biaya tercantum</dt>
+                    <dd>Rp 4.200.000</dd>
+                  </div>
+                  <div class="investment-net">
+                    <dt>Sisa setelah biaya tercantum</dt>
+                    <dd>Rp 10.800.000</dd>
+                  </div>
+                </dl>
+              </div>
+            </article>
+
+            <article class="investment-card">
+              <div class="investment-card-heading">
+                <span>SIMULASI 02</span>
+                <h3>Rincian anggaran dan investasi</h3>
+              </div>
+              <div class="investment-case">
+                <h4>Pendapatan kotor</h4>
+                <dl>
+                  <div>
+                    <dt>Penjualan</dt>
+                    <dd>100 cup/hari</dd>
+                  </div>
+                  <div>
+                    <dt>Margin rata-rata per produk</dt>
+                    <dd>Rp 3.000</dd>
+                  </div>
+                  <div>
+                    <dt>Hari operasional</dt>
+                    <dd>30 hari/bulan</dd>
+                  </div>
+                  <div class="investment-total">
+                    <dt>Margin kotor/bulan</dt>
+                    <dd>Rp 9.000.000</dd>
+                  </div>
+                </dl>
+              </div>
+              <div class="investment-case">
+                <h4>Biaya operasional</h4>
+                <dl>
+                  <div>
+                    <dt>Sewa tempat</dt>
+                    <dd>Rp 1.000.000</dd>
+                  </div>
+                  <div>
+                    <dt>Gaji karyawan</dt>
+                    <dd>Rp 2.000.000</dd>
+                  </div>
+                  <div>
+                    <dt>
+                      Operasional lainnya
+                      <small
+                        >Bahan baku, listrik, air, kemasan, dan lainnya</small
+                      >
+                    </dt>
+                    <dd>Rp 500.000</dd>
+                  </div>
+                  <div class="investment-total">
+                    <dt>Total pengeluaran/bulan</dt>
+                    <dd>Rp 3.500.000</dd>
+                  </div>
+                </dl>
+              </div>
+              <div class="investment-case investment-result">
+                <h4>Ringkasan ilustrasi</h4>
+                <dl>
+                  <div>
+                    <dt>Margin kotor/bulan</dt>
+                    <dd>Rp 9.000.000</dd>
+                  </div>
+                  <div>
+                    <dt>Pengeluaran/bulan</dt>
+                    <dd>Rp 3.500.000</dd>
+                  </div>
+                  <div class="investment-net">
+                    <dt>Sisa setelah biaya tercantum</dt>
+                    <dd>Rp 5.500.000</dd>
+                  </div>
+                </dl>
+                <p class="investment-payback">
+                  Estimasi BEP pada materi: <strong>3–4 bulan*</strong>
+                </p>
+                <p class="investment-footnote">
+                  *Estimasi tersebut tidak mencantumkan rincian modal awal dan
+                  bukan janji balik modal. Hitung kembali menggunakan biaya dan
+                  modal yang berlaku untuk rencanamu.
+                </p>
+              </div>
+            </article>
+          </div>
+
+          <p class="investment-disclaimer">
+            Semua angka di atas merupakan simulasi dari materi, bukan data
+            kinerja aktual atau jaminan pendapatan. Biaya dan komponen yang
+            belum dicantumkan dapat mengubah hasil; konfirmasikan rincian paket
+            kepada tim Semerbak Kopie.
           </p>
+        </section>
+
         </div>
+      </div>
 
-        <div class="investment-scenarios">
-          <article class="investment-card">
-            <div class="investment-card-heading">
-              <span>SIMULASI 01</span>
-              <h3>Proyeksi penjualan</h3>
-            </div>
-            <div class="investment-case">
-              <h4>Konsep penjualan</h4>
-              <dl>
-                <div><dt>Asumsi penjualan</dt><dd>100 cup/hari</dd></div>
-                <div><dt>Margin rata-rata per cup</dt><dd>Rp 5.000</dd></div>
-                <div class="investment-subtotal"><dt>Margin kotor/bulan <small>100 cup × Rp 5.000 × 30 hari</small></dt><dd>Rp 15.000.000</dd></div>
-                <div><dt>Gaji karyawan</dt><dd>Rp 2.000.000</dd></div>
-                <div><dt>Listrik</dt><dd>Rp 100.000</dd></div>
-                <div class="investment-total"><dt>Total biaya tercantum</dt><dd>Rp 2.100.000</dd></div>
-                <div class="investment-net"><dt>Sisa setelah biaya tercantum</dt><dd>Rp 12.900.000</dd></div>
-              </dl>
-            </div>
-            <div class="investment-case">
-              <h4>Konsep penjualan booth</h4>
-              <dl>
-                <div><dt>Asumsi penjualan</dt><dd>80–100 cup/hari</dd></div>
-                <div><dt>Margin rata-rata per cup</dt><dd>Rp 5.000</dd></div>
-                <div class="investment-subtotal"><dt>Margin kotor/bulan <small>Simulasi memakai 100 cup × Rp 5.000 × 30 hari</small></dt><dd>Rp 15.000.000</dd></div>
-                <div><dt>Gaji 2 karyawan</dt><dd>Rp 3.600.000</dd></div>
-                <div><dt>Listrik dan sewa tempat</dt><dd>Rp 600.000</dd></div>
-                <div class="investment-total"><dt>Total biaya tercantum</dt><dd>Rp 4.200.000</dd></div>
-                <div class="investment-net"><dt>Sisa setelah biaya tercantum</dt><dd>Rp 10.800.000</dd></div>
-              </dl>
-            </div>
-          </article>
-
-          <article class="investment-card">
-            <div class="investment-card-heading">
-              <span>SIMULASI 02</span>
-              <h3>Rincian anggaran dan investasi</h3>
-            </div>
-            <div class="investment-case">
-              <h4>Pendapatan kotor</h4>
-              <dl>
-                <div><dt>Penjualan</dt><dd>100 cup/hari</dd></div>
-                <div><dt>Margin rata-rata per produk</dt><dd>Rp 3.000</dd></div>
-                <div><dt>Hari operasional</dt><dd>30 hari/bulan</dd></div>
-                <div class="investment-total"><dt>Margin kotor/bulan</dt><dd>Rp 9.000.000</dd></div>
-              </dl>
-            </div>
-            <div class="investment-case">
-              <h4>Biaya operasional</h4>
-              <dl>
-                <div><dt>Sewa tempat</dt><dd>Rp 1.000.000</dd></div>
-                <div><dt>Gaji karyawan</dt><dd>Rp 2.000.000</dd></div>
-                <div><dt>Operasional lainnya <small>Bahan baku, listrik, air, kemasan, dan lainnya</small></dt><dd>Rp 500.000</dd></div>
-                <div class="investment-total"><dt>Total pengeluaran/bulan</dt><dd>Rp 3.500.000</dd></div>
-              </dl>
-            </div>
-            <div class="investment-case investment-result">
-              <h4>Ringkasan ilustrasi</h4>
-              <dl>
-                <div><dt>Margin kotor/bulan</dt><dd>Rp 9.000.000</dd></div>
-                <div><dt>Pengeluaran/bulan</dt><dd>Rp 3.500.000</dd></div>
-                <div class="investment-net"><dt>Sisa setelah biaya tercantum</dt><dd>Rp 5.500.000</dd></div>
-              </dl>
-              <p class="investment-payback">Estimasi BEP pada materi: <strong>3–4 bulan*</strong></p>
-              <p class="investment-footnote">
-                *Estimasi tersebut tidak mencantumkan rincian modal awal dan bukan
-                janji balik modal. Hitung kembali menggunakan biaya dan modal yang
-                berlaku untuk rencanamu.
-              </p>
-            </div>
-          </article>
-        </div>
-
-        <p class="investment-disclaimer">
-          Semua angka di atas merupakan simulasi dari materi, bukan data kinerja
-          aktual atau jaminan pendapatan. Biaya dan komponen yang belum dicantumkan
-          dapat mengubah hasil; konfirmasikan rincian paket kepada tim Semerbak Kopie.
-        </p>
-
-      </section>
-
-      <section class="investment-benefits section" id="investment-benefits" aria-labelledby="investmentBenefitsTitle">
+      <section
+        class="investment-benefits section"
+        id="investment-benefits"
+        aria-labelledby="investmentBenefitsTitle"
+      >
         <div class="investment-benefits-heading section-heading">
           <p class="eyebrow">KENALI KONSEP USAHANYA</p>
-          <h2 id="investmentBenefitsTitle">PERTIMBANGAN DALAM MEMULAI KEMITRAAN</h2>
+          <h2 id="investmentBenefitsTitle">
+            PERTIMBANGAN DALAM MEMULAI KEMITRAAN
+          </h2>
         </div>
         <div class="investment-carousel">
-          <div class="investment-carousel-nav" role="tablist" aria-label="Pertimbangan memulai kemitraan">
-            <button id="investmentTab1" class="investment-carousel-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="investmentSlide1">
+          <div
+            class="investment-carousel-nav"
+            role="tablist"
+            aria-label="Pertimbangan memulai kemitraan"
+          >
+            <button
+              id="investmentTab1"
+              class="investment-carousel-tab is-active"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="investmentSlide1"
+            >
               <span class="investment-carousel-tab-number">01</span>
               <span>Tanpa mesin</span>
             </button>
-            <button id="investmentTab2" class="investment-carousel-tab" type="button" role="tab" aria-selected="false" aria-controls="investmentSlide2" tabindex="-1">
+            <button
+              id="investmentTab2"
+              class="investment-carousel-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="investmentSlide2"
+              tabindex="-1"
+            >
               <span class="investment-carousel-tab-number">02</span>
               <span>Lokasi fleksibel</span>
             </button>
-            <button id="investmentTab3" class="investment-carousel-tab" type="button" role="tab" aria-selected="false" aria-controls="investmentSlide3" tabindex="-1">
+            <button
+              id="investmentTab3"
+              class="investment-carousel-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="investmentSlide3"
+              tabindex="-1"
+            >
               <span class="investment-carousel-tab-number">03</span>
               <span>Bahan terjangkau</span>
             </button>
-            <button id="investmentTab4" class="investment-carousel-tab" type="button" role="tab" aria-selected="false" aria-controls="investmentSlide4" tabindex="-1">
+            <button
+              id="investmentTab4"
+              class="investment-carousel-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="investmentSlide4"
+              tabindex="-1"
+            >
               <span class="investment-carousel-tab-number">04</span>
               <span>Biaya terukur</span>
             </button>
-            <button id="investmentTab5" class="investment-carousel-tab" type="button" role="tab" aria-selected="false" aria-controls="investmentSlide5" tabindex="-1">
+            <button
+              id="investmentTab5"
+              class="investment-carousel-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="investmentSlide5"
+              tabindex="-1"
+            >
               <span class="investment-carousel-tab-number">05</span>
               <span>Pembayaran resmi</span>
             </button>
           </div>
 
           <div class="investment-carousel-stage">
-            <div id="investmentSlide1" class="investment-carousel-slide is-active" role="tabpanel" aria-labelledby="investmentTab1" tabindex="0">
+            <div
+              id="investmentSlide1"
+              class="investment-carousel-slide is-active"
+              role="tabpanel"
+              aria-labelledby="investmentTab1"
+              tabindex="0"
+            >
               <span class="investment-slide-number" aria-hidden="true">01</span>
               <span class="investment-slide-divider" aria-hidden="true"></span>
               <span class="investment-slide-illustration">
                 <svg viewBox="0 0 120 120" aria-hidden="true">
-                  <path d="M32 27h42a9 9 0 0 1 9 9v14H32zM38 50v33a9 9 0 0 0 9 9h24a9 9 0 0 0 9-9V50M46 26v-8h20v8M52 39h24M44 91h44M58 60h19l-3 13H58zM65 73v10" />
+                  <path
+                    d="M32 27h42a9 9 0 0 1 9 9v14H32zM38 50v33a9 9 0 0 0 9 9h24a9 9 0 0 0 9-9V50M46 26v-8h20v8M52 39h24M44 91h44M58 60h19l-3 13H58zM65 73v10"
+                  />
                   <path class="investment-icon-accent" d="m26 26 69 69" />
                 </svg>
               </span>
               <div class="investment-slide-copy">
                 <h3>Tidak perlu mesin kopi</h3>
-                <p>Pastikan kebutuhan perlengkapan dan fasilitas yang termasuk dalam paket pilihanmu.</p>
+                <p>
+                  Pastikan kebutuhan perlengkapan dan fasilitas yang termasuk
+                  dalam paket pilihanmu.
+                </p>
               </div>
             </div>
-            <div id="investmentSlide2" class="investment-carousel-slide" role="tabpanel" aria-labelledby="investmentTab2" tabindex="0" hidden>
+            <div
+              id="investmentSlide2"
+              class="investment-carousel-slide"
+              role="tabpanel"
+              aria-labelledby="investmentTab2"
+              tabindex="0"
+              hidden
+            >
               <span class="investment-slide-number" aria-hidden="true">02</span>
               <span class="investment-slide-divider" aria-hidden="true"></span>
               <span class="investment-slide-illustration">
                 <svg viewBox="0 0 120 120" aria-hidden="true">
-                  <path d="M60 99s-31-28-31-54a31 31 0 1 1 62 0c0 26-31 54-31 54Z" />
+                  <path
+                    d="M60 99s-31-28-31-54a31 31 0 1 1 62 0c0 26-31 54-31 54Z"
+                  />
                   <circle cx="60" cy="44" r="11" />
-                  <path d="M20 94h80M31 94l5-18h15M89 94l-5-18H69M43 83l5-8 7 7M77 83l-5-8-7 7" />
+                  <path
+                    d="M20 94h80M31 94l5-18h15M89 94l-5-18H69M43 83l5-8 7 7M77 83l-5-8-7 7"
+                  />
                 </svg>
               </span>
               <div class="investment-slide-copy">
                 <h3>Lokasi usaha fleksibel</h3>
-                <p>Pilih lokasi yang sesuai dengan target pelanggan, akses, serta perizinan setempat.</p>
+                <p>
+                  Pilih lokasi yang sesuai dengan target pelanggan, akses, serta
+                  perizinan setempat.
+                </p>
               </div>
             </div>
-            <div id="investmentSlide3" class="investment-carousel-slide" role="tabpanel" aria-labelledby="investmentTab3" tabindex="0" hidden>
+            <div
+              id="investmentSlide3"
+              class="investment-carousel-slide"
+              role="tabpanel"
+              aria-labelledby="investmentTab3"
+              tabindex="0"
+              hidden
+            >
               <span class="investment-slide-number" aria-hidden="true">03</span>
               <span class="investment-slide-divider" aria-hidden="true"></span>
               <span class="investment-slide-illustration">
                 <svg viewBox="0 0 120 120" aria-hidden="true">
-                  <path d="m60 20 35 19-35 20-35-20 35-19ZM25 39v42l35 20 35-20V39M60 59v42M42 30l35 20M46 69l12 7v13l-12-7V69Z" />
-                  <path class="investment-icon-accent" d="M76 30c6 5 9 10 9 15M35 53v19" />
+                  <path
+                    d="m60 20 35 19-35 20-35-20 35-19ZM25 39v42l35 20 35-20V39M60 59v42M42 30l35 20M46 69l12 7v13l-12-7V69Z"
+                  />
+                  <path
+                    class="investment-icon-accent"
+                    d="M76 30c6 5 9 10 9 15M35 53v19"
+                  />
                 </svg>
               </span>
               <div class="investment-slide-copy">
                 <h3>Bahan baku terjangkau</h3>
-                <p>Konfirmasikan harga, ketersediaan, dan mekanisme pasokan sebelum menghitung biaya.</p>
+                <p>
+                  Konfirmasikan harga, ketersediaan, dan mekanisme pasokan
+                  sebelum menghitung biaya.
+                </p>
               </div>
             </div>
-            <div id="investmentSlide4" class="investment-carousel-slide" role="tabpanel" aria-labelledby="investmentTab4" tabindex="0" hidden>
+            <div
+              id="investmentSlide4"
+              class="investment-carousel-slide"
+              role="tabpanel"
+              aria-labelledby="investmentTab4"
+              tabindex="0"
+              hidden
+            >
               <span class="investment-slide-number" aria-hidden="true">04</span>
               <span class="investment-slide-divider" aria-hidden="true"></span>
               <span class="investment-slide-illustration">
                 <svg viewBox="0 0 120 120" aria-hidden="true">
-                  <path d="m49 18 22 0 3 11a34 34 0 0 1 8 5l11-4 11 19-8 8a35 35 0 0 1 0 10l8 8-11 19-11-4a34 34 0 0 1-8 5l-3 11H49l-3-11a34 34 0 0 1-8-5l-11 4-11-19 8-8a35 35 0 0 1 0-10l-8-8 11-19 11 4a34 34 0 0 1 8-5l3-11Z" />
+                  <path
+                    d="m49 18 22 0 3 11a34 34 0 0 1 8 5l11-4 11 19-8 8a35 35 0 0 1 0 10l8 8-11 19-11-4a34 34 0 0 1-8 5l-3 11H49l-3-11a34 34 0 0 1-8-5l-11 4-11-19 8-8a35 35 0 0 1 0-10l-8-8 11-19 11 4a34 34 0 0 1 8-5l3-11Z"
+                  />
                   <circle cx="60" cy="62" r="14" />
-                  <path class="investment-icon-accent" d="M60 52v20M66 55c-2-4-12-4-12 1 0 7 13 2 13 9 0 6-10 7-14 2" />
+                  <path
+                    class="investment-icon-accent"
+                    d="M60 52v20M66 55c-2-4-12-4-12 1 0 7 13 2 13 9 0 6-10 7-14 2"
+                  />
                 </svg>
               </span>
               <div class="investment-slide-copy">
                 <h3>Biaya operasional efisien</h3>
-                <p>Susun anggaran untuk sewa, tenaga kerja, utilitas, dan kebutuhan operasional lokasi.</p>
+                <p>
+                  Susun anggaran untuk sewa, tenaga kerja, utilitas, dan
+                  kebutuhan operasional lokasi.
+                </p>
               </div>
             </div>
-            <div id="investmentSlide5" class="investment-carousel-slide payment-slide" role="tabpanel" aria-labelledby="investmentTab5" tabindex="0" hidden>
+            <div
+              id="investmentSlide5"
+              class="investment-carousel-slide payment-slide"
+              role="tabpanel"
+              aria-labelledby="investmentTab5"
+              tabindex="0"
+              hidden
+            >
               <span class="investment-slide-number" aria-hidden="true">05</span>
               <div class="investment-slide-copy payment-slide-copy">
-                <p class="payment-warning">⚠️ WASPADA PENIPUAN MENGATASNAMAKAN SEMERBAK KOPIE ⚠️</p>
+                <p class="payment-warning">
+                  ⚠️ WASPADA PENIPUAN MENGATASNAMAKAN SEMERBAK KOPIE ⚠️
+                </p>
                 <h3>Pembayaran melalui Rekening Resmi</h3>
-                <p>Pastikan informasi pembayaran dan kerja sama berasal dari kanal resmi Semerbak Kopie.</p>
-                <p>Sebelum transfer, cocokkan nama penerima dan nominal dengan invoice atau konfirmasi dari tim Semerbak Kopie. Jika datanya berbeda, hubungi tim kami terlebih dahulu.</p>
+                <p>
+                  Pastikan informasi pembayaran dan kerja sama berasal dari
+                  kanal resmi Semerbak Kopie.
+                </p>
+                <p>
+                  Sebelum transfer, cocokkan nama penerima dan nominal dengan
+                  invoice atau konfirmasi dari tim Semerbak Kopie. Jika datanya
+                  berbeda, hubungi tim kami terlebih dahulu.
+                </p>
                 <div class="payment-legality">
                   <h4>Informasi legalitas</h4>
-                  <p>Dokumen legalitas dan sertifikat yang tersedia dapat diminta melalui tim Semerbak Kopie.</p>
+                  <p>
+                    Dokumen legalitas dan sertifikat yang tersedia dapat diminta
+                    melalui tim Semerbak Kopie.
+                  </p>
                 </div>
-                <a class="payment-confirm-link" href="#contact">Konfirmasi ke Tim Semerbak</a>
+                <a class="payment-confirm-link" href="#contact"
+                  >Konfirmasi ke Tim Semerbak</a
+                >
               </div>
               <div class="payment-card-perspective">
                 <div class="payment-account-card" id="paymentAccountCard">
@@ -1010,24 +1281,45 @@
                     <span>Nomor Rekening</span>
                     <strong class="payment-account-number">6330609395</strong>
                     <span>Atas Nama</span>
-                    <strong class="payment-account-name">DAVID ARYA WINATA</strong>
+                    <strong class="payment-account-name"
+                      >DAVID ARYA WINATA</strong
+                    >
                   </div>
-                  <p class="payment-account-footer">Pastikan nama dan nominal sesuai sebelum transfer</p>
+                  <p class="payment-account-footer">
+                    Pastikan nama dan nominal sesuai sebelum transfer
+                  </p>
                 </div>
               </div>
             </div>
-            <div class="investment-carousel-controls" role="group" aria-label="Navigasi slide">
-              <button class="investment-carousel-arrow investment-carousel-previous" type="button" aria-label="Pertimbangan sebelumnya">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+            <div
+              class="investment-carousel-controls"
+              role="group"
+              aria-label="Navigasi slide"
+            >
+              <button
+                class="investment-carousel-arrow investment-carousel-previous"
+                type="button"
+                aria-label="Pertimbangan sebelumnya"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
               </button>
-              <button class="investment-carousel-arrow investment-carousel-next" type="button" aria-label="Pertimbangan berikutnya">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+              <button
+                class="investment-carousel-arrow investment-carousel-next"
+                type="button"
+                aria-label="Pertimbangan berikutnya"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
               </button>
             </div>
           </div>
         </div>
         <p class="investment-benefits-note">
-          Konfirmasikan rincian paket dan biaya aktual kepada tim Semerbak Kopie.
+          Konfirmasikan rincian paket dan biaya aktual kepada tim Semerbak
+          Kopie.
         </p>
       </section>
 
@@ -1037,24 +1329,49 @@
           <h2>LANGKAH DISKUSI HINGGA <span>MULAI BEROPERASI</span></h2>
         </div>
         <div class="steps-grid">
-          <svg class="steps-connector" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M120 42 C190 2 230 2 300 42 S430 78 480 42 S610 2 660 42 S790 78 840 42 S970 2 1080 42" />
+          <svg
+            class="steps-connector"
+            viewBox="0 0 1200 80"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M120 42 C190 2 230 2 300 42 S430 78 480 42 S610 2 660 42 S790 78 840 42 S970 2 1080 42"
+            />
           </svg>
           <button class="step-card is-active" type="button" aria-pressed="true">
             <span class="step-number">01</span>
-            <svg class="step-illustration" viewBox="0 0 96 84" aria-hidden="true">
-              <path d="M13 17h46a14 14 0 0 1 14 14v14a14 14 0 0 1-14 14H34l-15 11V59a14 14 0 0 1-6-11V31a14 14 0 0 1 14-14Z" />
-              <path class="step-illustration-secondary" d="M42 38h35a12 12 0 0 1 12 12v8a12 12 0 0 1-12 12h-5l-10 8V69" />
-              <circle cx="29" cy="39" r="2.5" /><circle cx="41" cy="39" r="2.5" /><circle cx="53" cy="39" r="2.5" />
+            <svg
+              class="step-illustration"
+              viewBox="0 0 96 84"
+              aria-hidden="true"
+            >
+              <path
+                d="M13 17h46a14 14 0 0 1 14 14v14a14 14 0 0 1-14 14H34l-15 11V59a14 14 0 0 1-6-11V31a14 14 0 0 1 14-14Z"
+              />
+              <path
+                class="step-illustration-secondary"
+                d="M42 38h35a12 12 0 0 1 12 12v8a12 12 0 0 1-12 12h-5l-10 8V69"
+              />
+              <circle cx="29" cy="39" r="2.5" />
+              <circle cx="41" cy="39" r="2.5" />
+              <circle cx="53" cy="39" r="2.5" />
             </svg>
             <span class="step-copy">
               <strong>Konsultasi Awal</strong>
-              <span>Sampaikan minat, lokasi rencana usaha, dan pertanyaan kepada tim Semerbak Kopie.</span>
+              <span
+                >Sampaikan minat, lokasi rencana usaha, dan pertanyaan kepada
+                tim Semerbak Kopie.</span
+              >
             </span>
           </button>
           <button class="step-card" type="button" aria-pressed="false">
             <span class="step-number">02</span>
-            <svg class="step-illustration" viewBox="0 0 96 84" aria-hidden="true">
+            <svg
+              class="step-illustration"
+              viewBox="0 0 96 84"
+              aria-hidden="true"
+            >
               <rect x="13" y="12" width="57" height="62" rx="8" />
               <path d="M25 28h23M25 41h23M25 54h19" />
               <circle class="step-illustration-fill" cx="70" cy="59" r="17" />
@@ -1062,49 +1379,86 @@
             </svg>
             <span class="step-copy">
               <strong>Pelajari Paket</strong>
-              <span>Tinjau harga, perlengkapan, ukuran booth, dan fasilitas yang tercantum pada paket.</span>
+              <span
+                >Tinjau harga, perlengkapan, ukuran booth, dan fasilitas yang
+                tercantum pada paket.</span
+              >
             </span>
           </button>
           <button class="step-card" type="button" aria-pressed="false">
             <span class="step-number">03</span>
-            <svg class="step-illustration" viewBox="0 0 96 84" aria-hidden="true">
+            <svg
+              class="step-illustration"
+              viewBox="0 0 96 84"
+              aria-hidden="true"
+            >
               <rect x="21" y="12" width="54" height="64" rx="8" />
               <path d="M39 12V8h18v8H39zM49 34h15M49 50h15M49 66h12" />
-              <circle class="step-illustration-fill" cx="35" cy="34" r="7" /><path class="step-illustration-white" d="m32 34 2 2 4-5" />
-              <circle class="step-illustration-fill" cx="35" cy="50" r="7" /><path class="step-illustration-white" d="m32 50 2 2 4-5" />
-              <circle class="step-illustration-fill" cx="35" cy="66" r="7" /><path class="step-illustration-white" d="m32 66 2 2 4-5" />
+              <circle class="step-illustration-fill" cx="35" cy="34" r="7" />
+              <path class="step-illustration-white" d="m32 34 2 2 4-5" />
+              <circle class="step-illustration-fill" cx="35" cy="50" r="7" />
+              <path class="step-illustration-white" d="m32 50 2 2 4-5" />
+              <circle class="step-illustration-fill" cx="35" cy="66" r="7" />
+              <path class="step-illustration-white" d="m32 66 2 2 4-5" />
             </svg>
             <span class="step-copy">
               <strong>Verifikasi Detail</strong>
-              <span>Periksa kembali isi paket, biaya, lokasi, dokumen, dan ketentuan kemitraan bersama tim.</span>
+              <span
+                >Periksa kembali isi paket, biaya, lokasi, dokumen, dan
+                ketentuan kemitraan bersama tim.</span
+              >
             </span>
           </button>
           <button class="step-card" type="button" aria-pressed="false">
             <span class="step-number">04</span>
-            <svg class="step-illustration" viewBox="0 0 96 84" aria-hidden="true">
-              <path d="M18 12h47a7 7 0 0 1 7 7v53H18zM29 28h28M29 41h23M29 54h16" />
-              <path class="step-illustration-fill" d="m57 65 21-31 8 5-21 31-11 7z" />
+            <svg
+              class="step-illustration"
+              viewBox="0 0 96 84"
+              aria-hidden="true"
+            >
+              <path
+                d="M18 12h47a7 7 0 0 1 7 7v53H18zM29 28h28M29 41h23M29 54h16"
+              />
+              <path
+                class="step-illustration-fill"
+                d="m57 65 21-31 8 5-21 31-11 7z"
+              />
               <path class="step-illustration-white" d="m77 34 8 5" />
             </svg>
             <span class="step-copy">
               <strong>Administrasi</strong>
-              <span>Lengkapi dokumen dan ikuti kesepakatan pembayaran setelah seluruh informasi dikonfirmasi.</span>
+              <span
+                >Lengkapi dokumen dan ikuti kesepakatan pembayaran setelah
+                seluruh informasi dikonfirmasi.</span
+              >
             </span>
           </button>
           <button class="step-card" type="button" aria-pressed="false">
             <span class="step-number">05</span>
-            <svg class="step-illustration" viewBox="0 0 96 84" aria-hidden="true">
-              <path d="M12 34h72v39H12zM9 32l8-17h62l8 17a8 8 0 0 1-14 5 8 8 0 0 1-14 0 8 8 0 0 1-14 0 8 8 0 0 1-14 0 8 8 0 0 1-14-5Z" />
-              <path d="M37 55a10 10 0 1 0 20 0h-9v-9a10 10 0 0 0-11 9zM49 42v8h8" />
+            <svg
+              class="step-illustration"
+              viewBox="0 0 96 84"
+              aria-hidden="true"
+            >
+              <path
+                d="M12 34h72v39H12zM9 32l8-17h62l8 17a8 8 0 0 1-14 5 8 8 0 0 1-14 0 8 8 0 0 1-14 0 8 8 0 0 1-14 0 8 8 0 0 1-14-5Z"
+              />
+              <path
+                d="M37 55a10 10 0 1 0 20 0h-9v-9a10 10 0 0 0-11 9zM49 42v8h8"
+              />
             </svg>
             <span class="step-copy">
               <strong>Persiapan Operasional</strong>
-              <span>Siapkan booth dan kebutuhan pembukaan usaha sesuai panduan dari tim Semerbak Kopie.</span>
+              <span
+                >Siapkan booth dan kebutuhan pembukaan usaha sesuai panduan dari
+                tim Semerbak Kopie.</span
+              >
             </span>
           </button>
         </div>
         <p class="steps-selection" id="stepsSelection" aria-live="polite">
-          01 · Konsultasi Awal: Sampaikan minat, lokasi rencana usaha, dan pertanyaan kepada tim Semerbak Kopie.
+          01 · Konsultasi Awal: Sampaikan minat, lokasi rencana usaha, dan
+          pertanyaan kepada tim Semerbak Kopie.
         </p>
       </section>
 
@@ -1159,13 +1513,14 @@
 
     <footer class="footer">
       <div>
-        <img src="assets/logo-semerbak-wordmark.png" alt="Semerbak Group" />
+        <img loading="lazy" src="assets/logo-semerbak-wordmark.png" alt="Semerbak Group" />
         <p>“Nikmat yang Semerbak di Setiap Tegukan”</p>
       </div>
       <div>
-        <a href="#brand">Brand</a><a href="#packages">Paket</a
-        >        <a href="#target-market">Target Market</a>
-        <a href="#investment-benefits">Legalitas</a><a href="#gallery">Galeri</a>
+        <a href="#brand">Brand</a><a href="#packages">Paket</a>
+        <a href="#target-market">Target Market</a>
+        <a href="#investment-benefits">Legalitas</a
+        ><a href="#gallery">Galeri</a>
         <a href="#contact">Konsultasi</a>
         <a
           href="https://www.instagram.com/semerbakkopie.id?dlrf=eWZ4OWJpdmIyYTFp"
