@@ -4005,9 +4005,11 @@ main section[id] { scroll-margin-top: 92px; }
 .location-photo-credit.is-active { pointer-events: auto; }
 .location-photo-credit:focus-visible { outline: 2px solid #fff8ed; outline-offset: 4px; }
 @media (max-width: 900px) {
-  #target-market { height: min(var(--location-viewport-height, calc(100svh - 82px)), clamp(540px, 78svh, 720px)); }
-  .location-story-stage { grid-template-columns: minmax(0, 1fr); gap: clamp(14px, 2.5svh, 24px); max-width: 600px; }
-  .location-story-copy-stack { height: var(--location-copy-window-height, 280px); overflow: clip; }
+  .location-story-runway { --business-edge-height: clamp(8px, 1.2vw, 12px); }
+  #target-market { --semerbak-edge-height: var(--business-edge-height); height: min(var(--location-viewport-height, calc(100svh - 82px)), clamp(540px, 78svh, 720px)); }
+  .location-story-stage { grid-template-columns: minmax(0, 1fr); gap: clamp(14px, 2.5svh, 24px); max-width: 600px; transform: translate3d(0, var(--location-mobile-stage-offset, 0px), 0); }
+  /* Keep both animated copies whole; the image follows their occupied space. */
+  .location-story-copy-stack { height: var(--location-mobile-copy-window-height, var(--location-copy-window-height, 280px)); overflow: visible; }
   .location-story-copy { top: 6px; transform: translate3d(0, var(--location-y, 0px), 0); }
   .location-story-visual { justify-self: center; }
   #target-market .location-story-copy h3 { margin-bottom: 8px; font-size: clamp(1.85rem, 5.8vw, 2.6rem); }
@@ -4016,7 +4018,7 @@ main section[id] { scroll-margin-top: 92px; }
   .location-story-image-frame { max-height: clamp(150px, 27svh, 280px); }
 }
 @media (max-height: 600px) and (min-width: 601px) {
-  .location-story-stage { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); max-width: 1200px; gap: 24px; }
+  .location-story-stage { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); max-width: 1200px; gap: 24px; transform: none; }
   .location-story-copy-stack { height: var(--location-copy-height, 140px); overflow: visible; }
   .location-story-copy { top: 50%; transform: translate3d(0, calc(-50% + var(--location-y, 0px)), 0); }
   #target-market .location-story-copy h3 { font-size: clamp(1.6rem, 3.3vw, 2.2rem); }

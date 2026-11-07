@@ -80,10 +80,14 @@ const locationStories = Array.from(locationStack?.querySelectorAll(".location-st
 if (locationRunway && locationScene && locationStack && locationStories.length && locationStories.every(s => s.image && s.credit)) {
   const header = document.querySelector(".site-header");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const stackedLocation = window.matchMedia("(max-width: 600px), (max-width: 900px) and (min-height: 601px)");
   let step = 280;
   let frame = 0;
   let layoutFrame = 0;
   let travel = 140;
+  let copyHeight = 140;
+  let mobileCenterRoom = 0;
+  let mobileSafeTop = 16;
   let progress = 0;
   let targetProgress = 0;
   let anchorTop = 0;
@@ -102,10 +106,26 @@ if (locationRunway && locationScene && locationStack && locationStories.length &
     progress += (targetProgress - progress) * (reducedMotion.matches ? 1 : 1 - Math.exp(-elapsed / 65));
     if (Math.abs(targetProgress - progress) < .001) progress = targetProgress;
     const base = Math.floor(progress), t = progress - base, blend = smooth(t), activeIndex = Math.round(progress);
+    const stacked = stackedLocation.matches;
+    const previewRoom = smooth(Math.min(1, t / .12));
+    const previewReveal = stacked ? smooth(Math.max(0, Math.min(1, (t - .12) / .12))) : previewRoom;
+    let outgoingVisibility = 1;
+    if (stacked) {
+      // Open room before revealing the next full copy, then follow it as it rises.
+      const previewHeight = base < lastIndex ? previewRoom * (1 - blend) * travel : 0;
+      locationStack.style.setProperty("--location-mobile-copy-window-height", (copyHeight + previewHeight + 12) + "px");
+      // Keep the active outgoing copy below the wave on short phone screens.
+      const outgoingTop = mobileCenterRoom - previewHeight / 2 + 6 - blend * travel;
+      const settle = smooth(Math.min(1, (1 - t) / .5));
+      const offset = Math.max(0, mobileSafeTop - outgoingTop) * settle;
+      locationTrack.style.setProperty("--location-mobile-stage-offset", offset + "px");
+      // Fade the previous copy as a whole before it can pass under the upper wave.
+      outgoingVisibility = smooth(Math.max(0, Math.min(1, (outgoingTop + offset - mobileSafeTop + 8) / 8)));
+    }
     locationStories.forEach(({ copy, image, credit }, index) => {
       const outgoing = index === base, incoming = index === base + 1, active = index === activeIndex;
       const clarity = outgoing ? 1 - blend : incoming ? blend : 0;
-      const opacity = outgoing ? 1 - blend : incoming ? smooth(Math.min(1, t / .12)) * (.3 + .7 * blend) : 0;
+      const opacity = outgoing ? (1 - blend) * outgoingVisibility : incoming ? previewReveal * (.3 + .7 * blend) : 0;
       const y = outgoing ? -blend * travel : incoming ? (1 - blend) * travel : travel;
       // Keep the outgoing photograph opaque underneath the incoming one.
       const photoOpacity = outgoing ? 1 : incoming ? blend : 0;
@@ -146,11 +166,17 @@ if (locationRunway && locationScene && locationStack && locationStories.length &
     locationRunway.style.setProperty("--location-sticky-top", stickyTop + "px");
     locationRunway.style.setProperty("--location-viewport-height",
       Math.max(1, Math.min(780, window.innerHeight - stickyTop)) + "px");
-    const copyHeight = Math.ceil(Math.max(...locationStories.map(({ copy }) => copy.offsetHeight)));
+    copyHeight = Math.ceil(Math.max(...locationStories.map(({ copy }) => copy.offsetHeight)));
     const gap = Math.round(Math.max(16, Math.min(28, window.innerWidth * .02)));
     travel = copyHeight + gap;
     locationStack.style.setProperty("--location-copy-height", copyHeight + "px");
     locationStack.style.setProperty("--location-copy-window-height", (copyHeight + travel + 12) + "px");
+    if (stackedLocation.matches) {
+      const photoHeight = locationTrack.querySelector(".location-story-visual")?.offsetHeight ?? 0;
+      const rowGap = parseFloat(getComputedStyle(locationTrack).rowGap) || 0;
+      mobileCenterRoom = (locationSection.clientHeight - copyHeight - 12 - rowGap - photoHeight) / 2;
+      mobileSafeTop = (parseFloat(getComputedStyle(locationSection, "::before").height) || 0) + 8;
+    }
     step = Math.round(Math.max(220, Math.min(340, window.innerHeight * .4)));
     // One sticky stage uses a short native scroll timeline, including a final hold.
     locationRunway.style.setProperty("--location-scroll-distance", ((lastIndex + .25) * step) + "px");
